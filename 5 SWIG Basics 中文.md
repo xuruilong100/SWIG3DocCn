@@ -18,7 +18,7 @@ swig [ options ] filename
 
 where `filename` is a SWIG interface file or a C/C++ header file. Below is a subset of `options` that can be used. Additional options are also defined for each target language. A full list can be obtained by typing `swig -help` or `swig *-<lang>* -help` for language `*<lang>*` specific options.
 
-> 其中 `filename` 是一个 SWIG 接口文件或一个 C/C++ 头文件。下面是 `options` 可选范围的子集。额外的选项也为每一个目标语言定义。完整的列表可以通过 `swig -help` 或 `swig -<lang> -help` 获得（`<lang>` 针对特定语言）。
+> 其中 `filename` 是一个 SWIG 接口文件或一个 C/C++ 头文件。下面是 `options` 可选范围的子集。也为每一个目标语言定义额外的选项。完整的列表可以通过 `swig -help` 或 `swig -<lang> -help` 获得（`<lang>` 针对特定语言）。
 
 ```
 -allegrocl            Generate ALLEGROCL wrappers
@@ -94,7 +94,7 @@ Everything in the `%{ ... %}` block is simply copied verbatim to the resulting w
 
 > 模块名由特定的 `%module` 指令提供。对模块的进一步讨论在[模块-引言](http://www.swig.org/Doc3.0/Modules.html#Modules_introduction)章节。
 >
-> `%{...%}` 块中的所有内容都只会逐字复制到 SWIG 最终创建的包装器文件中。此部分几乎总是用于包含头文件和其他声明用于生成的包装器代码的编译。重点强调，因为你仅仅在 SWIG 输入文件中包含一个声明，该声明*不会*自动出现在生成的包装器代码中——因此你需要确保在 `%{...%}` 部分中包含正确的头文件。应该注意的是，SWIG 不解析或解释包含在 `%{...%}`中的文本。SWIG 中的 `%{...%}` 语法和语义类似于输入文件中用于解析器生成工具（如 yacc 或 bison）的声明部分。
+> `%{...%}` 块中的所有内容都只会逐字复制到 SWIG 最终创建的包装器文件中。此部分几乎总是用于包含头文件和其他声明用于生成的包装器代码的编译。重点强调，因为你仅仅在 SWIG 输入文件中包含一个声明，该声明*不会*自动出现在生成的包装器代码中——因此你需要确保在 `%{...%}` 部分中包含正确的头文件。应该注意的是，SWIG 不解析或解释包含在 `%{...%}` 中的文本。SWIG 中的 `%{...%}` 语法和语义类似于解析器生成工具（如 yacc 或 bison）输入文件中的声明部分。
 
 ### 5.1.2 SWIG 输出
 
@@ -135,7 +135,7 @@ If the `-outcurrentdir` option is used (without `-o`) then SWIG behaves like a t
 
 C and C++ style comments may appear anywhere in interface files. In previous versions of SWIG, comments were used to generate documentation files. However, this feature is currently under repair and will reappear in a later SWIG release.
 
-> C 和 C++ 风格的注释可以出现在接口文件中的任何位置。在早期版本的 SWIG 中，注释用于生成文档文件。但是，此功能目前正在修复中，并将在稍后的 SWIG 版本中重新出现。
+> C 和 C++ 样式的注释可以出现在接口文件中的任何位置。在早期版本的 SWIG 中，注释用于生成文档文件。但是，此功能目前正在修复中，并将在稍后的 SWIG 版本中重新出现。
 
 ### 5.1.4 C 预处理器
 
@@ -147,7 +147,7 @@ It should also be noted that the SWIG preprocessor skips all text enclosed insid
 >
 > 还应注意，SWIG 预处理器会跳过括在 `%{...%}` 块内的所有文本。此外，预处理器还包括许多宏处理增强功能，使其比普通的 C 预处理器更强大。这些扩展在[预处理器](http://www.swig.org/Doc3.0/Preprocessor.html#Preprocessor)一章中描述。
 
-### 5.1.5 SWIG 命令
+### 5.1.5 SWIG 指令
 
 Most of SWIG's operation is controlled by special directives that are always preceded by a "`%`" to distinguish them from normal C declarations. These directives are used to give SWIG hints or to alter SWIG's parsing behavior in some manner.
 
@@ -173,11 +173,10 @@ Since SWIG directives are not legal C syntax, it is generally not possible to in
 ### 5.1.6 解析限制
 
 Although SWIG can parse most C/C++ declarations, it does not provide a complete C/C++ parser implementation. Most of these limitations pertain to very complicated type declarations and certain advanced C++ features. Specifically, the following features are not currently supported:
-
-> 虽然 SWIG 可以解析大多数 C/C++ 声明，但它不提供完整的 C/C++ 解析器实现。大多数这些限制都与非常复杂的类型声明，以及某些高级 C++ 功能有关。具体而言，目前不支持以下功能：
-
 * Non-conventional type declarations. For example, SWIG does not support declarations such as the following (even though this is legal C):
 
+> 虽然 SWIG 可以解析大多数 C/C++ 声明，但它不提供完整的 C/C++ 解析器实现。大多数这些限制都与非常复杂的类型声明，以及某些高级 C++ 功能有关。具体而言，目前不支持以下功能：
+>
 > * 非传统类型声明。例如，SWIG 不支持以下声明（即使这是合法的 C）：
 
 ```c
@@ -192,11 +191,10 @@ void bar(Spam (Grok)(Doh));
 ```
 
 In practice, few (if any) C programmers actually write code like this since this style is never featured in programming books. However, if you're feeling particularly obfuscated, you can certainly break SWIG (although why would you want to?).
-
-> 实际上，很少（如果有的话）有 C 程序员实际编写这样的代码，因为这种风格从未出现在编程书籍中。但是，如果你感到特别困惑，你就确定是在违反 SWIG（为什么非要这么做呢？）。
-
 * Running SWIG on C++ source files (the code in a .c, .cpp or .cxx file) is not recommended. The usual approach is to feed SWIG header files for parsing C++ definitions and declarations. The main reason is if SWIG parses a scoped definition or declaration (as is normal for C++ source files), it is ignored, unless a declaration for the symbol was parsed earlier. For example
 
+> 实际上，很少（如果有的话）有 C 程序员实际编写这样的代码，因为这种风格从未出现在编程书籍中。但是，如果你感到特别困惑，你就确定是在违反 SWIG（为什么非要这么做呢？）。
+>
 > * 不建议在 C++ 源文件（`.c`、`.cpp` 或 `.cxx` 文件中的代码）上运行 SWIG。通常的方法是给 SWIG 提供头文件以解析 C++ 定义和声明。主要原因是如果 SWIG 解析范围定义或声明（对于 C++ 源文件来说是正常的），源文件将被忽略，除非先前解析了符号的声明。例如
 
 ```c++
@@ -209,10 +207,10 @@ int foo::bar(int) {
 
 * Certain advanced features of C++ such as nested classes are not yet fully supported. Please see the C++ [Nested classes](http://www.swig.org/Doc3.0/SWIGPlus.html#SWIGPlus_nested_classes) section for more information.
 
-> * C++ 的某些高级功能（如嵌套类）尚未完全支持。有关更多信息，请参阅C++ [嵌套类](http://www.swig.org/Doc3.0/SWIGPlus.html#SWIGPlus_nested_classes)部分。
-
 In the event of a parsing error, conditional compilation can be used to skip offending code. For example:
 
+> * C++ 的某些高级功能（如嵌套类）尚未完全支持。有关更多信息，请参阅 C++ [嵌套类](http://www.swig.org/Doc3.0/SWIGPlus.html#SWIGPlus_nested_classes)部分。
+>
 > 如果出现解析错误，可以使用条件编译来跳过非法代码。例如：
 
 ```c
@@ -233,7 +231,7 @@ One of the reasons why SWIG does not provide a full C++ parser implementation is
 
 SWIG wraps simple C declarations by creating an interface that closely matches the way in which the declarations would be used in a C program. For example, consider the following interface file:
 
-> SWIG 通过创建一个接口来包装简单的 C 声明，与 C 程序中声明的使用方式非常地匹配。例如，请考虑以下接口文件：
+> SWIG 通过创建一个接口文件来包装简单的 C 声明，与 C 程序中声明的使用方式非常地匹配。例如，请考虑以下接口文件：
 
 ```
 %module example
@@ -320,11 +318,11 @@ Although the SWIG parser supports the `long long` datatype, not all language mod
 
 SWIG recognizes the following floating point types :
 
-> 当从 C 转换整数值时，使用强制转换将其转换为目标语言中的表示。因此，C 中的 16 位整数可以被提升为 32 位整数。当整数在另一个方向上转换时，该值将被转换回原始 C 类型。如果该值太大而无法匹配，则会被静默截断。
+> 当从 C 转换整数值时，使用强制转换将其转换为目标语言中的表示。因此，C 中的 16 位整数可以被提升为 32 位整数。当整数在另一个方向上转换时，该值将被转换回原始 C 类型。如果该值太大而无法匹配，则会被默默截断。
 >
 > `unsigned char` 和 `signed char` 是特殊情况，以 8 位整数处理。通常，`char` 数据类型被映射为单字符 ASCII 字符串。
 >
-> 除非目标语言提供特殊的布尔类型，否则 `bool` 数据类型将转换为 0 和 1。
+> 除非目标语言提供特殊的布尔类型，否则 `bool` 数据类型将转换为 `0` 和 `1`。
 >
 > 使用大整数值时需要注意一些事项。大多数脚本语言使用 32 位整数，因此映射 64 位整数可能会导致截断错误。32 位无符号整数可能会出现类似的问题（可能显示为大的负数）。根据经验，`int` 以及 `char` 和 `short` 的所有变体都可以安全使用。对于 `unsigned int` 和 `long`，在使用 SWIG 包装后，你需要仔细检查程序的正确性。
 >
@@ -348,9 +346,9 @@ At this time, SWIG provides limited support for Unicode and wide-character strin
 > 浮点数映射到目标语言中浮点数的自然表示形式。这几乎总是一个 C `double`。SWIG 不支持很少使用的 `long double` 数据类型。
 >
 > `char` 数据类型映射到带有 NULL 终止符的单字符 ASCII 字符串。在脚本语言中使用时，它显示为包含字符值的小字符串。将值转换回 C 时，SWIG 从脚本语言中获取一个字符串，并将第一个字符作为字符值剥离。因此，如果将值 `foo` 分配给 `char` 数据类型，则它将获得值 `f`。
-
+>
 > `char *` 数据类型作为以 NULL 结尾的 ASCII 字符串处理。SWIG 将此映射为目标脚本语言中的 8 位字符串。SWIG 将目标语言中的字符串转换为 NULL 结尾的字符串，然后再将它们传递给 C/C++ 。这些字符串的默认处理不允许它们具有嵌入的 NULL 字节。因此，`char *` 数据类型通常不适合传递二进制数据。但是，可以通过定义 SWIG 类型映射来更改此行为。有关详细信息，请参阅[类型映射](http://www.swig.org/Doc3.0/Typemaps.html#Typemaps)一章。
-
+>
 > 目前，SWIG 对 Unicode 和宽字符串（C `wchar_t` 类型）提供有限的支持。有些语言为 `wchar_t` 提供了类型映射，但请记住，这些语言可能无法在不同的操作系统中移植。这是一个微妙的主题，很多程序员都很难理解，而且没有以一致的方式跨语言实现。对于那些提供 Unicode 支持的脚本语言，Unicode 字符串通常以 8 位表示形式提供，例如 UTF-8，可以映射到 `char *` 类型（在这种情况下，SWIG 接口可能会起作用）。如果要包装的程序使用 Unicode，则无法保证目标语言中的 Unicode 字符将使用相同的内部表示（例如，UCS-2 与 UCS-4）。你可能需要编写一些特殊的转换函数。
 
 ### 5.2.2 全局变量
@@ -391,7 +389,7 @@ Whenever the scripting language variable is used, the underlying C global variab
 Finally, if a global variable has been declared as `const`, it only supports read-only access. Note: this behavior is new to SWIG-1.3. Earlier versions of SWIG incorrectly handled `const` and created constants instead.
 
 > 每当使用脚本语言变量时，都会访问底层 C 全局变量。虽然 SWIG 尽一切努力使全局变量像脚本语言变量一样工作，但并不总是这样做。例如，在 Python 中，必须通过称为 `cvar` 的特殊变量对象（如上所示）访问所有全局变量。在 Ruby 中，变量作为模块的属性进行访问。其他语言可以将变量转换为一对存取函数。例如，Java 模块生成一对函数 `double get_foo()` 和 `set_foo（double val）` 用于操作该值。
-
+>
 > 最后，如果全局变量已声明为 `const`，则它仅支持只读访问。注意：此行为是 SWIG-1.3 的新增功能。早期版本的 SWIG 错误地处理了 `const` 并改为创建了常量。
 
 ### 5.2.3 常量
@@ -490,7 +488,7 @@ Please note that for const parameters or return types used in a function, SWIG p
 
 > 在这种情况下，指针 `e` 可以改变——只是它指向的值是只读的。
 >
-> 请注意，对于函数中使用的 `const` 参数或返回类型，SWIG 几乎忽略了这些是 `const` 的事实，请参阅 [const-correctness](http://www.swig.org/Doc3.0/SWIGPlus.html＃SWIGPlus_const) 部分了解更多信息。
+> 请注意，对于函数中使用的 `const` 参数或返回类型，SWIG 几乎忽略了这些是 `const` 的事实，请参阅 [`const` 正确性](http://www.swig.org/Doc3.0/SWIGPlus.html＃SWIGPlus_const)部分了解更多信息。
 >
 > **注意兼容性：**更改 SWIG 以将 `const` 声明作为只读变量处理的一个原因是，在很多情况下，`const` 变量的值可能会发生变化。例如，库可能会在其公共 API 中将符号导出为 `const` 以阻止修改，但仍允许通过其他类型的内部机制更改该值。此外，程序员经常忽略这样一个事实：使用像 `char *const` 这样的常量声明，可以修改指向的底层数据——它只是指针本身是常量。在嵌入式系统中，`const` 声明可能指的是只读存储器地址，例如内存映射 I/O 设备端口的位置（值发生变化，但硬件不支持写入端口）。不是试图在 `const` 修饰符中构建一堆特殊情况，而是将 `const` 作为“只读”的新解释很简单，并且与 C/C++ 中 `const` 的实际语义完全匹配。如果你真的想在旧版本的 SWIG 中创建一个常量，请改用 `%constant` 指令。例如：
 
@@ -541,7 +539,7 @@ The bottom line: don't rely on `char *` for anything other than read-only input 
 
 Most C programs manipulate arrays, structures, and other types of objects. This section discusses the handling of these datatypes.
 
-> 大多数 C 程序会操纵数组、结构和其他类型的对象。本节讨论这些数据类型的处理。
+> 大多数 C 程序会操纵数组、结构体和其他类型的对象。本节讨论这些数据类型的处理。
 
 ### 5.3.1 简单指针
 
@@ -557,7 +555,7 @@ char **
 
 are fully supported by SWIG. Rather than trying to convert the data being pointed to into a scripting representation, SWIG simply encodes the pointer itself into a representation that contains the actual value of the pointer and a type-tag. Thus, the SWIG representation of the above pointers (in Tcl), might look like this:
 
-> SWIG 不是试图将指向的数据转换为脚本表示，而是简单地将指针本身编码为包含指针实际值和类型标记的表示。因此，上述指针（在 Tcl 中）的 SWIG 表示可能如下所示：
+> SWIG 不试图将指向的数据转换为脚本表示，而是简单地将指针本身编码为包含指针实际值和类型标记的表示。因此，上述指针（在 Tcl 中）的 SWIG 表示可能如下所示：
 
 ```tcl
 _10081012_p_int
@@ -575,7 +573,7 @@ The scripting language representation of a pointer value should never be manipul
 * The underlying semantics associated with a pointer is not known by SWIG. For instance, an `int *` might not be an array at all--perhaps it is an output value!
 * By handling all pointers in a consistent manner, the implementation of SWIG is greatly simplified and less prone to error.
 
-> NULL 指针由字符串 `NULL` 或用类型信息编码的值 0 表示。
+> NULL 指针由字符串 `NULL` 或用类型信息编码的值 `0` 表示。
 >
 > SWIG 将所有指针视为不透明对象。因此，指针可以由函数返回并根据需要传递给其他 C 函数。出于所有实际目的，脚本语言接口的工作方式与在 C 程序中使用指针的方式完全相同。唯一的区别是没有解引用指针的机制，因为这需要目标语言来理解底层对象的内存布局。
 >
@@ -593,13 +591,11 @@ Like C, `void *` matches any kind of pointer. Furthermore, `NULL` pointers can b
 
 > 通过允许从脚本语言操作指针，扩展模块有效地绕过了 C/C++ 编译器中的编译时类型检查。为了防止错误，类型签名被编码到所有指针值中，并用于执行运行时类型检查。此类型检查过程是 SWIG 的组成部分，不使用类型映射就无法禁用或修改（在后面的章节中有介绍）。
 >
-> 像 C 一样，`void *` 匹配任何类型的指针。此外，`NULL` 指针可以传递给任何期望接受指针的函数。虽然这有可能导致崩溃，但 `NULL` 指针有时也用作标记值或表示缺失/空值。因此，SWIG 将 `NULL` 指针对应到应用程序。
+> 像 C 一样，`void *` 匹配任何类型的指针。此外，NULL 指针可以传递给任何期望接受指针的函数。虽然这有可能导致崩溃，但 NULL 指针有时也用作标记值或表示缺失/空值。因此，SWIG 将 NULL 指针对应到应用程序。
 
 ### 5.3.3 派生类型、结构体和类
 
 For everything else (structs, classes, arrays, etc...) SWIG applies a very simple rule :
-
-> 对于其他一切（结构体、类、数组等），SWIG 应用了一个非常简单的规则：
 
 **Everything else is a pointer**
 
@@ -607,6 +603,8 @@ In other words, SWIG manipulates everything else by reference. This model makes 
 
 Although this probably sounds complicated, it's really quite simple. Suppose you have an interface file like this :
 
+> 对于其他一切（结构体、类、数组等），SWIG 应用了一个非常简单的规则：
+>
 > **其他一切皆是指针**
 >
 > 换句话说，SWIG 通过引用操纵其他所有内容。这个模型很有意义，因为大多数 C/C++ 程序都大量使用指针，SWIG 可以使用已经存在的指针类型检查机制来处理指向基本数据类型的指针。
@@ -630,14 +628,14 @@ In this file, SWIG doesn't know what a `FILE` is, but since it's used as a point
 ```python
 # Copy a file
 def filecopy(source, target):
-  f1 = fopen(source, "r")
-  f2 = fopen(target, "w")
-  buffer = malloc(8192)
-  nbytes = fread(buffer, 8192, 1, f1)
-  while (nbytes > 0):
-    fwrite(buffer, 8192, 1, f2)
-          nbytes = fread(buffer, 8192, 1, f1)
-  free(buffer)
+    f1 = fopen(source, "r")
+    f2 = fopen(target, "w")
+    buffer = malloc(8192)
+    nbytes = fread(buffer, 8192, 1, f1)
+    while (nbytes > 0):
+        fwrite(buffer, 8192, 1, f2)
+        nbytes = fread(buffer, 8192, 1, f1)
+    free(buffer)
 ```
 
 In this case `f1`, `f2`, and `buffer` are all opaque objects containing C pointers. It doesn't matter what value they contain--our program works just fine without this knowledge.
@@ -664,7 +662,7 @@ An important detail to mention is that SWIG will gladly generate wrappers for an
 >
 > 与 C 或 C++ 不同，SWIG 实际上并不关心先前是否在接口文件中定义了 `Matrix`。这允许 SWIG 仅从部分或有限信息生成接口。在某些情况下，只要你可以在脚本语言接口中传递一个不透明的引用，你可能不关心 `Matrix` 是什么。
 >
-> 需要注意的一个重要细节是，当存在未指定的类型名称时，SWIG 将很乐意为接口生成包装器。但是，**所有未指定的类型都在内部处理为指向结构或类的指针！**例如，请考虑以下声明：
+> 需要注意的一个重要细节是，当存在未指定的类型名称时，SWIG 将很乐意为接口生成包装器。但是，**所有未指定的类型都在内部处理为指向结构体或类的指针！**例如，请考虑以下声明：
 
 ```c
 void foo(size_t num);
@@ -737,7 +735,7 @@ It should be noted that your mileage will vary greatly here. System headers are 
 
 SWIG tracks `typedef` declarations and uses this information for run-time type checking. For instance, if you use the above `typedef` and had the following function declaration:
 
-> 应该注意的是，你的里程在这里会有很大差异。系统头文件众所周知地复杂并且可能依赖于各种非标准 C 编码扩展（例如，诸如对 GCC 的特殊指令）。除非你确切地指定了正确的包含目录和预处理程序符号，否则这可能无法正常工作（你必须进行实验）。
+> 应该注意的是，你的里程在这里会有很大变化。系统头文件众所周知地复杂并且可能依赖于各种非标准 C 编码扩展（例如，诸如对 GCC 的特殊指令）。除非你确切地指定了正确的包含目录和预处理程序符号，否则这可能无法正常工作（你必须进行实验）。
 >
 > SWIG 跟踪 `typedef` 声明并将此信息用于运行时类型检查。例如，如果你使用上面的 `typedef` 并具有以下函数声明：
 
@@ -753,13 +751,13 @@ The corresponding wrapper function will accept arguments of type `unsigned int *
 
 So far, this chapter has presented almost everything you need to know to use SWIG for simple interfaces. However, some C programs use idioms that are somewhat more difficult to map to a scripting language interface. This section describes some of these issues.
 
-> 到目前为止，本章介绍了使用 SWIG 进行简单接口时需要了解的几乎所有内容。但是，一些 C 程序使用的惯用语更难以映射到脚本语言接口。本节介绍其中一些问题。
+> 到目前为止，本章介绍了使用 SWIG 进行简单接口时需要了解的几乎所有内容。但是，一些 C 程序使用的惯用法更难以映射到脚本语言接口。本节介绍其中一些问题。
 
 ### 5.4.1 通过值解析结构体
 
 Sometimes a C function takes structure parameters that are passed by value. For example, consider the following function:
 
-> 有时，C 函数采用按值传递的结构参数。例如，请考虑以下函数：
+> 有时，C 函数采用按值传递的结构体参数。例如，请考虑以下函数：
 
 ```c
 double dot_product(Vector a, Vector b);
@@ -785,7 +783,7 @@ In the target language, the `dot_product()` function now accepts pointers to Vec
 
 C functions that return structures or classes datatypes by value are more difficult to handle. Consider the following function:
 
-> 按值返回结构或类数据类型的 C 函数更难处理。考虑以下函数：
+> 按值返回结构体或类数据类型的 C 函数更难处理。考虑以下函数：
 
 ```c
 Vector cross_product(Vector v1, Vector v2);
@@ -853,7 +851,7 @@ void unit_i_set(Vector *value) {
 
 Again some caution is in order. A global variable created in this manner will show up as a pointer in the target scripting language. It would be an extremely bad idea to free or destroy such a pointer. Also, C++ classes must supply a properly defined copy constructor in order for assignment to work correctly.
 
-> 再次谨慎一些。以这种方式创建的全局变量将显示为目标脚本语言中的指针。释放或销毁这样的指针是一个非常糟糕的主意。此外，C++ 类必须提供正确定义的复制构造函数，以使赋值正常工作。
+> 小心再三。以这种方式创建的全局变量将显示为目标脚本语言中的指针。释放或销毁这样的指针是一个非常糟糕的主意。此外，C++ 类必须提供正确定义的复制构造函数，以使赋值正常工作。
 
 ### 5.4.4 链接到 `char *`
 
@@ -981,12 +979,12 @@ It is important to note that in the C type system, a multidimensional array `a[]
 
 Array variables are supported, but are read-only by default. For example:
 
-> 值得注意的是，在 C 类型系统中，多维数组 `a[][]` 是不等价于单个指针 `* a` 或双指针如 `** a`。而是使用指向数组的指针（如上所示），其中指针的实际值是数组的起始内存位置。强烈建议读者在使用 SWIG 之前拿出他们尘封的 C 语言书，并重新阅读数组部分。
+> 值得注意的是，在 C 类型系统中，多维数组 `a[][]` 是不等价于单个指针 `*a` 或双指针如 `**a`。而是使用指向数组的指针（如上所示），其中指针的实际值是数组的起始内存位置。强烈建议读者在使用 SWIG 之前拿出尘封的 C 语言书，并重新阅读数组部分。
 >
 > 支持数组变量，但默认情况下它们是只读的。例如：
 
 ```c
-int   a[100][200];
+int a[100][200];
 ```
 
 In this case, reading the variable 'a' returns a pointer of type `int (*)[200]` that points to the first element of the array `&a[0][0]`. Trying to modify 'a' results in an error. This is because SWIG does not know how to copy data from the target language into the array. To work around this limitation, you may want to write a few simple assist functions like this:
@@ -1110,7 +1108,7 @@ char * const version="1.0";  /* Read only variable */
 
 **Compatibility note:** Read-only access used to be controlled by a pair of directives `%readonly` and `%readwrite`. Although these directives still work, they generate a warning message. Simply change the directives to `%immutable;` and `%mutable;` to silence the warning. Don't forget the extra semicolon!
 
-> **注意兼容性：**只读访问过去由一对指令 `%readonly` 和 `%readwrite` 控制。尽管这些指令仍然有效，但它们会生成警告消息。只需将指令更改为 `%immutable;` 和 `%mutable;` 即可使警告静音。不要忘记额外的分号！
+> **注意兼容性：**只读访问过去由一对指令 `%readonly` 和 `%readwrite` 控制。尽管这些指令仍然有效，但它们会生成警告消息。只需将指令更改为 `%immutable;` 和 `%mutable;` 即可使警告静音。**不要忘记额外的分号！**
 
 ### 5.4.7 重命名与忽略声明
 
@@ -1149,7 +1147,7 @@ The placement of the `%rename` directive is arbitrary as long as it appears befo
 
 `%rename` applies a renaming operation to all future occurrences of a name. The renaming applies to functions, variables, class and structure names, member functions, and member data. For example, if you had two-dozen C++ classes, all with a member function named `print' (which is a keyword in Python), you could rename them all to `output' by specifying :
 
-> `%rename` 对所有将来出现的名称应用重命名操作。重命名适用于函数、变量、类和结构名称、成员函数和成员数据。例如，如果你有二十几个 C++ 类，都有一个名为 `print` 的成员函数（它是 Python 中的一个关键字），你可以通过指定它们将它们全部重命名为 `output`：
+> `%rename` 对所有将来出现的名称应用重命名操作。重命名适用于函数、变量、类和结构体名称、成员函数和成员数据。例如，如果你有二十几个 C++ 类，都有一个名为 `print` 的成员函数（它是 Python 中的一个关键字），你可以通过指定它们将它们全部重命名为 `output`：
 
 ```
 %rename(output) print; // Rename all 'print' functions to 'output'
@@ -1336,13 +1334,13 @@ As for `notregexmatch`, it restricts the match only to the strings not matching 
 
 Finally, variants of `%rename` and `%ignore` directives can be used to help wrap C++ overloaded functions and methods or C++ methods which use default arguments. This is described in the [Ambiguity resolution and renaming](http://www.swig.org/Doc3.0/SWIGPlus.html#SWIGPlus_ambiguity_resolution_renaming) section in the C++ chapter.
 
-> 最后，`%rename` 和 `%ignore` 指令的变体可用于帮助包装 C++ 重载函数和方法或使用默认参数的 C++ 方法。这在 C++ 章节的[歧义消解和重命名](http://www.swig.org/Doc3.0/SWIGPlus.html#SWIGPlus_ambiguity_resolution_renaming)部分中进行了描述。
+> 最后，`%rename` 和 `%ignore` 指令的变体可用于帮助包装 C++ 重载函数和方法或使用默认参数的 C++ 方法。这在 C++ 章节的[消歧义和重命名](http://www.swig.org/Doc3.0/SWIGPlus.html#SWIGPlus_ambiguity_resolution_renaming)部分中进行了描述。
 
 #### 5.4.7.4 包装一些符号而忽略其他
 
 Using the techniques described above it is possible to ignore everything in a header and then selectively wrap a few chosen methods or classes. For example, consider a header, `myheader.h`which has many classes in it and just the one class called `Star` is wanted within this header, the following approach could be taken:
 
-> 使用上述技术，可以忽略标题中的所有内容，然后有选择地包装一些选定的方法或类。例如，考虑一个头文件，`myheader.h`，其中包含许多类，并且在此头文件中只需要一个名为 `Star` 的类，可以采用以下方法：
+> 使用上述技术，可以忽略头文件中的所有内容，然后有选择地包装一些选定的方法或类。例如，考虑一个头文件，`myheader.h`，其中包含许多类，并且在此头文件中只需要一个名为 `Star` 的类，可以采用以下方法：
 
 ```
 %ignore ""; // Ignore everything
@@ -1400,7 +1398,7 @@ Although the ANSI C standard does not allow default arguments, default arguments
 
 Occasionally, a C library may include functions that expect to receive pointers to functions--possibly to serve as callbacks. SWIG provides full support for function pointers provided that the callback functions are defined in C and not in the target language. For example, consider a function like this:
 
-> 有时，C 库可能包含期望接收函数指针的函数——可能用作回调函数。SWIG 提供对函数指针的完全支持，前提是回调函数是用 C 语言定义的，而不是用目标语言定义的。例如，考虑这样的函数：
+> 有时，C 库可能包含期望接受函数指针的函数——可能用作回调函数。SWIG 提供对函数指针的完全支持，前提是回调函数是用 C 语言定义的，而不是用目标语言定义的。例如，考虑这样的函数：
 
 ```c
 int binary_op(int a, int b, int (*op)(int, int));
@@ -1511,9 +1509,9 @@ A format string of `"%(lowercase)s"` converts all characters to lower case. A st
 
 And now, a final note about function pointer support. Although SWIG does not normally allow callback functions to be written in the target language, this can be accomplished with the use of typemaps and other advanced SWIG features. See the [Typemaps chapter](http://www.swig.org/Doc3.0/Typemaps.html#Typemaps) for more about typemaps and individual target language chapters for more on callbacks and the 'director' feature.
 
-> 格式字符串 `""%(lowercase)s"` 将所有字符转换为小写。一串 `""%(title)s"` 将第一个字符大写并将其余字符转换为小写字母。
+> 格式字符串 `"%(lowercase)s"` 将所有字符转换为小写。一串 `"%(title)s"` 将第一个字符大写并将其余字符转换为小写字母。
 >
-> 现在，关于函数指针支持的最后一点。尽管 SWIG 通常不允许以目标语言编写回调函数，但这可以通过使用类型映射和其他高级 SWIG 功能来实现。有关字典图和单个目标语言章节的更多信息，请参阅[类型映射章节](http://www.swig.org/Doc3.0/Typemaps.html#Typemaps)，了解有关回调和“导演”功能的更多信息。
+> 现在，关于函数指针支持的最后一点。尽管 SWIG 通常不允许以目标语言编写回调函数，但这可以通过使用类型映射和其他高级 SWIG 功能来实现。有关字典图和单个目标语言章节的更多信息，请参阅[类型映射章节](http://www.swig.org/Doc3.0/Typemaps.html#Typemaps)，了解有关回调和导向器（director）功能的更多信息。
 
 ## 5.5 结构体与共用体
 
@@ -1584,7 +1582,7 @@ delete_Vector(v)
 
 However, most of SWIG's language modules also provide a high-level interface that is more convenient. Keep reading.
 
-> 但是，SWIG 的大多数语言模块也提供了更方便的高级接口。读下去。
+> 但是，SWIG 的大多数语言模块也提供了更方便的高级接口。继续阅读。
 
 ### 5.5.1 `typedef` 与结构体
 
@@ -1639,9 +1637,9 @@ struct Foo {
 
 This results in the following accessor functions :
 
-> 这导致了如下的访问函数：
+> 这导致了如下的访问器函数：
 
-```
+```c
 char *Foo_name_get(Foo *obj) {
   return Foo->name;
 }
@@ -1755,7 +1753,7 @@ void Foo_w_set(FOO *f, WORD value) {
 
 **Compatibility Note:** SWIG-1.3.11 and earlier releases transformed all non-primitive member datatypes to pointers. Starting in SWIG-1.3.12, this transformation *only* occurs if a datatype is known to be a structure, class, or union. This is unlikely to break existing code. However, if you need to tell SWIG that an undeclared datatype is really a struct, simply use a forward struct declaration such as `"struct Foo;"`.
 
-> **注意兼容性：**SWIG-1.3.11 及更早版本将所有非原始成员数据类型转换为指针。从 SWIG-1.3.12 开始，如果已知数据类型是结构、类或共用体则仅发生此转换。这不太可能破坏现有代码。但是，如果你需要告诉 SWIG 一个未声明的数据类型实际上是一个结构体，只需使用一个正向结构体声明，如 `struct Foo;`。
+> **注意兼容性：**SWIG-1.3.11 及更早版本将所有非原始成员数据类型转换为指针。从 SWIG-1.3.12 开始，如果已知数据类型是结构体、类或共用体则仅发生此转换。这不太可能破坏现有代码。但是，如果你需要告诉 SWIG 一个未声明的数据类型实际上是一个结构体，只需使用一个正向结构体声明，如 `struct Foo;`。
 
 ### 5.5.5 C 构造函数和析构函数
 
@@ -1763,7 +1761,7 @@ When wrapping structures, it is generally useful to have a mechanism for creatin
 
 If you don't want SWIG to generate default constructors for your interfaces, you can use the `%nodefaultctor` directive or the `-nodefaultctor` command line option. For example:
 
-> 在包装结构体时，通常有一种用于创建和销毁对象的机制。如果你什么都不做，SWIG 会自动生成使用 `malloc()` 和 `free()` 创建和销毁对象的函数。注意：使用 `malloc()` 仅适用于在 C 代码上使用 SWIG 时（即，在命令行上*不*提供 `-c++` 选项时）。C++ 的处理方式不同。
+> 在包装结构体时，通常有一种用于创建和销毁对象的机制。如果你什么都不做，SWIG 会自动生成使用 `malloc()` 和 `free()` 创建和销毁对象的函数。注意：使用 `malloc()` 仅适用于在 C 代码上使用 SWIG（即，在命令行上*不*提供 `-c++` 选项）。C++ 的处理方式不同。
 >
 > 如果你不希望 SWIG 为你的接口生成默认构造函数，则可以使用 `%nodefaultctor` 指令或 `-nodefaultctor` 命令行选项。例如：
 
@@ -2048,7 +2046,7 @@ Finally, it should be stressed that even though `%extend` can be used to add new
 
 **Compatibility note:** The `%extend` directive is a new name for the `%addmethods` directive. Since `%addmethods` could be used to extend a structure with more than just methods, a more suitable directive name has been chosen.
 
-> 最后，应该强调的是，即使 `%extend` 可以用于添加新的数据成员，这些新成员也不需要在对象中分配额外的存储（例如，它们的值必须完全从现有的属性合成） 结构或在别处获得）。
+> 最后，应该强调的是，即使 `%extend` 可以用于添加新的数据成员，这些新成员也不需要在对象中分配额外的存储（例如，它们的值必须完全从现有结构体的属性合成或在别处获得）。
 >
 > **注意兼容性：**`%extend` 指令是 `%addmethods` 指令的新名称。由于 `%addmethods` 可以用于扩展具有多个方法的结构，因此选择了更合适的指令名称。
 
@@ -2134,7 +2132,7 @@ Starting with SWIG 1.3, a number of improvements have been made to SWIG's code g
 
 > SWIG 不关心 `.i` 文件中的结构体声明是否与底层 C 代码中使用的结构体完全匹配（嵌套结构体除外）。出于这个原因，省略有问题的成员或完全省略结构体定义是没有问题的。如果你很高兴传递指针，这可以在不给 SWIG 一个结构体定义的情况下完成。
 >
-> 从 SWIG 1.3 开始，对 SWIG 的代码生成器进行了许多改进。具体来说，即使已经根据诸如此类的高级访问器功能描述了结构访问，
+> 从 SWIG 1.3 开始，对 SWIG 的代码生成器进行了许多改进。具体来说，即使已经根据诸如此类的高级访问器函数描述了结构体访问，
 
 ```c
 double Vector_x_get(Vector *v) {
@@ -2180,44 +2178,44 @@ Sometimes it is necessary to insert special code into the resulting wrapper file
 
 When SWIG creates its output C/C++ file, it is broken up into five sections corresponding to runtime code, headers, wrapper functions, and module initialization code (in that order).
 
-> 当 SWIG 创建其输出 C/C++ 文件时，它将分为五个部分，分别对应于运行时代码、头文件、包装器函数和模块初始化代码（按此顺序）。
-
 * **Begin section**.
 
 A placeholder for users to put code at the beginning of the C/C++ wrapper file. This is most often used to define preprocessor macros that are used in later sections.
-
-> * **开始部分**
->
-> 用户的占位符，用于将代码放在 C/C++ 包装器文件的开头。这通常用于定义后续部分中使用的预处理器宏。
 
 * **Runtime code**.
 
 This code is internal to SWIG and is used to include type-checking and other support functions that are used by the rest of the module.
 
-> * **运行时代码**
->
-> 此代码是 SWIG 的内部代码，用于包含类型检查和其他模块使用的支持函数。
-
 * **Header section**.
 
 This is user-defined support code that has been included by the `%{ ... %}` directive. Usually this consists of header files and other helper functions.
-
-> * **头文件部分**
->
-> 这是用户定义的支持代码，已由 `%{...%}` 指令包含。通常这包括头文件和其他辅助函数。
 
 * **Wrapper code**.
 
 These are the wrappers generated automatically by SWIG.
 
-> * **包装器函数**
->
-> 这些是 SWIG 自动生成的包装器。
-
 * **Module initialization**.
 
 The function generated by SWIG to initialize the module upon loading.
 
+> 当 SWIG 创建其输出 C/C++ 文件时，它将分为五个部分，分别对应于运行时代码、头文件、包装器函数和模块初始化代码（按此顺序）。
+>
+> * **开始部分**
+>
+> 用户的占位符，用于将代码放在 C/C++ 包装器文件的开头。这通常用于定义后续部分中使用的预处理器宏。
+>
+> * **运行时代码**
+>
+> 此代码是 SWIG 的内部代码，用于包含类型检查和其他模块使用的支持函数。
+>
+> * **头文件部分**
+>
+> 这是用户定义的支持代码，已由 `%{...%}` 指令包含。通常这包括头文件和其他辅助函数。
+>
+> * **包装器函数**
+>
+> 这些是 SWIG 自动生成的包装器。
+>
 > * **模块初始化**
 >
 > SWIG 生成的函数，用于在加载时初始化模块。
@@ -2235,7 +2233,7 @@ The `%insert` directive enables inserting blocks of code into a given section of
 
 The first will dump the contents of the file in the given `filename` into the named `section`. The second inserts the code between the braces into the named `section`. For example, the following adds code into the runtime section:
 
-> 第一个将把给定 `filename` 中文件的内容转储到命名的 `section` 中。第二个将大括号之间的代码插入到命名的 `section` 中。例如，以下内容将代码添加到运行时部分：
+> 第一种将把给定 `filename` 中文件的内容转储到命名的 `section` 中。第二种将大括号之间的代码插入到命名的 `section` 中。例如，以下内容将代码添加到运行时部分：
 
 ```
 %insert("runtime") %{
@@ -2293,7 +2291,7 @@ void some_extra_function() {
 
 A common use for code blocks is to write "helper" functions. These are functions that are used specifically for the purpose of building an interface, but which are generally not visible to the normal C program. For example :
 
-> 代码块的一个常见用途是编写“helper”函数。这些函数专门用于构建接口，但通常对普通 C 程序不可见。例如 ：
+> 代码块的一个常见用途是编写“辅助”函数。这些函数专门用于构建接口，但通常对普通 C 程序不可见。例如 ：
 
 ```
 %{
@@ -2445,7 +2443,7 @@ Although SWIG can parse many header files, it is more common to write a special 
 
 Sometimes, it is necessary to use certain header files in order for the code generated by SWIG to compile properly. Make sure you include certain header files by using a `%{ %}` block like this:
 
-> 有时，必须使用某些头文件才能使 SWIG 生成的代码正确编译。确保使用 `%{%}` 块包含某些头文件，如下所示：
+> 有时，必须使用某些头文件才能使 SWIG 生成的代码正确编译。确保使用 `%{ %}` 块包含某些头文件，如下所示：
 
 ```
 %module graphics
