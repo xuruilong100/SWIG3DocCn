@@ -18,7 +18,7 @@ A more subtle issue with C++ has to do with the way that some C++ programmers th
 >
 > 在某种程度上，C++ 包装的问题在于没有语义上明显（或自动）的方式将其许多高级功能映射到其他语言。举个简单的例子，考虑将 C++ 多继承包装到不支持多继承的目标语言。类似地，当目标语言中不支持重载时，使用重载运算符和重载函数可能是有问题的。
 >
-> C++ 的一个更微妙的问题与某些 C++ 程序员对编程库的思考方式有关。在 SWIG 的世界中，你正在尝试创建用于其他语言的二进制级软件组件。为了使其工作，“组件”必须包含真正的可执行指令，并且必须有某种二进制链接机制来访问其功能。相比之下，C++ 越来越依赖泛型编程和模板来实现其大部分功能。虽然模板是一个强大的功能，但它们在很大程度上与二进制组件和库的整个概念正交。例如，STL `vector` 没有定义任何 SWIG 可以为其创建包装器的二进制对象。为了使问题进一步复杂化，这些库通常利用许多幕后魔法，其中看似基本操作（例如，指针解引用、过程调用等）的语义可以以戏剧性，且有时非显而易见的方式改变。虽然这种“魔法”可能在 C++ 中只会造成一点问题——但它会使跨语言变得非常复杂，并且可能会使你射到自己的脚（shoot yourself in the foot）。你必须要小心。
+> C++ 的一个更微妙的问题与某些 C++ 程序员对程序库的思考方式有关。在 SWIG 的世界中，你正在尝试创建用于其他语言的二进制级软件组件。为了使其工作，“组件”必须包含真正的可执行指令，并且必须有某种二进制链接机制来访问其功能。相比之下，C++ 越来越依赖泛型编程和模板来实现其大部分功能。虽然模板是一个强大的功能，但它们在很大程度上与二进制组件和库的整个概念正交。例如，STL `vector` 没有定义任何二进制对象供 SWIG 为其创建包装器。为了使问题进一步复杂化，这些库通常利用许多幕后魔法，其中看似基本操作（例如，指针解引用、过程调用等）的语义可以以戏剧性，且有时非显而易见的方式改变。虽然这种“魔法”可能在 C++ 中只会造成一点问题——但它会使跨语言变得非常复杂，并且可能会使你射到自己的脚（shoot yourself in the foot）。你必须要小心。
 
 ## 6.2 方法
 
@@ -57,17 +57,17 @@ SWIG currently supports most C++ features including the following:
 The following C++ features are not currently supported:
 * Overloaded versions of certain operators (new, delete, etc.)
 
->目前不支持下列 C++ 功能：
->
->* 某些运算符的重载（`new`、`delete` 等）
-
 As a rule of thumb, SWIG should not be used on raw C++ source files, use header files only.
 
 SWIG's C++ support is an ongoing project so some of these limitations may be lifted in future releases. However, we make no promises. Also, submitting a bug report is a very good way to get problems fixed (wink).
 
+> 目前不支持下列 C++ 功能：
+>
+>* 某些运算符的重载（`new`、`delete` 等）
+>
 > 根据经验，SWIG 不应该用于原始 C++ 源文件，只能使用头文件。
 >
-> SWIG 的 C++ 支持是一个持续的项目，因此在未来的版本中可能会解除其中一些限制。但是，我们不做任何承诺。此外，提交错误报告是解决问题的一个非常好的方法（眨眼）。
+> SWIG 的 C++ 支持是一个持续的项目，因此在未来的版本中可能会解除其中一些限制。但是，我们不做任何承诺。此外，提交错误报告是解决问题的一个非常好的方法（眨眨眼）。
 
 ## 6.4 命令行选项与编译
 
@@ -75,7 +75,7 @@ When wrapping C++ code, it is critical that SWIG be called with the `-c++` optio
 
 When compiling and linking the resulting wrapper file, it is normal to use the C++ compiler. For example:
 
-> 在包装 C++ 代码时，使用 `-c++` 选项调用 SWIG 至关重要。这改变了处理诸如内存管理等许多关键功能的方式。它还可以识别 C++ 关键字。如果没有 `-c++` 标志，如果 SWIG 在接口文件中遇到 C++ 代码，它将发出警告或大量语法错误。
+> 在包装 C++ 代码时，使用 `-c++` 选项调用 SWIG 至关重要。这改变了处理许多关键功能的方式，如内存管理等。它还可以识别 C++ 关键字。如果没有 `-c++` 标志，如果 SWIG 在接口文件中遇到 C++ 代码，它将发出警告或大量语法错误。
 >
 > 在编译和链接生成的包装器文件时，通常使用 C++ 编译器。例如：
 
@@ -91,9 +91,9 @@ Unfortunately, the process varies slightly on each platform. Make sure you refer
 
 In order to provide a natural mapping from C++ classes to the target language classes, SWIG's target languages mostly wrap C++ classes with special proxy classes. These proxy classes are typically implemented in the target language itself. For example, if you're building a Python module, each C++ class is wrapped by a Python proxy class. Or if you're building a Java module, each C++ class is wrapped by a Java proxy class.
 
-> 不幸的是，每个平台的流程略有不同。请务必参阅每种目标语言的文档以获取更多详细信息。SWIG Wiki 还有更多细节。
+> 不幸的是，每个操作系统的流程略有不同。请务必参阅每种目标语言的文档以获取更多详细信息。SWIG Wiki 还有更多细节。
 >
-> **注意兼容性：**默认情况下，早期版本的 SWIG 只为 C++ 类生成了扁平的低级 C 风格 API。命令行选项被许多目标语言识别，并且将像早期版本一样生成此接口。
+> **注意兼容性**：默认情况下，早期版本的 SWIG 只为 C++ 类生成了扁平的低级 C 风格 API。命令行选项被许多目标语言识别，并且将像早期版本一样生成此接口。
 >
 > 为了提供从 C++ 类到目标语言类的自然映射，SWIG 的目标语言主要用特殊的代理类包装 C++ 类。这些代理类通常以目标语言本身实现。例如，如果你正在构建 Python 模块，则每个 C++ 类都由 Python 代理类包装。或者，如果你正在构建 Java 模块，则每个 C++ 类都由 Java 代理类包装。
 
@@ -273,7 +273,7 @@ Given the tricky nature of C++ memory management, it is impossible for proxy cla
 > * 以目标语言创建新对象时，将设置所有权标志。
 > * 当返回对内部 C++ 对象的引用时，它由代理类包装，但代理类没有所有权。
 > * 在某些情况下，所有权会进行调整。例如，将值分配给类的成员时，所有权将丢失。
-> * 手动所有权控制由特殊的 `disown()` 和 `acquire()`方法提供。
+> * 手动所有权控制由特殊的 `disown()` 和 `acquire()` 方法提供。
 >
 > 鉴于 C++ 内存管理的棘手性，代理类无法自动处理每个可能的内存管理问题。但是，代理确实提供了一种手动控制机制，可以用（如果需要）来解决一些更棘手的内存管理问题。
 
@@ -403,7 +403,7 @@ public:
 
 The corresponding `%nodefaultdtor` directive can be used to disable the generation of the default or implicit destructor, if needed. Be aware, however, that this could lead to memory leaks in the target language. Hence, it is recommended to use this directive only in well known cases. For example:
 
-> 如果需要，相应和 `%nodefaultdtor` 指令可用于禁用默认或隐式析构函数的生成。但请注意，这可能会导致目标语言中的内存泄漏。因此，建议仅在充分了解的情况下使用此指令。例如：
+> 如果需要，相应的 `%nodefaultdtor` 指令可用于禁用默认或隐式析构函数的生成。但请注意，这可能会导致目标语言中的内存泄漏。因此，建议仅在充分了解的情况下使用此指令。例如：
 
 ```
 %nodefaultdtor Foo;   // Disable the implicit/default destructor for class Foo.
@@ -416,9 +416,9 @@ class Foo {           // No destructor is generated, unless one is declared
 
 **Note:** The `%nodefault` directive/`-nodefault` options described above, which disable both the default constructor and the implicit destructors, could lead to memory leaks, and so it is strongly recommended to not use them.
 
-> **注意兼容性：**默认构造函数、隐式析构函数的生成是 SWIG 1.3.7 中的默认行为。这可能会破坏某些旧模块，但可以使用 `%nodefault` 或 `-nodefault` 命令行选项轻松恢复旧行为。此外，为了使 SWIG 正确生成（或不生成）默认构造函数，它必须能够从 `private` 和 `protected` 部分收集信息（具体来说，它需要知道私有或保护的构造函数、析构函数是否被定义）。在旧版本的 SWIG 中，由于解析器的限制，简单地删除或注释掉类的私有和保护部分是相当常见的。但是，删除行为现在可能导致 SWIG 错误地为在这些部分中定义构造函数的类生成构造函数。考虑在接口中恢复这些部分或使用 `%nodefault` 来解决问题。
+> **注意兼容性**：默认构造函数、隐式析构函数的生成是 SWIG 1.3.7 中的默认行为。这可能会破坏某些旧模块，但可以使用 `%nodefault` 或 `-nodefault` 命令行选项轻松恢复旧行为。此外，为了使 SWIG 正确生成（或不生成）默认构造函数，它必须能够从 `private` 和 `protected` 部分收集信息（具体来说，它需要知道私有或保护的构造函数、析构函数是否被定义）。在旧版本的 SWIG 中，由于解析器的限制，简单地删除或注释掉类的私有和保护部分是相当常见的。但是，删除行为现在可能导致 SWIG 错误地为在这些部分中定义构造函数的类生成构造函数。考虑在接口中恢复这些部分或使用 `%nodefault` 来解决问题。
 >
-> **注意：**上面描述和 `%nodefault` 指令和 `-nodefault` 选项会禁用默认构造函数和隐式析构函数，可能导致内存泄漏，因此强烈建议不要使用它们。
+> **注意**：上面描述和 `%nodefault` 指令和 `-nodefault` 选项会禁用默认构造函数和隐式析构函数，可能导致内存泄漏，因此强烈建议不要使用它们。
 
 ### 6.6.3 当不能创建构造函数包装器时
 
@@ -435,7 +435,7 @@ class Foo {
 protected:
   Foo();         // Not wrapped.
 public:
-    ...
+  ...
 };
 ```
 
@@ -458,7 +458,7 @@ public:
 
 Some users are surprised (or confused) to find missing constructor wrappers in their interfaces. In almost all cases, this is caused when classes are determined to be abstract. To see if this is the case, run SWIG with all of its warnings turned on:
 
-> 一些用户为在他们的接口中找到缺少的构造函数包装器感到惊讶（或困惑）。几乎在所有情况下，这都是在确定类是抽象类时引起的。要查看是否是这种情况，请运行 SWIG 并打开其所有警告：
+> 一些用户为在他们的接口中找不到构造函数包装器感到惊讶（或困惑）。几乎在所有情况下，这都是在确定类是抽象类时引起的。要查看是否是这种情况，请运行 SWIG 并打开其所有警告：
 
 ```
 % swig -Wall -python module.i
@@ -520,9 +520,9 @@ List *copy_List(List *f) {
 
 **Note:** SWIG does *not* generate a copy constructor wrapper unless one is explicitly declared in the class. This differs from the treatment of default constructors and destructors. However, copy constructor wrappers can be generated if using the `copyctor` [feature flag](http://swig.org/Doc3.0/Customization.html#Customization_feature_flags). For example:
 
-> **注意：**对于类 `X`，如果应用于类型为 `X` 或 `X *` 的对象，则 SWIG 仅将构造函数视为拷贝构造函数。如果定义了多个拷贝构造函数，则只有出现的第一个定义用作拷贝构造函数——其他定义将导致名称冲突。诸如 `X(const X &)`，`X(X &)` 和 `X(X *)` 之类的构造函数在 SWIG 中都作为拷贝构造函数处理。
+> **注意**：对于类 `X`，如果应用于类型为 `X` 或 `X *` 的对象，则 SWIG 仅将构造函数视为拷贝构造函数。如果定义了多个拷贝构造函数，则只有出现的第一个定义用作拷贝构造函数——其他定义将导致名称冲突。诸如 `X(const X &)`，`X(X &)` 和 `X(X *)` 之类的构造函数在 SWIG 中都作为拷贝构造函数处理。
 >
-> **注意：** SWIG 确实*不*生成拷贝构造函数包装器，除非在类中显式声明了一个。这与默认构造函数和析构函数的处理不同。但是，如果使用 `copyctor` [功能标志](http://swig.org/Doc3.0/Customization.html#Customization_feature_flags)，则可以生成拷贝构造函数包装器。例如：
+> **注意**： SWIG 确实*不*生成拷贝构造函数包装器，除非在类中显式声明了一个。这与默认构造函数和析构函数的处理不同。但是，如果使用 `copyctor` [功能标志](http://swig.org/Doc3.0/Customization.html#Customization_feature_flags)，则可以生成拷贝构造函数包装器。例如：
 
 ```
 %copyctor List;
@@ -539,14 +539,14 @@ Will generate a copy constructor wrapper for `List`.
 
 > 将为 `List` 生成一个拷贝构造函数包装器。
 >
-> **注意兼容性：**直到 SWIG-1.3.12 才添加对拷贝构造函数的特殊支持。在以前的版本中，可以包装拷贝构造函数，但必须重命名它们。例如：
+> **注意兼容性**：直到 SWIG-1.3.12 才添加对拷贝构造函数的特殊支持。在以前的版本中，可以包装拷贝构造函数，但必须重命名它们。例如：
 
 ```
 class Foo {
 public:
-    Foo();
+  Foo();
   %name(CopyFoo) Foo(const Foo &);
-    ...
+  ...
 };
 ```
 
@@ -572,7 +572,7 @@ It should be noted that SWIG does not *actually* create a C accessor function in
 
 > 即使成员函数已声明为 `virtual`，此转换也是相同的。
 >
-> 应该注意的是，SWIG *实际上*并没有在它生成的代码中创建一个 C 访问器函数。相反，成员访问，如 `obj-> search(value)`，直接内联到生成的包装器函数中。但是，低级程序包装器的名称和调用约定与上述的访问器函数原型匹配。
+> 应该注意的是，SWIG *实际上*并没有在它生成的代码中创建一个 C 访问器函数。相反，成员访问（如 `obj->search(value)`）直接内联到生成的包装器函数中。但是，低级程序包装器的名称和调用约定与上述的访问器函数原型匹配。
 
 ### 6.6.6 静态成员
 
@@ -706,11 +706,11 @@ The naturalvar behavior can also be turned on as a global setting via the `-natu
 >
 > 自然变换行为也可以通过 `-naturalvar` 命令行选项或模块模式选项 `%module(naturalvar = 1)` 作为全局设置打开。但是，任何使用 `%feature("naturalvar")` 都将覆盖全局设置。
 >
-> **注意兼容性：**SWIG-1.3.28 中引入了 `%naturalvar` 功能，在此之前必须手动应用常引用类型映射，例如 `%apply const std::string&{std::string *}`，但是这个例子也将类型映射应用于带有 `std::string` 指针的方法。
+> **注意兼容性**：SWIG-1.3.28 中引入了 `%naturalvar` 功能，在此之前必须手动应用常引用类型映射，例如 `%apply const std::string&{std::string *}`，但是这个例子也将类型映射应用于带有 `std::string` 指针的方法。
 >
-> **注意兼容性：**只读访问过去由一对指令 `%readonly` 和 `%readwrite` 控制。尽管这些指令仍然有效，但它们会生成警告消息。只需将指令更改为 `%immutable;` 和 `%mutable;` 即可使警告静音。**不要忘记额外的分号！**
+> **注意兼容性**：只读访问过去由一对指令 `%readonly` 和 `%readwrite` 控制。尽管这些指令仍然有效，但它们会生成警告消息。只需将指令更改为 `%immutable;` 和 `%mutable;` 即可使警告静音。**不要忘记额外的分号！**
 >
-> **注意兼容性：**在 SWIG-1.3.12之前，所有未知类型的成员都使用指针包装到访问器函数中。例如，如果你有这样的结构体
+> **注意兼容性**：在 SWIG-1.3.12之前，所有未知类型的成员都使用指针包装到访问器函数中。例如，如果你有这样的结构体
 
 ```c++
 struct Foo {
@@ -756,9 +756,9 @@ Please see the [Features and default arguments](http://swig.org/Doc3.0/Customiza
 
 > 生成的包装器与上面的代码通过 SWIG 得到的完全相同。稍后将在[包装重载函数与方法](http://swig.org/Doc3.0/SWIGPlus.html#SWIGPlus_overloaded_methods)部分中介绍其详细信息。这种方法允许 SWIG 包装所有可能的默认参数，但可能是冗长的。例如，如果方法有十个默认参数，则会生成十一个包装器方法。
 >
-> 有关将 `%feature` 与具有默认参数的函数一起使用的更多信息，请参阅[功能和默认参数](http://swig.org/Doc3.0/Customization.html#Customization_features_default_args)部分。[歧义解析和重命名](http://swig.org/Doc3.0/SWIGPlus.html#SWIGPlus_ambiguity_resolution_renaming)部分还讨论了对具有默认参数的方法使用 `%rename` 和 `%ignore`。如果你正在为具有默认参数的方法中使用的类型编写自己的类型映射，则可能还需要编写 `typecheck` 类型映射。有关详细信息，请参阅[类型映射与重载](http://swig.org/Doc3.0/Typemaps.html#Typemaps_overloading)部分，否则请使用下面提到和 `compactdefaultargs` 功能标志。
+> 有关将 `%feature` 与具有默认参数的函数一起使用的更多信息，请参阅[功能和默认参数](http://swig.org/Doc3.0/Customization.html#Customization_features_default_args)部分。[消歧义和重命名](http://swig.org/Doc3.0/SWIGPlus.html#SWIGPlus_ambiguity_resolution_renaming)部分还讨论了对具有默认参数的方法使用 `%rename` 和 `%ignore`。如果你正在为具有默认参数的方法中使用的类型编写自己的类型映射，则可能还需要编写 `typecheck` 类型映射。有关详细信息，请参阅[类型映射与重载](http://swig.org/Doc3.0/Typemaps.html#Typemaps_overloading)部分，否则请使用下面提到和 `compactdefaultargs` 功能标志。
 >
-> **注意兼容性：** SWIG-1.3.23 与之前的 SWIG 版本包含的默认参数略有不同，而是生成了一个包装器方法，并将默认值复制到 C++ 包装器中，以便随后使用指定的所有参数调用包装的方法。如果包装器的大小是一个问题，那么使用 `compactdefaultargs` [功能标志](http://swig.org/Doc3.0/Customization.html#)可以重新激活这种使用默认参数包装方法的方法。
+> **注意兼容性**： SWIG-1.3.23 与之前的 SWIG 版本包含的默认参数略有不同，而是生成了一个包装器方法，并将默认值复制到 C++ 包装器中，以便随后使用指定的所有参数调用包装的方法。如果包装器的大小是一个问题，那么使用 `compactdefaultargs` [功能标志](http://swig.org/Doc3.0/Customization.html#)可以重新激活这种使用默认参数包装方法的方法。
 
 ```
 %feature("compactdefaultargs") Foo::bar;
@@ -770,7 +770,7 @@ public:
 
 This is great for reducing the size of the wrappers, but the caveat is it does not work for the statically typed languages, such as C# and Java, which don't have optional arguments in the language, Another restriction of this feature is that it cannot handle default arguments that are not public. The following example illustrates this:
 
-> 这对于减小包装器的大小非常有用，但需要注意的是它不适用于静态类型语言，例如 C# 和 Java，它们在语言中没有可选参数。此功能的另一个限制是它 无法处理非公有的默认参数。以下示例说明这一点：
+> 这对于减小包装器的大小非常有用，但需要注意的是它不适用于静态类型语言，例如 C# 和 Java，它们在语言中没有可选参数。此功能的另一个限制是它无法处理非公有的默认参数。以下示例说明这一点：
 
 ```c++
 class Foo {
@@ -796,7 +796,7 @@ SWIG wraps class members that are public following the C++ conventions, i.e., by
 
 By default, members of a class definition are assumed to be private until you explicitly give a ``public:`' declaration (This is the same convention used by C++).
 
-> SWIG 根据 C++ 约定包装公有类成员，即通过显式公有声明或使用 `using` 指令。通常，私有或受保护部分中指定的任何内容都将被忽略，尽管内部代码生成器有时会查看私有部分和保护部分的内容，以便它可以正确地为默认构造函数和析构函数生成代码。导向器（director）还可以修改非公有虚保护成员的处理方式。
+> SWIG 根据 C++ 约定包装公有的类成员，即通过显式公有声明或使用 `using` 指令。通常，私有或受保护部分中指定的任何内容都将被忽略，尽管内部代码生成器有时会查看私有部分和保护部分的内容，以便它可以正确地为默认构造函数和析构函数生成代码。导向器（director）还可以修改非公有的虚保护成员的处理方式。
 >
 > 默认情况下，在你明确给出 `public` 声明之前，假定类定义的成员是私有的（这与 C++ 使用的约定相同）。
 
@@ -817,7 +817,7 @@ Generates the following set of constants in the target scripting language :
 
 > 在目标脚本语言中生成以下常量集：
 
-```
+```c++
 Swig_ALE = Swig::ALE
 Swig_LAGER = Swig::LAGER
 Swig_PORTER = Swig::PORTER
@@ -893,7 +893,7 @@ public:
 
 has a low-level accessor
 
-> 有一个低级访问器
+> 有一个低级访问器函数
 
 ```c++
 double Foo_bar(Foo *obj, double *a) {
@@ -903,7 +903,7 @@ double Foo_bar(Foo *obj, double *a) {
 
 As a special case, most language modules pass `const` references to primitive datatypes (`int`, `short`, `float`, etc.) by value instead of pointers. For example, if you have a function like this,
 
-> 作为一种特殊情况，大多数语言模块都通过值而不是指针传递对原始数据类型（int、short、float 等）的常引用。例如，如果你具有这样的函数，
+> 作为一种特殊情况，大多数语言模块都通过值而不是指针传递对原始数据类型（`int`、`short`、`float` 等）的常引用。例如，如果你具有这样的函数，
 
 ```c++
 void foo(const int &x);
@@ -957,7 +957,7 @@ Don't return references to objects allocated as local variables on the stack. SW
 >
 > 不要返回对在堆栈上分配为局部变量的对象的引用。SWIG 不会复制对象，因此可能会导致程序崩溃。
 >
-> **注意：**必须提供对原始数据类型的引用的特殊处理，以提供与更高级的 C++ 包装应用程序（尤其是与模板和 STL 有关）的无缝集成。这是在 SWIG-1.3.12 中首次添加的。
+> **注意**：必须提供对原始数据类型的引用的特殊处理，以提供与更高级的 C++ 包装应用程序（尤其是与模板和 STL 有关）的无缝集成。这是在 SWIG-1.3.12 中首次添加的。
 
 ## 6.12 传值与返回值
 
@@ -992,9 +992,9 @@ If `Vector` is defined as a class in the interface, but it does not support a de
 
 ```c++
 Vector cross_product(Vector *a, Vector *b) {
- SWIGValueWrapper<Vector> x = *a;
- SWIGValueWrapper<Vector> y = *b;
- SWIGValueWrapper<Vector> r = cross_product(x, y);
+  SWIGValueWrapper<Vector> x = *a;
+  SWIGValueWrapper<Vector> y = *b;
+  SWIGValueWrapper<Vector> r = cross_product(x, y);
   return new Vector(r);
 }
 ```
@@ -1028,17 +1028,17 @@ It is well worth considering turning this feature on for classes that do have a 
 
 > 考虑为确实具有默认构造函数的类启用此功能。它将在包装器中变量声明的位置删除多余的构造函数调用，因此对于大型对象或构造成本高的类将产生明显更好的性能。或者，考虑返回引用或指针。
 >
-> **注意：**此转换对类型映射或 SWIG 的任何其他部分没有影响——它应该是透明的，除了在读取 SWIG 输出文件时可能会看到此代码。
+> **注意**：此转换对类型映射或 SWIG 的任何其他部分没有影响——它应该是透明的，除了在读取 SWIG 输出文件时可能会看到此代码。
 >
-> **注意：**此模板转换是 SWIG-1.3.11 中的新增功能，可能会在以后的 SWIG 版本中进行完善。实际上，对于没有定义默认构造函数的类，这样做绝对是必要的。
+> **注意**：此模板转换是 SWIG-1.3.11 中的新增功能，可能会在以后的 SWIG 版本中进行完善。实际上，对于没有定义默认构造函数的类，这样做绝对是必要的。
 >
-> **注意：**仅当对象通过传值或返回值时才使用此模板。它不用于 C++ 指针或引用。
+> **注意**：仅当对象通过传值或返回值时才使用此模板。它不用于 C++ 指针或引用。
 
 ## 6.13 继承
 
- SWIG supports C++ inheritance of classes and allows both single and multiple inheritance, as limited or allowed by the target language. The SWIG type-checker knows about the relationship between base and derived classes and allows pointers to any object of a derived class to be used in functions of a base class. The type-checker properly casts pointer values and is safe to use with multiple inheritance.
+SWIG supports C++ inheritance of classes and allows both single and multiple inheritance, as limited or allowed by the target language. The SWIG type-checker knows about the relationship between base and derived classes and allows pointers to any object of a derived class to be used in functions of a base class. The type-checker properly casts pointer values and is safe to use with multiple inheritance.
 
- SWIG treats private or protected inheritance as close to the C++ spirit, and target language capabilities, as possible. In most cases, this means that SWIG will parse the non-public inheritance declarations, but that will have no effect in the generated code, besides the implicit policies derived for constructors and destructors.
+SWIG treats private or protected inheritance as close to the C++ spirit, and target language capabilities, as possible. In most cases, this means that SWIG will parse the non-public inheritance declarations, but that will have no effect in the generated code, besides the implicit policies derived for constructors and destructors.
 
 The following example shows how SWIG handles inheritance. For clarity, the full C++ code has been omitted.
 
@@ -1113,7 +1113,7 @@ Note that there is a one to one correlation between the low-level accessor funct
 >
 > 请注意，低级访问器函数与代理方法之间存在一对一的关联，因此 C++ 类方法与生成的代理类方法之间也具有一一对应的关系。
 >
-> **注意：**为了获得最佳结果，SWIG 要求在接口中定义所有基类。否则，你可能会收到如下警告消息：
+> **注意**：为了获得最佳结果，SWIG 要求在接口中定义所有基类。否则，你可能会收到如下警告消息：
 
 ```
 example.i:18: Warning 401: Nothing known about base class 'Foo'. Ignored.
@@ -1125,7 +1125,7 @@ If any base class is undefined, SWIG still generates correct type relationships.
 
 > 如果未定义任何基类，则 SWIG 仍会生成正确的类型关系。例如，一个接受 `Foo *` 的函数将接受任何从 `Foo` 派生的对象，而不管 SWIG 是否实际包装了 `Foo` 类。如果你确实不想为基类生成包装器，但是想要使警告静音，则可以考虑使用 `%import` 指令包含定义 `Foo` 的文件。`%import` 仅收集类型信息，但不生成包装器。另外，你可以在 SWIG 接口中将 `Foo` 定义为空类，或使用[警告抑制](http://swig.org/Doc3.0/Warnings.html#Warnings_suppression)。
 >
-> **注意：** `typedef-names` 可以用作基类。例如：
+> **注意**： `typedef-names` 可以用作基类。例如：
 
 ```c++
 class Foo {
@@ -1156,11 +1156,11 @@ class Bar : public Foo {    // Ok.
 
 **Note:** Further optimizations are enabled when using the `-fvirtual` option, which avoids the regenerating of wrapper functions for virtual members that are already defined in a base class.
 
-> **注意兼容性：**从版本 1.3.7 开始，SWIG 仅为每个类中实际定义的声明生成低级访问器函数的包装器。这与 SWIG 1.1 不同，SWIG 1.1 用来继承基类中定义的所有声明，并重新生成专用的访问器函数，例如 `Circle_x_get()`、`Square_x_get()`、`Circle_set_location()` 和 `Square_set_location()`。此行为导致为大型类层次结构的大量重复代码，并使构建分布在多个模块中的应用程序变得笨拙（因为访问器功能在每个模块中都有重复）。当使用诸如代理类之类的高级功能时，也不必具有此类包装器。
+> **注意兼容性**：从版本 1.3.7 开始，SWIG 仅为每个类中实际定义的声明生成低级访问器函数的包装器。这与 SWIG 1.1 不同，SWIG 1.1 用来继承基类中定义的所有声明，并重新生成专用的访问器函数，例如 `Circle_x_get()`、`Square_x_get()`、`Circle_set_location()` 和 `Square_set_location()`。此行为导致为大型类层次结构的大量重复代码，并使构建分布在多个模块中的应用程序变得笨拙（因为访问器功能在每个模块中都有重复）。当使用诸如代理类之类的高级功能时，也不必具有此类包装器。
 >
-> **注意：**当使用 `-fvirtual` 选项时，会启用进一步的优化，这避免了为已经在基类中定义的虚成员重新生成包装函数。
+> **注意**：当使用 `-fvirtual` 选项时，会启用进一步的优化，这避免了为已经在基类中定义的虚成员重新生成包装函数。
 
-## 6.14 多继承、指针与类型检查的讨论
+## 6.14 关于多继承、指针与类型检查的讨论
 
 When a target scripting language refers to a C++ object, it normally uses a tagged pointer object that contains both the value of the pointer and a type string. For example, in Tcl, a C++ pointer might be encoded as a string like this:
 
@@ -1327,10 +1327,10 @@ For statically typed languages, SWIG uses the language's method overloading mech
 
 > 检查参数的顺序起着至关重要的作用。
 >
-> 对于静态类型的语言，SWIG 使用该语言的方法重载机制。为了实现脚本语言的重载，SWIG 生成一个调度函数，该函数检查传递来的参数的数量及其类型。为了创建此函数，SWIG 首先检查所有重载方法，然后根据以下规则对它们进行排名：
+> 对于静态类型的语言，SWIG 使用该语言的方法重载机制。为了实现脚本语言的重载，SWIG 生成一个调度函数，该函数检查传递来的参数的数量及其类型。为了创建此函数，SWIG 首先检查所有重载方法，然后根据以下规则对它们进行排序：
 >
-> 1. **所需参数的数量。**方法按所需参数数量进行升序排序。
-> 2. **参数类型优先级。**所有 C++ 数据类型均分配有数字类型的优先级值（由语言模块确定）。
+> 1. **所需参数的数量**。方法按所需参数数量进行升序排序。
+> 2. **参数类型优先级**。所有 C++ 数据类型均分配有数字类型的优先级值（由语言模块确定）。
 
 ```
 Type              Precedence
@@ -1347,7 +1347,7 @@ Using these precedence values, overloaded methods with the same number of requir
 
 This may sound very confusing, but an example will help. Consider the following collection of overloaded methods:
 
-> 使用这些优先级值，具有相同数量的必需参数的重载方法将按优先级值进行升序排序。
+> 使用这些优先级值，具有相同数量必需参数的重载方法将按优先级值进行升序排序。
 >
 > 这听起来可能很令人困惑，但是一个示例会有所帮助。请考虑以下重载方法的集合：
 
@@ -1364,7 +1364,7 @@ void foo(double x, Bar *z);
 
 The first rule simply ranks the functions by required argument count. This would produce the following list:
 
-> 第一条规则只是根据所需的参数计数对函数进行排名。这将产生以下列表：
+> 第一条规则只是根据所需的参数个数对函数进行排序。这将产生以下列表：
 
 ```
 rank
@@ -1381,7 +1381,7 @@ rank
 
 The second rule, simply refines the ranking by looking at argument type precedence values.
 
-> 第二条规则只是通过查看参数类型优先级值来简化排名。
+> 第二条规则只是通过查看参数类型优先级值来简化排序。
 
 ```
 rank
@@ -1400,7 +1400,7 @@ Finally, to generate the dispatch function, the arguments passed to an overloade
 
 If you're still confused, don't worry about it--- SWIG is probably doing the right thing.
 
-> 最后，要生成调度函数，只需按照该排名中的顺序检查传递给重载方法的参数。
+> 最后，要生成调度函数，只需按照该排序中的顺序检查传递给重载方法的参数。
 >
 > 如果你仍然感到困惑，请不要担心——SWIG 不会出错。
 
@@ -1615,7 +1615,7 @@ Note: the `*::` syntax is non-standard C++, but the '*' is meant to be a wildcar
 
 Although this discussion has primarily focused on `%rename` all of the same rules also apply to `%ignore`. For example:
 
-> 注意：`*::` 语法是非标准的 C++ ，但是 `*` 是一个与任何类名匹配的通配符（我们想不出更好的替代方法，因此，如果你有更好的主意，请发送通过电子邮件发送到 [swig-devel 邮件列表](http://www.swig.org/mail.html)。
+> **注意**：`*::` 语法是非标准的 C++ ，但是 `*` 是一个与任何类名匹配的通配符（我们想不出更好的替代方法，因此，如果你有更好的主意，请发送通过电子邮件发送到 [swig-devel 邮件列表](http://www.swig.org/mail.html)。
 >
 > 尽管此讨论主要集中在 `%rename` 上，所有相同的规则也适用于 `%ignore`。例如：
 
@@ -1694,9 +1694,9 @@ and this
 ```c++
 class Spam {
 public:
-...
-void bar() const;
-...
+  ...
+  void bar() const;
+  ...
 };
 ```
 
@@ -1718,7 +1718,7 @@ will not apply as there is no unqualified member `bar()`. The following will app
 
 An often overlooked C++ feature is that classes can define two different overloaded members that differ only in their qualifiers, like this:
 
-> 一个经常被忽视的 C++ 功能是，类可以定义两个不同的重载成员函数，仅仅它们的限定符不同，如下所示：
+> 一个经常被忽视的 C++ 功能是，类可以定义两个不同的重载成员函数，仅仅是它们的限定符不同，如下所示：
 
 ```c++
 class Spam {
@@ -1741,7 +1741,7 @@ void bar() const;   // Qualified member
 
 Similarly, if you merely wanted to ignore one of the declarations, use `%ignore` with the full qualification. For example, the following directive would tell SWIG to ignore the `const` version of `bar()` above:
 
-> 同样，如果你只想忽略其中一个声明，请使用带有完整限定符的 `%ignore`。例如，以下指令将告诉 SWIG 忽略上述 `bar()` 和 `const` 版本：
+> 同样，如果你只想忽略其中一个声明，请使用带有完整限定符的 `%ignore`。例如，以下指令将告诉 SWIG 忽略上述 `bar()` 的 `const` 版本：
 
 ```
 %ignore Spam::bar() const;   // Ignore bar() const, but leave other bar() alone
@@ -1811,7 +1811,7 @@ Similarly, the extra overloaded methods can be selectively ignored using `%ignor
 
 > 类似地，额外的重载方法可以使用 `%ignore` 有选择地忽略。
 >
-> **注意兼容性：**`%rename` 指令在 SWIG-1.3.23 中引入了默认参数匹配规则，同时改变了对带有默认参数的方法的包装方式。
+> **注意兼容性**：`%rename` 指令在 SWIG-1.3.23 中引入了默认参数匹配规则，同时改变了对带有默认参数的方法的包装方式。
 
 ### 6.15.4 对重载的评论
 
@@ -1968,10 +1968,10 @@ example.i:12: Warning 503: Can't wrap 'operator []' unless renamed to a valid id
 
 * The semantics of certain C++ operators may not match those in the target language.
 
-> * 由于 C++ 实现的差异，索引运算符 `operator []` 特别难以重载。具体来说，其他语言中的 get 和 set 运算符通常分为两种方法，以便可以将其他逻辑打包到这些运算中；C# 使用 `this [type key] {get {...} set {...}}`，Python 使用 `__getitem__` 和 `__setitem__`，等等。在 C++ 中，如果 `operator []` 的返回类型是引用并且方法是常量的，它通常表示 *setter*，而 *getter* 通常是一个常量函数，通过值返回对象。在没有任何严格的规则且有多个索引运算符的情况下，用户可以通过使用 `%rename` 来选择要使用的 getter 和 setter，如先前所示。
+> * 由于 C++ 实现的差异，索引运算符 `operator []` 特别难以重载。具体来说，其他语言中的 get 和 set 运算符通常分为两种方法，以便可以将其他逻辑打包到这些运算中；C# 使用 `this[type key] { get { ... } set { ... }}`，Python 使用 `__getitem__` 和 `__setitem__`，等等。在 C++ 中，如果 `operator []` 的返回类型是引用并且方法是常量的，它通常表示 *setter*，而 *getter* 通常是一个常量函数，通过值返回对象。在没有任何严格的规则且有多个索引运算符的情况下，用户可以通过使用 `%rename` 来选择要使用的 getter 和 setter，如先前所示。
 > * 某些 C++ 运算符的语义可能与目标语言中的语义不匹配。
 
-## 6.17 类扩展
+## 6.17 对类的扩展
 
 New methods can be added to a class using the `%extend` directive. This directive is primarily used in conjunction with proxy classes to add additional functionality to an existing class. For example :
 
@@ -2044,9 +2044,9 @@ The `%extend` directive follows all of the same conventions as its use with C st
 
 > 如果在 `%extend` 块中使用以下特殊变量，则会对其进行扩展：`$name`、`$symname`、`$overname`、`$decl`、`$fulldecl`、`$parentclassname` 和 `$parentclasssymname`。[特殊变量](http://swig.org/Doc3.0/Customization.html#Customization_exception_special_variables)部分提供了每个这些特殊变量的更多信息。
 >
-> `%extend` 指令遵循与 C 结构体一起使用时一样的所有约定。有关更多详细信息，请参阅[将成员函数添加到 C 结构体中](http://swig.org/Doc3.0/SWIG.html#SWIG_adding_member_functions)。
+> `%extend` 指令遵循与 C 结构体一起使用时一样的约定。有关更多详细信息，请参阅[向 C 结构体添加成员函数](http://swig.org/Doc3.0/SWIG.html#SWIG_adding_member_functions)。
 >
-> **注意兼容性：**`%extend` 指令是 SWIG 1.1 中 `%addmethods` 指令的新名称。由于 `%addmethods` 可以用于扩展结构体而不仅仅是方法，因此选择了一个更合适的指令名称。
+> **注意兼容性**：`%extend` 指令是 SWIG 1.1 中 `%addmethods` 指令的新名称。由于 `%addmethods` 可以用于扩展结构体而不仅仅是方法，因此选择了一个更合适的指令名称。
 
 ## 6.18 模板
 
@@ -2086,7 +2086,7 @@ To illustrate, consider the following template definition:
 
 > 在这种情况下，`vector<Integer>` 与 `vector<int>` 的类型完全相同。`foo()` 的包装器将接受任何一个变体。
 >
-> 从 SWIG-1.3.7开始，还可以包装简单的 C++ 模板声明。SWIG-1.3.12 在较早的实现上有了很大的扩展。在进一步讨论之前，你需要了解一些有关模板包装的知识。首先，裸露的 C++ 模板没有定义任何类型的可运行目标代码以供 SWIG 为其创建包装器。因此，为了包装模板，你需要为 SWIG 提供有关特定模板实例化的信息（例如，`vector<int>`、`array<double>` 等）。其次，在大多数目标语言中，诸如 `vector<int>` 之类的实例化名称通常不是有效的标识符名称。因此，在创建包装器时，需要为模板实例化指定一个更合适的名称，例如 `intvector`。
+> 从 SWIG-1.3.7 开始，还可以包装简单的 C++ 模板声明。SWIG-1.3.12 在较早的实现上有了很大的扩展。在进一步讨论之前，你需要了解一些有关模板包装的知识。首先，裸露的 C++ 模板没有定义任何类型的可运行目标代码以供 SWIG 为其创建包装器。因此，为了包装模板，你需要为 SWIG 提供有关特定模板实例化的信息（例如，`vector<int>`、`array<double>` 等）。其次，在大多数目标语言中，诸如 `vector<int>` 之类的实例化名称通常不是有效的标识符名称。因此，在创建包装器时，需要为模板实例化指定一个更合适的名称，例如 `intvector`。
 >
 > 为了说明，请考虑以下模板定义：
 
@@ -2149,7 +2149,7 @@ Since manual expansion of templates gets old in a hurry, the `%template` directi
 
 > 需要使用 `%rename` 指令，在目标语言为模板类提供适当的标识符名称（大多数语言无法将 C++ 模板语法识别为有效的类名称）。其余代码与普通类定义中显示的代码相同。
 >
-> 由于模板的手动扩展已经很老了，因此可以使用 `%template` 指令来创建模板类的实例化。从语义上讲，`%template` 只是一种快捷方式——它以与上面所示完全相同的方式扩展模板代码。这里有些例子：
+> 由于模板的手动扩展已经很老旧了，因此可以使用 `%template` 指令来创建模板类的实例化。从语义上讲，`%template` 只是一种快捷方式——它以与上面所示完全相同的方式扩展模板代码。这里有些例子：
 
 ```
 /* Instantiate a few different versions of the template */
@@ -2210,7 +2210,7 @@ This error is caused because the template expansion results in two identical cla
 
 Since the type system knows how to handle `typedef`, it is generally not necessary to instantiate different versions of a template for typenames that are equivalent. For instance, consider this code:
 
-> 导致此错误的原因是模板扩展导致两个相同名称的类。这会产生符号表冲突。此外，为减少代码膨胀的可能性，仅将一次特定实例包装一次可能更有效。
+> 导致此错误的原因是模板扩展导致两个相同名称的类。这会产生符号表冲突。此外，为减少代码膨胀的可能性，仅将特定实例包装一次可能更有效。
 >
 > 由于类型系统知道如何处理 `typedef`，因此通常不必为等效的类型名实例化不同版本的模板。例如，考虑以下代码：
 
@@ -2534,6 +2534,8 @@ Alternatively, you could expand the constructor template in selected instantiati
 
 And if your target language supports overloading, then you can try instead:
 
+> 而且，如果你的目标语言支持重载，你还可以试试：
+
 ```
 // Create default and conversion constructors
 %extend pair<double, double> {
@@ -2609,14 +2611,14 @@ When `%extend` is decoupled from the class definition, it is legal to use the sa
 
 %extend List<int> {
     void blah() {
-          printf("Hey, I'm an List<int>!\n");
+        printf("Hey, I'm an List<int>!\n");
     }
 };
 ```
 
 SWIG even supports overloaded templated functions. As usual the `%template` directive is used to wrap templated functions. For example:
 
-> SWIG 甚至支持重载的模板化函数。和往常一样，`%template` 指令用于包装模板化函数。例如：
+> SWIG 甚至支持重载函数模板。和往常一样，`%template` 指令用于包装函数模板。例如：
 
 ```
 template<class T> void foo(T x) { };
@@ -2660,13 +2662,13 @@ The wrapped `ExtendMe` class will then have two (overloaded) methods called `do_
 
 **Compatibility Note**: Extending a class with template methods was added in version 3.0.12
 
-Needless to say, SWIG's template support provides plenty of opportunities to break the universe. That said, an important final point is that ** SWIG does not perform extensive error checking of templates!** Specifically, SWIG does not perform type checking nor does it check to see if the actual contents of the template declaration make any sense. Since the C++ compiler checks this when it compiles the resulting wrapper file, there is no practical reason for SWIG to duplicate this functionality.
+Needless to say, SWIG's template support provides plenty of opportunities to break the universe. That said, an important final point is that **SWIG does not perform extensive error checking of templates!** Specifically, SWIG does not perform type checking nor does it check to see if the actual contents of the template declaration make any sense. Since the C++ compiler checks this when it compiles the resulting wrapper file, there is no practical reason for SWIG to duplicate this functionality.
 
 > 包装好的 `ExtendMe` 类将有两个（重载）方法，称为 `do_overloaded_stuff`。
 >
 > **注意兼容性**：在版本 3.0.12 中添加了使用模板方法扩展类。
 >
-> 不用说，SWIG 的模板支持为打破宇宙提供了很多机会。就是说，重要的最后一点是 **SWIG 不会执行模板的大量错误检查！**具体来说，SWIG 不会执行类型检查，也不会检查模板声明的实际内容是否有意义。由于 C++ 编译器在编译结果包装器文件时会对此进行检查，因此 SWIG 没有实际理由来复制此功能。
+> 不用说，SWIG 的模板支持为打通宇宙提供了很多机会。就是说，最后的重点是 **SWIG 不会执行模板的大量错误检查**！具体来说，SWIG 不会执行类型检查，也不会检查模板声明的实际内容是否有意义。由于 C++ 编译器在编译结果包装器文件时会对此进行检查，因此 SWIG 没有实际理由来复制此功能。
 
 ```
 template <class T> class OuterTemplateClass {};
@@ -2729,7 +2731,7 @@ Similar changes apply to typemaps and other customization features.
 
 Support for C++ namespaces is comprehensive, but by default simple, however, some target languages can turn on more advanced namespace support via the [nspace feature](http://swig.org/Doc3.0/SWIGPlus.html#SWIGPlus_nspace), described later. Code within unnamed namespaces is ignored as there is no external access to symbols declared within the unnamed namespace. Before detailing the default implementation for named namespaces, it is worth noting that the semantics of C++ namespaces is extremely non-trivial--especially with regard to the C++ type system and class machinery. At a most basic level, namespaces are sometimes used to encapsulate common functionality. For example:
 
-> 对 C++ 命名空间的支持是全面的，但是默认情况下很简单，但是，某些目标语言可以通过 [nspace 功能](http://swig.org/Doc3.0/SWIGPlus.html#SWIGPlus_nspace)打开更高级的命名空间支持，稍后描述。未命名的命名空间中的代码将被忽略，因为无法从外部访问未命名的命名空间中声明的符号。在详细说明命名空间的默认实现之前，值得注意的是 C++ 命名空间的语义非常重要——特别是对于 C++ 类型系统和类机制而言。在最基本的级别上，命名空间有时用于封装通用功能。例如：
+> 对 C++ 命名空间的支持是全面的，默认情况下却很简单，但是某些目标语言可以通过 [`nspace` 功能](http://swig.org/Doc3.0/SWIGPlus.html#SWIGPlus_nspace)打开更高级的命名空间支持，稍后会描述。未命名的命名空间中的代码将被忽略，因为无法从外部访问未命名的命名空间中声明的符号。在详细说明命名空间的默认实现之前，值得注意的是 C++ 命名空间的语义非常重要——特别是对于 C++ 类型系统和类机制而言。在最基本的级别上，命名空间有时用于封装通用功能。例如：
 
 ```c++
 namespace math {
@@ -2843,7 +2845,7 @@ There is some rationale for taking this approach. Since C++ namespaces are often
 
 Because namespaces are flattened, it is possible for symbols defined in different namespaces to generate a name conflict in the target language. For example:
 
-> 然后 SWIG 只需用目标语言创建三个包装函数 `bar()`，`spam()` 和 `blah()`。SWIG 不会在名称前添加命名空间前缀，函数也不会打包在任何嵌套作用域中。
+> 然后 SWIG 只需用目标语言创建三个包装函数 `bar()`、`spam()` 和 `blah()`。SWIG 不会在名称前添加命名空间前缀，函数也不会打包在任何嵌套作用域中。
 >
 > 采用这种方法有一些理由。由于 C++ 命名空间通常用于在 C++ 中定义模块，因此可能 SWIG 模块的内容与命名空间的内容之间存在自然的关联。例如，假设程序员可以为每个 C++ 命名空间创建一个单独的扩展模块，这并非没有道理。在这种情况下，当模块本身已经用作目标语言中的命名空间时，在所有内容前面都添加一个额外的命名空间前缀将是多余的。或换一种说法，如果你希望 SWIG 将命名空间分隔开，只需将每个命名空间都用其自己的 SWIG 接口包装即可。
 >
@@ -2888,7 +2890,7 @@ Similarly, `%ignore` can be used to ignore declarations.
 
 > 同样，`%ignore` 可用于忽略声明。
 >
-> 使用声明对生成的包装器代码没有任何影响。SWIG 语言模块将忽略它们，并且不会产生任何代码。但是，这些声明由内部类型系统用于跟踪类型名称。因此，如果你有这样的代码：
+> `using` 声明对生成的包装器代码没有任何影响。SWIG 语言模块将忽略它们，并且不会产生任何代码。但是，这些声明由内部类型系统用于跟踪类型名称。因此，如果你有这样的代码：
 
 ```c++
 namespace A {
@@ -2924,7 +2926,7 @@ namespace bar {
 
 The combination of namespaces and other SWIG directives may introduce subtle scope-related problems. The key thing to keep in mind is that all SWIG generated wrappers are produced in the *global* namespace. Symbols from other namespaces are always accessed using fully qualified names---names are never imported into the global space unless the interface happens to do so with a `using` declaration. In almost all cases, SWIG adjusts typenames and symbols to be fully qualified. However, this is not done in code fragments such as function bodies, typemaps, exception handlers, and so forth. For example, consider the following:
 
-> 命名空间和其他 SWIG 指令的组合可能会引起与范围相关的微妙问题。要记住的关键是，所有 SWIG 生成的包装器都是在*全局*命名空间中生成的。总是使用完全限定的名称来访问来自其他命名空间的符号——除非接口碰巧使用 `using` 声明，否则名称永远不会导入全局空间。在几乎所有情况下，SWIG 都会将类型名和符号调整为完全合法的。但是，在代码片段（例如函数体、类型映射、异常处理程序等）中并未做到这一点。例如，考虑以下内容：
+> 命名空间和其他 SWIG 指令的组合可能会引起与作用域相关的微妙问题。关键要记住，所有 SWIG 生成的包装器都是在*全局*命名空间中生成的。总是使用完全限定的名称来访问来自其他命名空间的符号——除非接口碰巧使用 `using` 声明，否则名称永远不会导入全局空间。在几乎所有情况下，SWIG 都会将类型名和符号调整为完全合法的。但是，在代码片段（例如函数体、类型映射、异常处理程序等）中并未做到这一点。例如，考虑以下内容：
 
 ```
 namespace foo {
@@ -2960,9 +2962,9 @@ In this case, SWIG correctly resolves the added method parameters and return typ
 
 **Note:** Code inclusion directives such as `%{ ... %}` or `%inline %{ ... %}` should not be placed inside a namespace declaration. The code emitted by these directives will not be enclosed in a namespace and you may get very strange results. If you need to use namespaces with these directives, consider the following:
 
-> **注意：**SWIG 不会将 `using` 声明传播到包装器代码。如果这些声明出现在接口中，它们也应该*还*出现在任何可能包含 `%{...%}` 部分的头文件中。换句话说，除非在基础 C++ 代码中也出现了多余的 `using` 声明，否则不要在 SWIG 接口中插入它们。
+> **注意**：SWIG 不会将 `using` 声明传播到包装器代码。如果这些声明出现在接口中，它们也应该*还*出现在任何可能包含 `%{...%}` 部分的头文件中。换句话说，除非在基础 C++ 代码中也出现了多余的 `using` 声明，否则不要在 SWIG 接口中插入它们。
 >
-> **注意：**不应将代码包含指令，例如 `%{ ... %}` 或 `%inline %{ ... %}` 放在命名空间声明中。这些指令发出的代码不会包含在命名空间中，你可能会得到非常奇怪的结果。如果需要通过这些指令使用命名空间，请考虑以下事项：
+> **注意**：不应将代码包含指令，例如 `%{...%}` 或 `%inline %{...%}` 放在命名空间声明中。这些指令发出的代码不会包含在命名空间中，你可能会得到非常奇怪的结果。如果需要通过这些指令使用命名空间，请考虑以下事项：
 
 ```
 // Good version
@@ -2984,7 +2986,7 @@ namespace foo {
 
 **Note:** When the `%extend` directive is used inside a namespace, the namespace name is included in the generated functions. For example, if you have code like this,
 
-> **注意：**在命名空间中使用 `%extend` 指令时，命名空间名称包含在生成的函数中。例如，如果你有这样的代码，
+> **注意**：在命名空间中使用 `%extend` 指令时，命名空间名称包含在生成的函数中。例如，如果你有这样的代码，
 
 ```
 namespace foo {
@@ -3005,9 +3007,9 @@ the added method `blah()` is mapped to a function `int foo_bar_blah(foo::bar *se
 
 > 添加的方法 `blah()` 映射到函数 `int foo_bar_blah(foo::bar *self, int x)`。该函数位于全局命名空间中。
 >
-> **注意：**尽管命名空间使用目标语言进行了展平，但是 SWIG 生成的包装器代码遵守与输入文件中相同的命名空间约定。因此，如果输入中没有符号冲突，则生成的代码中将没有冲突。
+> **注意**：尽管命名空间使用目标语言进行了展平，但是 SWIG 生成的包装器代码遵守与输入文件中相同的命名空间约定。因此，如果输入中没有符号冲突，则生成的代码中将没有冲突。
 >
-> **注意：**与不对参数执行任何解析一样，转换运算符名称必须与定义方式完全匹配。请勿更改运算符的限定词。例如，假设你有一个像这样的接口：
+> **注意**：与不对参数执行任何解析一样，转换运算符名称必须与定义方式完全匹配。请勿更改运算符的限定词。例如，假设你有一个像这样的接口：
 
 ```c++
 namespace foo {
@@ -3059,9 +3061,9 @@ namespace foo {
 
 **Note:** The flattening of namespaces is only intended to serve as a basic namespace implementation. None of the target language modules are currently programmed with any namespace awareness. In the future, language modules may or may not provide more advanced namespace support.
 
-> **注意兼容性：** 1.3.32 之前的 SWIG 版本在此方法中不一致。通常需要一个完全限定的名称，但在某些情况下不起作用。
+> **注意兼容性**：1.3.32 之前的 SWIG 版本在此方法中不一致。通常需要一个完全限定的名称，但在某些情况下不起作用。
 >
-> **注意：**命名空间的展平仅旨在用作基本的命名空间实现。当前，目标语言模块都没有任何使用命名空间进行编程的意识。将来，语言模块可能会或可能不会提供更高级的命名空间支持。
+> **注意**：命名空间的展平仅旨在用作基本的命名空间实现。当前，目标语言模块都没有任何使用命名空间进行编程的意识。将来，语言模块可能会或可能不会提供更高级的命名空间支持。
 
 ### 6.19.1 针对命名空间的 `nspace` 功能
 
@@ -3128,7 +3130,7 @@ namespace MyWorld {
 
 **Compatibility Note:** The nspace feature was first introduced in SWIG-2.0.0.
 
-> **注意兼容性：**`nspace` 功能在 SWIG-2.0.0 中首次引入。
+> **注意兼容性**：`nspace` 功能在 SWIG-2.0.0 中首次引入。
 
 ## 6.20 在命名空间中重命名模板类型
 
@@ -3226,7 +3228,7 @@ Details of how to tailor code for handling the caught C++ exception and converti
 
 Since exception specifications are sometimes only used sparingly, this alone may not be enough to properly handle C++ exceptions. To do that, a different set of special SWIG directives are used. Consult the "[Exception handling with %exception](http://swig.org/Doc3.0/Customization.html#Customization_exception)" section for details. The next section details a way of simulating an exception specification or replacing an existing one.
 
-> [抛出类型映射](http://swig.org/Doc3.0/Typemaps.html)中概述了有关如何定制代码以处理捕获的 C++ 异常，并将其转换为目标语言的异常/错误处理机制的详细信息。
+> [抛出类型映射](http://swig.org/Doc3.0/Typemaps.html)中概述了有关如何自定义代码以处理捕获的 C++ 异常，并将其转换为目标语言的异常/错误处理机制的详细信息。
 >
 > 由于有时仅很少使用异常规范，因此仅凭其本身可能不足以正确处理 C++ 异常。为此，使用了一组不同的特殊 SWIG 指令。有关详细信息，请查阅[使用 `%exception` 处理异常](http://swig.org/Doc3.0/Customization.html#Customization_exception)部分。下一节将详细介绍一种模拟异常规范或替换现有规范的方法。
 
@@ -3234,7 +3236,7 @@ Since exception specifications are sometimes only used sparingly, this alone may
 
 Exceptions are automatically handled for methods with an exception specification. Similar handling can be achieved for methods without exception specifications through the `%catches` feature. It is also possible to replace any declared exception specification using the `%catches` feature. In fact, `%catches` uses the same ["throws" typemaps](http://swig.org/Doc3.0/Typemaps.html#throws_typemap) that SWIG uses for exception specifications in handling exceptions. The `%catches` feature must contain a list of possible types that can be thrown. For each type that is in the list, SWIG will generate a catch handler, in the same way that it would for types declared in the exception specification. Note that the list can also include the catch all specification "...". For example,
 
-> 带有异常规范的方法会自动处理异常。通过 `%catches` 功能，可以为没有异常规范的方法实现类似的处理。也可以使用 `%catches` 功能替换任何声明的异常规范。实际上，`%catches` 使用的[抛出类型映射](http://swig.org/Doc3.0/Typemaps.html#throws_typemap)与 SWIG 处理异常的异常规范相同。`%catches` 功能必须包含可能抛出的类型列表。对于列表中的每种类型，SWIG 都将生成捕获处理程序，并与异常规范中声明的类型相同。请注意，该列表还可以包含捕获所有规范 `...`。例如，
+> 带有异常规范的方法会自动处理异常。通过 `%catches` 功能，可以为没有异常规范的方法实现类似的处理。也可以使用 `%catches` 功能替换任何声明的异常规范。实际上，`%catches` 使用的[抛出类型映射](http://swig.org/Doc3.0/Typemaps.html#throws_typemap)与 SWIG 处理异常的异常规范相同。`%catches` 功能必须包含可能抛出的类型列表。对于列表中的每种类型，SWIG 都将生成捕获处理程序，并与异常规范中声明的类型一致。请注意，该列表还可以包含捕获所有规范 `...`。例如，
 
 ```
 struct EBase { virtual ~EBase(); };
@@ -3279,7 +3281,7 @@ Although these kinds of pointers can be parsed and represented by the SWIG type 
 
 When pointers to members are supported, the pointer value might appear as a special string like this:
 
-> 尽管可以通过 SWIG 类型系统解析和表示这些类型的指针，但是由于与标准 C 指针的实现有所不同，很少有语言模块知道如何处理它们。强烈建议读者阅读高级教程，例如《The Annotated C++ Manual》，以了解详细信息。
+> 尽管可以通过 SWIG 类型系统解析和表示这些类型的指针，但是由于与标准 C 指针的实现有所不同，很少有语言模块知道如何处理它们。强烈建议读者阅读高级教程（例如《The Annotated C++ Manual》）以了解详细信息。
 >
 > 当支持指向成员的指针时，指针值可能显示为特殊字符串，如下所示：
 
@@ -3440,7 +3442,7 @@ Alternatively, you can import the definition of `Foo` from a separate file using
 
 > 另外，你可以使用 `%import` 从一个单独的文件中导入 `Foo` 的定义。
 >
-> **注意：**当一个类定义 `operator->()` 时，运算符本身被包装为方法 `__deref __()`。例如：
+> **注意**：当一个类定义 `operator->()` 时，运算符本身被包装为方法 `__deref __()`。例如：
 
 ```python
 f = Foo()               # Smart-pointer
@@ -3449,7 +3451,7 @@ p = f.__deref__()       # Raw pointer from operator->
 
 **Note:** To disable the smart-pointer behavior, use `%ignore` to ignore `operator->()`. For example:
 
-> **注意：**为了取消智能指针的行为，使用 `%ignore` 忽略 `operator->()`。例如：
+> **注意**：为了取消智能指针的行为，使用 `%ignore` 忽略 `operator->()`。例如：
 
 ```
 %ignore Bar::operator->;
@@ -3457,7 +3459,7 @@ p = f.__deref__()       # Raw pointer from operator->
 
 **Note:** Smart pointer support was first added in SWIG-1.3.14.
 
-> **注意：**对智能指针的支持在 SWIG-1.3.14 中首次添加。
+> **注意**：对智能指针的支持在 SWIG-1.3.14 中首次添加。
 
 ## 6.25 C++ 引用计数对象——`ref` / `unref` 功能
 
@@ -3528,9 +3530,9 @@ In the example above, the 'A' class instance 'a' is a reference counted object, 
 
 To tell SWIG that 'RCObj' and all its derived classes are reference counted objects, use the "ref" and "unref" [features](http://swig.org/Doc3.0/Customization.html#Customization_features). These are also available as `%refobject` and `%unrefobject`, respectively. For example:
 
-> 在上面的示例中，`A` 类实例 `a` 是一个引用计数的对象，由于它在对象 `b1` 和 `b2` 之间共享，因此不能任意删除。`A` 源自“引用计数对象”（RCObj），该引用实现了 ref/unref 惯用法。
+> 在上面的示例中，`A` 类实例 `a` 是一个引用计数的对象，由于它在对象 `b1` 和 `b2` 之间共享，因此不能任意删除。`A` 源自“引用计数对象”（RCObj），该引用实现了 `ref` / `unref` 惯用法。
 >
-> 要告诉 SWIG RCObj 及其所有派生类都是引用计数对象，请使用 `ref` 和 `unref` [功能](http://swig.org/Doc3.0/Customization.html#Customization_features)。这些也可以分别以 `%refobject` 和 `'%unrefobject` 的形式获得。例如：
+> 要告诉 SWIG RCObj 及其所有派生类都是引用计数对象，请使用 `ref` 和 `unref` [功能](http://swig.org/Doc3.0/Customization.html#Customization_features)。这些也可以分别以 `%refobject` 和 `%unrefobject` 的形式获得。例如：
 
 ```
 %module example
@@ -3606,19 +3608,19 @@ exit              # 'a' is released, SWIG unref 'a' called in the destructor wra
 ```c++
 class Foo {
 public:
-      int blah(int x);
+    int blah(int x);
 };
 
 class Bar {
 public:
-      double blah(double x);
+    double blah(double x);
 };
 
 class FooBar : public Foo, public Bar {
 public:
-      using Foo::blah;
-      using Bar::blah;
-      char *blah(const char *x);
+    using Foo::blah;
+    using Bar::blah;
+    char *blah(const char *x);
 };
 ```
 
@@ -3679,14 +3681,14 @@ Because a `using` declaration does not provide fine-grained control over the dec
 class FooBar : public Foo, public Bar {
 public:
 #ifndef SWIG
-      using Foo::blah;
-      using Bar::blah;
+    using Foo::blah;
+    using Bar::blah;
 #else
-      int blah(int x);         // explicitly tell SWIG about other declarations
-      double blah(double x);
+    int blah(int x);         // explicitly tell SWIG about other declarations
+    double blah(double x);
 #endif
 
-      char *blah(const char *x);
+    char *blah(const char *x);
 };
 ```
 
@@ -3694,7 +3696,7 @@ public:
 
 * If a derived class redefines a method defined in a base class, then a `using` declaration won't cause a conflict. For example:
 
-> **注意：**
+> **注意**：
 >
 > * 如果派生类重新定义了基类中定义的方法，则 `using` 声明不会引起冲突。例如：
 
@@ -3739,7 +3741,7 @@ If the target language doesn't support nested classes directly, or the support i
 
 > 如果目标语言支持嵌套类概念（例如 Java），则将嵌套的 C++ 类包装为嵌套的目标语言代理类。（对于 Java 的“静态”嵌套类。）仅包装公有嵌套类。否则，嵌套类和普通类之间几乎没有区别。
 >
-> 如果目标语言不直接支持嵌套类，或者未在语言模块中实现此支持（例如当前针对 python），则可见的嵌套类将移至与包含类相同的命名空间（嵌套层次结构被“展平”）。可以通过 `%feature("flatnested")` 为 C# 和 Java 打开相同的行为。如果外部命名空间中存在一个具有相同名称的类，则可以重命名或忽略内部类（或全局类）：
+> 如果目标语言不直接支持嵌套类，或者未在语言模块中实现此支持（例如当前针对的是 python），则可见的嵌套类将移至与包含类相同的命名空间（嵌套层次结构被“展平”）。可以通过 `%feature("flatnested")` 为 C# 和 Java 打开相同的行为。如果外部命名空间中存在一个具有相同名称的类，则可以重命名或忽略内部类（或全局类）：
 
 ```
 %rename (Bar_Foo) Bar::Foo;
@@ -3756,7 +3758,7 @@ If a nested class, within an outer class, has to be used as a template parameter
 
 > 如果外部类中的嵌套类必须用作外部类中的模板参数，则必须在外部类开始之前使用 `%template` 实例化该模板。可以在[模板](http://swig.org/Doc3.0/SWIGPlus.html#SWIGPlus_template_nested_class_example)部分中找到示例。
 >
-> **注意兼容性：**在 SWIG-3.0.0 之前，嵌套类支持有限。嵌套类被视为不透明指针。但是，在这些较旧的版本中，存在一种支持嵌套类的解决方法，要求用户在全局范围内复制嵌套类，为全局范围内的嵌套类添加 `typedef`，并在嵌套类上使用 `nestedworkaround` 功能 。这导致与 `flatnested` 功能大致相同的行为。现在借助 SWIG-3.0.0 中提供的嵌套类支持，该功能已被弃用，并且不再需要更改代码而起作用。如果看到以下警告：
+> **注意兼容性**：在 SWIG-3.0.0 之前，对嵌套类的支持有限。嵌套类被视为不透明指针。但是，在这些较旧的版本中，存在一种支持嵌套类的解决方法，要求用户在全局范围内复制嵌套类，为全局范围内的嵌套类添加 `typedef`，并在嵌套类上使用 `nestedworkaround` 功能 。这导致与 `flatnested` 功能大致相同的行为。现在借助 SWIG-3.0.0 中提供的嵌套类支持，该功能已被弃用，并且不再需要更改代码而起作用。如果看到以下警告：
 
 ```
 example.i:8: Warning 126: The nestedworkaround feature is deprecated
@@ -3776,7 +3778,7 @@ A common issue when working with C++ programs is dealing with all possible ways 
 
 Although SWIG knows how to correctly deal with `const` in its internal type system and it knows how to generate wrappers that are free of const-related warnings, SWIG does not make any attempt to preserve const-correctness in the target language. Thus, it is possible to pass `const` qualified objects to non-const methods and functions. For example, consider the following code in C++:
 
-> 使用 C++ 程序时的一个常见问题是处理所有可能形破坏程序、与程序链接的所有程序，以及与这些程序链接的所有程序的 `const` 限定符（或缺少 `const` 限定符）。
+> 使用 C++ 程序时的一个常见问题是处理 `const` 限定符（或缺少 `const` 限定符），因为程序、与程序链接的所有程序，以及与这些程序链接的所有程序可能因此被破坏。
 >
 > 尽管 SWIG 知道如何在其内部类型系统中正确处理 `const`，并且知道如何生成没有 `const` 相关警告的包装器，但 SWIG 并未尝试保留目标语言中的 `const` 正确性。因此，可以将合法的常量对象传递给非常量方法和函数。例如，请考虑以下 C++ 代码：
 
@@ -3812,4 +3814,4 @@ The bottom line is that this particular issue does not appear to be a problem fo
 
 If you're wrapping serious C++ code, you might want to pick up a copy of "The Annotated C++ Reference Manual" by Ellis and Stroustrup. This is the reference document we use to guide a lot of SWIG's C++ support.
 
-> 如果要包装严谨的 C++ 代码，则可能需要阅读 Ellis 和 Stroustrup 撰写的《The Annotated C++ Reference Manual》。这是我们用来指导许多 SWIG C++ 支持的参考文档。
+> 如果要包装严谨的 C++ 代码，则可能需要阅读 Ellis 和 Stroustrup 撰写的《The Annotated C++ Reference Manual》。这是我们用来指导 SWIG 对 C++ 诸多支持的参考文档。
