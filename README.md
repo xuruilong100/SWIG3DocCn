@@ -1,4 +1,4 @@
-# SWIG-3 文档翻译计划
+# SWIG 3 中文文档（部分）
 
 > 为了学习使用 SWIG 并造福后来者而尝试翻译部分文档（基础部分和 Python 部分），由于我目前使用的是 ubuntu 18.04 官方发布的 SWIG，选择的是版本 3.0 的文档。
 
@@ -9,3 +9,4 @@
 * [3. Windows 上使用 SWIG](https://www.cnblogs.com/xuruilong100/p/11913911.html)
 * [4. 脚本语言](https://www.cnblogs.com/xuruilong100/p/11913991.html)
 * [5. SWIG 基础知识](https://www.cnblogs.com/xuruilong100/p/11992715.html)
+* [6. SWIG 和 C++](https://www.cnblogs.com/xuruilong100/p/12046048.html)
