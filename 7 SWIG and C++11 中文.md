@@ -8,9 +8,9 @@ This chapter gives you a brief overview about the SWIG implementation of the C++
 
 SWIG supports the new C++ syntax changes with some minor limitations in some areas such as decltype expressions and variadic templates. Wrappers for the new STL types (unordered_ containers, result_of, tuples) are incomplete. The wrappers for the new containers would work much like the C++03 containers and users are welcome to help by adapting the existing container interface files and submitting them as a patch for inclusion in future versions of SWIG.
 
-> 本章为你简要概述了 C++11 标准的SWIG实现。SWIG 的这一部分仍在开发中。
+> 本章简要概述了 C++11 标准的 SWIG 实现。SWIG 的这一部分仍在开发中。
 >
-> SWIG 支持新的 C++ 语法改动，但在诸如 decltype 表达式和可变参数模板等某些方面存在一些小的限制。STL 新类型（`unordered_`容器、`result_of`、元组）的包装不完整。新容器的包装器将像 C++03 容器一样工作，欢迎用户适配现有容器接口文件并将其作为补丁提交以供将来的 SWIG 版本使用。
+> SWIG 支持新的 C++ 语法变更，但在诸如 `decltype` 表达式和可变参数模板等某些方面存在一些小的限制。STL 新类型（`unordered_` 容器、`result_of`、元组）的包装不完整。新容器的包装器将像 C++03 容器一样工作，欢迎用户适配现有容器接口文件，并将其作为补丁提交以供将来的 SWIG 版本使用。
 
 ## 7.2 核心语言变更
 
@@ -18,7 +18,7 @@ SWIG supports the new C++ syntax changes with some minor limitations in some are
 
 SWIG correctly parses the rvalue reference syntax `&&`, for example the typical usage of it in the move constructor and move assignment operator below:
 
-> SWIG 正确地解析了右值引用语法 `&&`，例如，下面转移构造函数和转移赋值运算符的典型用法：
+> SWIG 正确地解析了右值引用语法 `&&`，例如下面转移构造函数和转移赋值运算符的典型用法：
 
 ```c++
 class MyClass {
@@ -43,7 +43,7 @@ Rvalue references are designed for C++ temporaries and so are not very useful wh
 
 The plan is to ignore move constructors by default in a future version of SWIG. Note that both normal assignment operators as well as move assignment operators are ignored by default in most target languages with the following warning:
 
-> 计划在 SWIG 的未来版本中默认忽略转移构造函数。请注意，在大多数目标语言中，默认情况下普通赋值运算符和移动赋值运算符都会被忽略，并显示以下警告：
+> 计划在 SWIG 的未来版本中默认忽略转移构造函数。请注意，在大多数目标语言中，默认情况下普通赋值运算符和转移赋值运算符都会被忽略，并显示以下警告：
 
 ```
 example.i:18: Warning 503: Can't wrap `operator =` unless renamed to a valid identifier.
@@ -53,7 +53,7 @@ example.i:18: Warning 503: Can't wrap `operator =` unless renamed to a valid ide
 
 SWIG parses and identifies the keyword `constexpr`, but cannot fully utilise it. These C++ compile time constants are usable as runtime constants from the target languages. Below shows example usage for assigning a C++ compile time constant from a compile time constant function:
 
-> SWIG 解析并识别关键字 `constexpr`，但无法充分利用它。这些 C++ 编译时常量可用作目标语言的运行时常量。下面显示了从编译时常量函数分配 C++ 编译时常量的示例用法：
+> SWIG 解析并识别关键字 `constexpr`，但无法充分利用它。这些 C++ 编译时常量可用作目标语言的运行时常量。下面示例显示了从编译时常量函数分配 C++ 编译时常量的用法：
 
 ```c++
 constexpr int XXX() { return 10; }
@@ -62,13 +62,13 @@ constexpr int YYY = XXX() + 100;
 
 When either of these is used from a target language, a runtime call is made to obtain the underlying constant.
 
-> 当从目标语言中使用这两种方法中的任何一种时，都会进行运行时调用以获取基础常量。
+> 当从目标语言中使用这两种方法中的任何一种时，都会进行运行时调用以获取底层常量。
 
 ### 7.2.3 外部模板
 
 SWIG correctly parses the keywords `extern template`. However, this template instantiation suppression in a translation unit has no relevance outside of the C++ compiler and so is not used by SWIG. SWIG only uses `%template` for instantiating and wrapping templates.
 
-> SWIG 正确地解析了关键字 `extern template`。但是，转换单元中的模板实例化抑制在 C++ 编译器之外没有任何关联，因此 SWIG 不会使用它。SWIG 仅使用 `%template` 实例化和包装模板。
+> SWIG 正确地解析了关键字 `extern template`。但是，转换单元中的模板实例化抑制在 C++ 编译器之外没有任何关联物，因此 SWIG 不会使用它。SWIG 仅使用 `%template` 实例化和包装模板。
 
 ```
 template class std::vector<int>;        // C++03 explicit instantiation in C++
@@ -119,7 +119,7 @@ public:
 
 And then call this constructor from your target language, for example, in Python, the following will call the constructor taking the `std::vector`:
 
-> 然后从你的目标语言调用此构造函数，例如在 Python 中，以下将使用 `std::vector` 调用该构造函数：
+> 然后从你的目标语言调用此构造函数，例如在 Python 中，下面将使用 `std::vector` 调用该构造函数：
 
 ```python
 >>> c = Container([1, 2, 3, 4])
@@ -167,9 +167,9 @@ public:
 };
 ```
 
-`std::initializer_list` is simply a container that can only be initialized at compile time. As it is just a C++ type, it is possible to write typemaps for a target language container to map onto`std::initializer_list`. However, this can only be done for a fixed number of elements as initializer lists are not designed to be constructed with a variable number of arguments at runtime. The example below is a very simple approach which ignores any parameters passed in and merely initializes with a fixed list of fixed integer values chosen at compile time:
+`std::initializer_list` is simply a container that can only be initialized at compile time. As it is just a C++ type, it is possible to write typemaps for a target language container to map onto `std::initializer_list`. However, this can only be done for a fixed number of elements as initializer lists are not designed to be constructed with a variable number of arguments at runtime. The example below is a very simple approach which ignores any parameters passed in and merely initializes with a fixed list of fixed integer values chosen at compile time:
 
-> `std::initializer_list` 只是一个只能在编译时初始化的容器。由于它只是一种 C++ 类型，因此可以为目标语言容器编写类型映射以映射到 `std::initializer_list` 上。但是，只能对固定数量的元素执行此操作，因为初始化列表并非设计为在运行时使用可变数量的参数构造。下面的示例是一个非常简单的方法，它忽略传入的任何参数，仅使用在编译时选择的固定整数值的固定列表进行初始化：
+> `std::initializer_list` 只是一个只能在编译时初始化的容器。由于它只是一种 C++ 类型，因此可以为目标语言容器编写类型映射以映射到 `std::initializer_list` 上。但是，只能对固定数量的元素执行此操作，因为初始化列表并不能用运行时可变数量的参数来构造。下面的示例是一个非常简单的方法，它忽略传入的任何参数，仅使用在编译时选择的固定整数值的固定列表进行初始化：
 
 ```
 %typemap(in) std::initializer_list<int> {
@@ -188,7 +188,7 @@ Any attempt at passing in values from the target language will be ignored and be
 
 Note that the default typemap for `std::initializer_list` does nothing but issue the warning and hence any user supplied typemaps will override it and suppress the warning.
 
-> 从目标语言传递值的任何尝试都将被忽略，并由 `{10, 20, 30, 40, 50}` 代替。不用说，这种方法是非常局限的，但是可以改进，不过只能稍微改进。可以编写一个类型映射来将固定数量的元素映射到 `std::initializer_list` 上，但是要在运行时确定其值。类型映射将是特定于目标语言的。
+> 从目标语言传递值的任何尝试都将被忽略，并由 `{10, 20, 30, 40, 50}` 代替。不用说，这种方法是非常局限的，但是可以改进，不过只能稍微改进一下。可以编写一个类型映射来将固定数量的元素映射到 `std::initializer_list` 上，但是要在运行时确定其值。类型映射将是特定于目标语言的。
 >
 > 请注意，`std::initializer_list` 的默认类型映射只会发出警告，而不会执行任何操作，因此任何用户提供的类型映射都将覆盖它并禁止显示警告。
 
@@ -269,9 +269,9 @@ The lambda functions are removed from the wrappers for now, because of the lack 
 
 Lambda functions used to create variables can also be parsed, but due to limited support of `auto` when the type is deduced from the expression, the variables are simply ignored.
 
-> 由于缺少对目标语言中闭包（lambda 函数范围）的支持，因此暂时将 lambda 函数从包装器中删除了。
+> 由于缺少对目标语言中闭包（lambda 函数的作用域）的支持，因此暂时将 Lambda 函数从包装器中删除了。
 >
-> 也可以解析用于创建变量的 Lambda 函数，但是由于从表达式推导出类型时对 `auto` 的支持有限，因此变量将被忽略。
+> 可以解析用于创建变量的 Lambda 函数，但是由于从表达式推导出类型时对 `auto` 的支持有限，因此变量将被忽略。
 
 ```c++
 auto six = [](int x, int y) { return x+y; }(4, 2);
@@ -325,11 +325,11 @@ SWIG will also deal with type inference for the return type, as per the limitati
 auto square(float a, float b) -> decltype(a);
 ```
 
-### 7.2.10 对象构造改进
+### 7.2.10 对象构造的改进
 
 There are three parts to object construction improvement. The first improvement is constructor delegation such as the following:
 
-> 对象构造改进分为三个部分。第一部分改进是构造函数委托，例如：
+> 对象构造的改进分为三个部分。第一部分改进是构造函数委托，例如：
 
 ```c++
 class A {
@@ -405,7 +405,7 @@ struct DerivedStruct : BaseStruct {
 
 The `nullptr` constant is mostly unimportant in wrappers. In the few places it has an effect, it is treated like `NULL`.
 
-> 在包装器中，`nullptr` 常量几乎不重要。少数有它会起作用的地方，它被视为 `NULL`。
+> 在包装器中，`nullptr` 常量几乎不重要。很数有它会起作用的地方，它被视为 `NULL`。
 
 ### 7.2.13 强类型枚举
 
@@ -440,7 +440,7 @@ struct Color {
 
 There are various ways that the target languages handle enums, so it is not possible to precisely state how they are handled in this section. However, generally, most scripting languages mangle in the strongly typed enumeration's class name, but do not use any additional mangling for normal enumerations. For example, in Python, the following code
 
-> 目标语言使用多种方式处理枚举，因此在本节中无法精确说明它们的处理方式。但是，通常，大多数脚本语言都以强类型枚举的类名进行修饰，但对于普通枚举不使用任何其他修饰。例如，在 Python 中，以下代码
+> 目标语言使用多种方式处理枚举，因此在本节中无法精确说明它们的处理方式。但是，通常大多数脚本语言都以强类型枚举的类名进行修饰，但对于普通枚举不使用任何其他修饰。例如，在 Python 中，以下代码
 
 ```python
 print Color.RainbowColors_Red, Color.WarmColors_Red, Color.Red
@@ -469,7 +469,7 @@ System.out.println(
 
 SWIG correctly parses the symbols `>>` as closing the template block, if found inside it at the top level, or as the right shift operator `>>` otherwise.
 
-> SWIG 正确地将符号 `>>` 解析为模板块的封闭（如果在顶层的块中发现），或者正确的解析为右移运算符 `>>`。
+> SWIG 正确地将符号 `>>` 解析为模板块的闭合（如果在顶层的块中发现），或者正确地解析为右移运算符 `>>`。
 
 ```c++
 std::vector<std::vector<int>> myIntTable;
@@ -479,7 +479,7 @@ std::vector<std::vector<int>> myIntTable;
 
 SWIG correctly parses the keyword `explicit` for operators in addition to constructors now. For example:
 
-> 现在，SWIG 除了为构造函数之外，还为运算符正确解析了关键字 `explicit`。例如：
+> 现在，除了构造函数之外，SWIG 还为运算符正确解析了关键字 `explicit`。例如：
 
 ```c++
 class U {
@@ -560,7 +560,7 @@ SWIG supports both type aliasing and alias templates. However, in order to use a
 
 Firstly, the actual template is instantiated with a name to be used by the target language, as per any template being wrapped. Secondly, the empty template instantiation, `%template()`, is required for the alias template. This second requirement is necessary to add the appropriate instantiated template type into the type system as SWIG does not automatically instantiate templates. See the [Templates](http://SWIG.org/Doc3.0/ SWIG Plus.html# SWIG Plus_nn30) section for more general information on wrapping templates.
 
-> 首先，实际模板被实例化，并赋予一个名字供目标语言使用，与任何对模板的包装一样。其次，别名模板需要空模板实例化 `%template()`。第二个要求是将适当的实例化模板类型添加到类型系统中，这是必需的，因为 SWIG 不会自动实例化模板。有关包装模板的更多常规信息，请参见[模板](http://SWIG.org/Doc3.0/SWIGPlus.html#SWIGPlus_nn30)部分。
+> 首先，实际模板被实例化，并赋予一个名字供目标语言使用，与任何对模板的包装一样。其次，别名模板需要空模板实例化 `%template()`。第二个必需的要求是将适当的实例化模板类型添加到类型系统中，因为 SWIG 不会自动实例化模板。有关包装模板的更多常规信息，请参见[模板](http://SWIG.org/Doc3.0/SWIGPlus.html#SWIGPlus_nn30)部分。
 
 ### 7.2.17 无限制共用体
 
@@ -591,7 +591,7 @@ union P {
 
 SWIG supports the variadic templates syntax (inside the `<>` block, variadic class inheritance and variadic constructor and initializers) with some limitations. The following code is correctly parsed:
 
-> SWIG 有限的支持可变参数模板语法（在 `<>` 块中的可变参数类继承，以及可变参数构造函数和初始化）。以下代码的正确解析：
+> SWIG 对可变参数模板语法（在 `<>` 块中的可变参数类继承，以及可变参数构造函数和初始化）提供有限的支持。以下代码可以正确解析：
 
 ```c++
 template <typename... BaseClasses> class ClassName : public BaseClasses... {
@@ -602,7 +602,7 @@ public:
 
 For now however, the `%template` directive only accepts one parameter substitution for the variable template parameters.
 
-> 但是现在，`%template` 指令只接受一个参数替换可变模板参数。
+> 但是现在，`%template` 指令只接受替换一个可变模板参数。
 
 ```
 %template(MyVariant1) ClassName<>         // zero argument not supported yet
@@ -660,7 +660,7 @@ Some examples are the raw literal:
 
 > SWIG 可以解析用户定义的文字的声明，即 `operator "" _mysuffix()` 的语法。
 >
-> 一些示例是原始文字：
+> 一些示例，关于原始文字：
 
 ```c++
 OutputType operator "" _myRawLiteral(const char * value);
@@ -694,7 +694,7 @@ Like other operators that SWIG parses, a warning is given about renaming the ope
 example.i:27: Warning 503: Can't wrap `operator "" _myRawLiteral` unless renamed to a valid identifier.
 ```
 
-If %rename is used, then it can be called like any other wrapped method. Currently you need to specify the full declaration including parameters for `%rename`:
+If `%rename` is used, then it can be called like any other wrapped method. Currently you need to specify the full declaration including parameters for `%rename`:
 
 > 如果使用 `%rename`，则可以像其他任何包装方法一样调用它。当前，你需要指定完整的声明，包括 `%rename` 的参数：
 
@@ -768,7 +768,7 @@ struct NoInt {
 
 This is a C++ compile time check and SWIG does not make any attempt to detect if the target language is using an int instead of a double though, so in this case it is entirely possible to pass an int instead of a double to `f` from Java, Python etc.
 
-> 这是 C++ 编译时检查，但是 SWIG 不会尝试检测目标语言是否使用 `int` 而不是 `double`，因此在这种情况下，完全有可能从 Java，Python 等将 `int` 而不是 `double` 传递给 `f`。
+> 这是 C++ 编译时检查，但是 SWIG 不会尝试检测目标语言是否使用 `int` 而不是 `double`，因此在这种情况下，完全有可能从 Java、Python 等将 `int` 而不是 `double` 传递给 `f`。
 
 ### 7.2.23 `long long int` 类型
 
@@ -816,7 +816,7 @@ In Python:
 
 C++11 added in the noexcept specification to exception specifications to indicate that a function simply may or may not throw an exception, without actually naming any exception. SWIG understands these, although there isn't any useful way that this information can be taken advantage of by target languages, so it is as good as ignored during the wrapping process. Below are some examples of noexcept in function declarations:
 
-> C++11 在 `noexcept` 规范中添加了异常规范，以指示一个函数可能会也可能不会抛出异常，而无需实际命名任何异常。尽管没有任何有用的方法可以使目标语言利用此信息，但 SWIG 能理解这些知识，因此在包装过程中它就像被忽略了一样。以下是函数声明中的 `noexcept` 的一些示例：
+> C++11 在 `noexcept` 规范中添加了异常规范，以指示一个函数可能会也可能不会抛出异常，而无需实际命名任何异常。尽管没有任何有用的方法可以使目标语言利用此信息，但 SWIG 能理解这些知识，因此在包装过程中它就像被忽略了一样。以下是函数声明中 `noexcept` 的一些示例：
 
 ```c++
 static void noex1() noexcept;
@@ -877,7 +877,7 @@ SWIG does not currently wrap or use any of the new threading classes introduced 
 
 SWIG does not provide library files for the new tuple types yet. Variadic template support requires further work to provide substantial tuple wrappers.
 
-> SWIG 尚未提供新的元组类型的库文件。可变参数模板支持需要进一步的工作以提供大量的元组包装器。
+> SWIG 尚未提供新的元组类型的库文件。可变参数模板支持需要进一步的工作以提供实际的元组包装器。
 
 ### 7.3.3 哈希表
 
@@ -895,7 +895,7 @@ While SWIG could provide wrappers for the new C++11 regular expressions classes,
 
 SWIG provides special smart pointer handling for `std::shared_ptr` in the same way it has support for `boost::shared_ptr`. Please see the [shared_ptr smart pointer](http://SWIG.org/Doc3.0/Library.html#Library_std_shared_ptr)library section. There is no special smart pointer handling available for `std::weak_ptr` and `std::unique_ptr` yet.
 
-> SWIG 以支持 `boost::shared_ptr` 的相同方式为 `std::shared_ptr` 提供了特殊的智能指针处理。请参阅 [`shared_ptr` 智能指针](http://SWIG.org/Doc3.0/Library.html#Library_std_shared_ptr)库部分。`std::weak_ptr` 和 `std::unique_ptr` 智能指针尚无特殊处理。
+> SWIG 以支持 `boost::shared_ptr` 的方式为 `std::shared_ptr` 提供了特殊的智能指针处理。请参阅 [`shared_ptr` 智能指针](http://SWIG.org/Doc3.0/Library.html#Library_std_shared_ptr)库部分。`std::weak_ptr` 和 `std::unique_ptr` 智能指针尚无特殊处理。
 
 ### 7.3.6 扩展的随机数工具
 
@@ -907,13 +907,13 @@ This feature extends and standardizes the standard library only and does not eff
 
 Wrapper references are similar to normal C++ references but are copy-constructible and copy-assignable. They could conceivably be used in public APIs. There is no special support for `std::reference_wrapper` inSWIGthough. Users would need to write their own typemaps if wrapper references are being used and these would be similar to the plain C++ reference typemaps.
 
-> 包装器引用与普通 C++ 引用相似，但它们可复制构造和可复制分配。可以想象它们可以在公共 API 中使用。但是，SWIG 中没有对 `std::reference_wrapper` 的特殊支持。如果使用包装器引用，则用户将需要编写自己的类型映射，并且它们将与普通的 C++ 引用类型映射相似。
+> 包装器引用与普通 C++ 引用相似，但它们可拷贝构造和可拷贝分配。可以想象它们可以在公有 API 中使用。但是，SWIG 中没有对 `std::reference_wrapper` 的特殊支持。如果使用包装器引用，则用户将需要编写自己的类型映射，并且它们将与普通的 C++ 引用类型映射相似。
 
 ### 7.3.8 函数对象的多态包装器
 
 SWIG supports functor classes in a few languages in a very natural way. However nothing is provided yet for the new `std::function` template. SWIG will parse usage of the template like any other template.
 
-> SWIG 非常自然地支持几种语言的仿函数类。但是，还没有为新的 `std::function` 模板提供任何东西。SWIG 将像解析其他模板一样解析该模板的用法。
+> SWIG 在几种目标语言中非常自然地支持仿函数类。但是，还没有为新的 `std::function` 模板提供任何东西。SWIG 将像解析其他模板一样解析该模板的用法。
 
 ```
 %rename(__call__) Test::operator(); // Default renaming used for Python
@@ -987,7 +987,7 @@ Then the appropriate algorithm can be called for the subset of types given by th
 
 The new `std::result_of` class introduced in the `<functional>` header provides a generic way to obtain the return type of a function type via `std::result_of::type`. There isn't any library interface file to support this type. With a bit of work, SWIG will deduce the return type of functions when used in `std::result_of` using the approach shown below. The technique basically forward declares the `std::result_of` template class, then partially specializes it for the function types of interest. SWIG will use the partial specialization and hence correctly use the `std::result_of::type` provided in the partial specialization.
 
-> 在 `<functional>` 头文件中引入的 `std::result_of` 类提供了一种通过 `std::result_of::type` 获取函数类型的返回类型的通用方法。没有任何库接口文件支持此类型。经过一点工作，SWIG 将使用以下所示的方法推导使用 `std::result_of` 时函数的返回类型。该技术基本上向前声明了 `std::result_of` 模板类，然后将其偏特化用于感兴趣的函数类型。SWIG 将使用偏特化，因此正确使用了偏特化中提供的 `std::result_of::type`。
+> 在 `<functional>` 头文件中引入的 `std::result_of` 类提供了一种通过 `std::result_of::type` 获取函数返回类型的通用方法。没有任何库接口文件支持此类型。通过做一点工作，SWIG 将使用以下所示的方法推导使用 `std::result_of` 时函数的返回类型。该技术基本上向前声明了 `std::result_of` 模板类，然后将其偏特化用于感兴趣的函数。SWIG 将使用偏特化，因此正确使用了偏特化中提供的 `std::result_of::type`。
 
 ```
 %inline %{
@@ -1037,4 +1037,4 @@ Example usage from Python should give the not too surprising result:
 
 Phew, that is a lot of hard work to get a callback working. You could just go with the more attractive option of just using `double` as the return type in the function declaration instead of `result_of`!
 
-> 唷，要使回调正常工作，有很多艰苦的工作要做。你可以使用更具吸引力的选项，即在函数声明中仅将 `double` 作为返回类型，而不是 `result_of`！
+> 唷，要使回调正常工作，有很多艰苦的工作要做。你可以使用更具吸引力的选项，即在函数声明中仅将 `double` 作为返回类型，而不是用 `result_of`！
