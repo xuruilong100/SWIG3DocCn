@@ -6,7 +6,7 @@ To help build extension modules, SWIG is packaged with a library of support file
 
 **Compatibility note:** Older versions of SWIG included a number of library files for manipulating pointers, arrays, and other structures. Most these files are now deprecated and have been removed from the distribution. Alternative libraries provide similar functionality. Please read this chapter carefully if you used the old libraries.
 
-> 为了帮助构建扩展模块，SWIG 附带了支持文件库，你可以在自己的接口中包含这些支持文件。这些文件通常定义新的 SWIG 指令或提供实用函数，这些函数可用于访问标准 C 和 C++ 库的一部分。本章提供对当前支持的库文件集合的参考。
+> 为了帮助构建扩展模块，SWIG 附带了支持文件库，你可以在自己的接口文件中包含这些支持文件。这些文件通常定义新的 SWIG 指令或提供实用函数，这些函数可用于访问标准 C 和 C++ 库的一部分。本章提供对当前支持的库文件的参考。
 >
 > **注意兼容性**：较早版本的 SWIG 包括许多用于处理指针、数组和其他结构体的库文件。现在大多数这些文件已被弃用，并已从发行版中删除。备用库提供类似的功能。如果你使用的是旧库，请仔细阅读本章。
 
@@ -44,19 +44,19 @@ The directories that are searched are displayed when using `-verbose` commandlin
 
 This section describes library modules for manipulating low-level C arrays and pointers. The primary use of these modules is in supporting C declarations that manipulate bare pointers such as `int *`, `double *`, or `void *`. The modules can be used to allocate memory, manufacture pointers, dereference memory, and wrap pointers as class-like objects. Since these functions provide direct access to memory, their use is potentially unsafe and you should exercise caution.
 
-> 本节描述用于处理低级 C 数组和指针的库模块。这些模块的主要用途是支持 C 声明，这些声明可操纵诸如 `int *`、`double *` 或 `void *` 之类的裸指针。这些模块可用于分配内存、创建指针、解引用内存以及将指针包装为类对象。由于这些函数可直接访问内存，因此使用它们可能不安全，因此应谨慎行事。
+> 本节描述用于处理低级 C 数组和指针的库模块。这些模块的主要用途是支持 C 声明，这些声明可操作诸如 `int *`、`double *` 或 `void *` 之类的裸指针。这些模块可用于分配内存、创建指针、解引用内存以及将指针包装为类对象。由于这些函数可直接访问内存，因此使用它们可能不安全，所以要应谨慎行事。
 
 ### 9.2.1 `cpointer.i`
 
 The `cpointer.i` module defines macros that can be used to used to generate wrappers around simple C pointers. The primary use of this module is in generating pointers to primitive datatypes such as `int` and `double`.
 
-> `cpointer.i` 模块定义了可用于生成简单 C 指针的包装器的宏。这个模块的主要用途是生成指向原始数据类型，例如 `int` 和 `double` 的指针。
+> `cpointer.i` 模块定义了宏，可用于生成简单 C 指针的包装器。这个模块的主要用途是生成指向原始数据类型，例如 `int` 和 `double` 的指针。
 
 **`%pointer_functions(type, name)`**
 
 Generates a collection of four functions for manipulating a pointer `type *`:
 
-> 生成四个用于操纵指针 `type *` 的函数的集合：
+> 生成四个用于操作指针 `type *` 的函数：
 
 ```c
 type *new_name()
@@ -72,7 +72,7 @@ type *copy_name(type value)
 
 Creates a new object of type `type` and returns a pointer to it. An initial value is set by copying it from `value`. In C, the object is created using `calloc()`. In C++, `new` is used.
 
-> 创建一个类型为 `type` 的新对象，并返回一个指向它的指针。通过从 `value` 中复制初始值来设置初始值。在 C 语言中，使用 `calloc()` 创建对象。在 C++ 中，使用 `new`。
+> 创建一个类型为 `type` 的新对象，并返回一个指向它的指针。通过从 `value` 中复制值来设置初始值。在 C 语言中，使用 `calloc()` 创建对象。在 C++ 中，使用 `new`。
 
 ```c
 type *delete_name(type *obj)
@@ -96,7 +96,7 @@ type name_value(type *obj)
 
 Returns the value of `*obj`.
 
-When using this macro, `type` may be any type and `name`must be a legal identifier in the target language. `name`should not correspond to any other name used in the interface file.
+When using this macro, `type` may be any type and `name` must be a legal identifier in the target language. `name` should not correspond to any other name used in the interface file.
 
 Here is a simple example of using `%pointer_functions()`:
 
@@ -136,7 +136,7 @@ Wraps a pointer of `type *` inside a class-based interface. This interface is as
 
 > 在基于类的接口内包装 `type *` 指针。该接口如下：
 
-```c++
+```c
 struct name {
   name();                            // Create pointer object
   ~name();                           // Delete pointer object
@@ -156,11 +156,11 @@ It should be noted that the class interface does introduce a new object or wrap 
 
 Here is the same example using a class instead:
 
-> 使用此宏时，`type` 仅限于一个简单的类型名称，例如 `int`、`float` 或 `Foo`。不允许使用指针和其他复杂类型。`name` 必须是尚未使用的有效标识符。当将指针包装为类时，类可以透明地传递给需要该指针的任何函数。
+> 使用此宏时，`type` 仅限于一个简单的类型名称，例如 `int`、`float` 或 `Foo`。不允许使用指针和其他复杂类型。`name` 必须是尚未使用的有效标识符。当将指针包装为类时，这个类可以透明地传递给需要该指针的任何函数。
 >
 > 如果目标语言不支持代理类，则使用此宏将产生与 `%pointer_functions()` 宏相同的示例函数。
 >
-> 应当注意，类接口确实引入了新对象或将指针包装在特殊结构体内。相反，原始指针是直接使用的。
+> 应当注意，类接口确实引入了新对象，或将指针包装在特殊结构体内。相反，原始指针是直接使用的。
 >
 > 这是使用类的同一示例：
 
@@ -189,7 +189,7 @@ Now, in Python (using proxy classes)
 
 Of the two macros, `%pointer_class` is probably the most convenient when working with simple pointers. This is because the pointers are access like objects and they can be easily garbage collected (destruction of the pointer object destroys the underlying object).
 
-在两个宏中，`%pointer_class` 可能是使用简单指针时最方便的方法。这是因为指针可以像对象一样被访问，并且可以很容易地对其进行垃圾回收（指针对象的破坏会破坏基础对象）。
+在这两个宏中，`%pointer_class` 可能是处理简单指针时最方便的方法。这是因为指针可以像对象一样被访问，并且可以很容易地对其进行垃圾回收（指针对象的破坏会破坏基础对象）。
 
 **`%pointer_cast(type1, type2, name)`**
 
@@ -217,7 +217,7 @@ In this example, the function `int_to_uint()` would be used to cast types in the
 
 This module defines macros that assist in wrapping ordinary C pointers as arrays. The module does not provide any safety or an extra layer of wrapping--it merely provides functionality for creating, destroying, and modifying the contents of raw C array data.
 
-> 该模块定义了有助于将普通 C 指针包装为数组的宏。该模块不提供任何安全性或额外的包装层——它仅提供用于创建、销毁和修改原始 C 数组数据内容的功能。
+> 该模块定义了辅助将普通 C 指针包装为数组的宏。该模块不提供任何安全性或额外的包装层——它仅提供用于创建、销毁和修改原始 C 数组数据内容的功能。
 
 **`%array_functions(type, name)`**
 
@@ -229,7 +229,7 @@ Creates four functions.
 type *new_name(int nelements)
 ```
 
-Creates a new array of objects of type `type`. In C, the array is allocated using`calloc()`. In C++, `new []` is used.
+Creates a new array of objects of type `type`. In C, the array is allocated using` calloc()`. In C++, `new []` is used.
 
 > 创建一个类型为 `type` 的对象的数组。在 C 语言中，使用 `calloc()` 分配数组。在 C++ 中，使用 `new []`。
 
@@ -239,7 +239,7 @@ type *delete_name(type *ary)
 
 Deletes an array. In C, `free()` is used. In C++, `delete []` is used.
 
-> 删除数组。在 C 中使用 `free()`。在 C++ 中使用 `delete []`
+> 删除数组。在 C 中使用 `free()`。在 C++ 中使用 `delete []`。
 
 ```c
 type name_getitem(type *ary, int index)
@@ -276,7 +276,7 @@ void print_array(double x[10]) {
 
 To wrap it, you might write this:
 
-> 要包装它，你可以这样写：
+> 要包装它，你可以这样写接口文件：
 
 ```
 %module example
@@ -289,7 +289,7 @@ void print_array(double x[10]);
 
 Now, in a scripting language, you might write this:
 
-> 现在，在脚本语言中，你可以这样写：
+> 现在，在脚本语言中，你可以写这样的代码：
 
 ```python
 a = new_doubleArray(10)             # Create an array
@@ -305,7 +305,7 @@ Wraps a pointer of `type *` inside a class-based interface. This interface is as
 
 > 在基于类的接口内包装 `type *` 指针。该接口如下：
 
-```c++
+```c
 struct name {
   name(int nelements);                  // Create an array
   ~name();                              // Delete array
@@ -349,7 +349,7 @@ example.print_array(c)       # Pass to C
 
 **Note:** `%array_functions()` and `%array_class()` should not be used with types of `char` or `char *`.
 
-> **注意**：这些宏不会将 C 数组封装在特殊的数据结构或代理中。没有边界检查或任何形式的安全性。如果需要，应该考虑使用特殊的数组对象而不是裸指针。
+> **注意**：这些宏不会将 C 数组封装进特殊的数据结构或代理类中。没有边界检查或任何形式的安全检查。如果需要，应该考虑使用特殊的数组对象而不是裸指针。
 >
 > **注意**：`%array_functions()` 和 `%array_class()` 不能和类型 `char` 或 `char *` 共同使用。
 
@@ -371,7 +371,7 @@ type *malloc_name(int nbytes = sizeof(type));
 
 If `type` is `void`, then the size parameter `nbytes` is required. The `name` parameter only needs to be specified when wrapping a type that is not a valid identifier (e.g., "`int *`", "`double **`", etc.).
 
-> 如果 `type` 是 `void`，则需要 `size` 参数 `nbytes`。仅在包装不是有效标识符的类型时（例如，`int *`、`double **` 等），才需要指定 `name` 参数。
+> 如果 `type` 是 `void`，则需要参数 `nbytes`。仅在包装不是有效标识符的类型时（例如，`int *`、`double **` 等），才需要指定 `name` 参数。
 
 **`%calloc(type [, name=type])`**
 
@@ -384,6 +384,8 @@ type *calloc_name(int nobj =1, int sz = sizeof(type));
 ```
 
 If `type` is `void`, then the size parameter `sz` is required.
+
+> 如果 `type` 是 `void`，则需要参数 `sz`。
 
 **`%realloc(type [, name=type])`**
 
@@ -469,9 +471,9 @@ Now, in a script:
 
 ### 9.2.4 `cdata.i`
 
-The `cdata.i` module defines functions for converting raw C data to and from strings in the target language. The primary applications of this module would be packing/unpacking of binary data structures---for instance, if you needed to extract data from a buffer. The target language must support strings with embedded binary data in order for this to work.
+The `cdata.i` module defines functions for converting raw C data to and from strings in the target language. The primary applications of this module would be packing/unpacking of binary data structures--for instance, if you needed to extract data from a buffer. The target language must support strings with embedded binary data in order for this to work.
 
-> `cdata.i` 模块定义了用于将原始 C 数据与目标语言的字符串进行相互转换的函数。该模块的主要应用是打包、解包二进制数据结构。例如，如果你需要从缓冲区提取数据。目标语言必须支持带有嵌入式二进制数据的字符串，这样才能起作用。
+> `cdata.i` 模块定义了将原始 C 数据与目标语言的字符串进行相互转换的函数。该模块的主要应用是打包、解包二进制数据结构。例如，如果你需要从缓冲区提取数据。目标语言必须支持带有嵌入二进制数据的字符串，这样才能起作用。
 
 **`const char *cdata(void *ptr, size_t nbytes)`**
 
@@ -485,7 +487,7 @@ Copies all of the string data in `s` into the memory pointed to by `ptr`. The st
 
 One use of these functions is packing and unpacking data from memory. Here is a short example:
 
-> 将 `s` 中的所有字符串数据复制到 `ptr` 指向的内存中。该字符串可能包含嵌入的 NULL 字节。这实际上是标准 C 库 `memmove` 函数的包装，该函数被声明为 **`void memmove(void *ptr，const void *src，size_t n)`**。`src` 和 `length` 参数是从基础包装代码中特定于语言的字符串 `s` 中提取的。
+> 将 `s` 中的所有字符串数据复制到 `ptr` 指向的内存中。该字符串可能包含嵌入的 NULL 字节。这实际上是 C 标准库中 `memmove` 函数的包装，该函数被声明为 **`void memmove(void *ptr，const void *src，size_t n)`**。`src` 和 `length` 参数是从底层包装器代码中特定于语言的字符串 `s` 中提取的。
 >
 > 这些函数的一种用途是从内存打包和拆包数据。这是一个简短的示例：
 
@@ -525,7 +527,7 @@ Since the size of data is not always known, the following macro is also defined:
 
 Generates the following function for extracting C data for a given type.
 
-> 生成以下函数以提取给定类型的 C 数据。
+> 生成以下函数为给定类型提取 C 数据。
 
 ```c
 char *cdata_name(type* ptr, int nitems)
@@ -535,25 +537,25 @@ char *cdata_name(type* ptr, int nitems)
 
 **Note:** These functions provide direct access to memory and can be used to overwrite data. Clearly they are unsafe.
 
-> `nitems` 是要提取的给定类型的项目数。
+> `nitems` 是给定类型要提取的项目数。
 >
 > **注意**：这些函数提供对内存的直接访问，并可用于覆盖数据。显然，它们是不安全的。
 
 ## 9.3 C 字符串处理
 
-A common problem when working with C programs is dealing with functions that manipulate raw character data using `char *`. In part, problems arise because there are different interpretations of`char *`---it could be a NULL-terminated string or it could point to binary data. Moreover, functions that manipulate raw strings may mutate data, perform implicit memory allocations, or utilize fixed-sized buffers.
+A common problem when working with C programs is dealing with functions that manipulate raw character data using `char *`. In part, problems arise because there are different interpretations of `char *`--it could be a NULL-terminated string or it could point to binary data. Moreover, functions that manipulate raw strings may mutate data, perform implicit memory allocations, or utilize fixed-sized buffers.
 
 The problems (and perils) of using `char *` are well-known. However, SWIG is not in the business of enforcing morality. The modules in this section provide basic functionality for manipulating raw C strings.
 
-> 使用 C 程序时，一个常见的问题是使用 `char *` 处理原始字符数据的函数。部分地出现问题是因为对 `char *` 有不同的解释——它可以是以 NULL 结尾的字符串，也可以指向二进制数据。此外，操纵原始字符串的函数可能会改变数据，执行隐式内存分配或利用固定大小的缓冲区。
+> 使用 C 程序时，一个常见的问题是处理使用 `char *` 操作原始字符数据的函数。部分情况下，出现问题是因为对 `char *` 有不同的解释——它可以是以 NULL 结尾的字符串，也可以指向二进制数据。此外，操作原始字符串的函数可能会改变数据，执行隐式内存分配或利用固定大小的缓冲区。
 >
-> 使用 `char *` 的问题（和危险）是众所周知的。但是，SWIG 并不涉及道德操守。本节中的模块提供用于处理原始 C 字符串的基本函数。
+> 使用 `char *` 的问题（和危险）是众所周知的。但是，SWIG 并不涉及道德操守。本节中的模块提供用于处理原始 C 字符串的基本功能。
 
 ### 9.3.1 默认字符串处理
 
 Suppose you have a C function with this prototype:
 
-> 假设你有一个带有此原型的 C 函数：
+> 假设你有一个如下原型的 C 函数：
 
 ```c
 char *foo(char *s);
@@ -561,7 +563,7 @@ char *foo(char *s);
 
 The default wrapping behavior for this function is to set `s` to a raw `char *` that refers to the internal string data in the target language. In other words, if you were using a language like Tcl, and you wrote this,
 
-> 该函数的默认包装行为是将 `s` 设置为原始 `char *`，以目标语言引用内部字符串数据。换句话说，如果你使用的是 Tcl 这样的语言，并且你是这样写的，
+> 该函数的默认包装行为是将 `s` 设置为指向目标语言内部字符串数据的原始 `char *`。换句话说，如果你使用的是 Tcl 这样的语言，并且你这样写脚本，
 
 ```
 % foo Hello
@@ -573,7 +575,7 @@ There are obvious problems with the default behavior. First, since a `char *` ar
 
 > 那么 `s` 将指向 Tcl 解释器中 `Hello` 的表示。当返回 `char *` 时，SWIG 假定它是一个以 NULL 结尾的字符串，并对其进行复制。这为目标语言提供了自己的结果副本。
 >
-> 默认行为存在明显的问题。首先，由于 `char *` 参数指向目标语言内部的数据，因此函数修改该数据是不安全的（这样做可能会破坏解释器并导致崩溃）。此外，默认行为不适用于二进制数据。而是假定字符串以 NULL 终止。
+> 默认行为存在明显的问题。首先，由于 `char *` 参数指向目标语言内部的数据，因此函数修改该数据是不安全的（这样做可能会破坏解释器并导致崩溃）。此外，默认行为不适用于二进制数据，而是假定字符串以 NULL 终止。
 
 ### 9.3.2 传递二进制数据
 
@@ -612,7 +614,7 @@ In the wrapper function, the passed string will be expanded to a pointer and len
 
 If you have a function that allocates memory like this,
 
-> 如果你有一个这样分配内存的函数，
+> 如果你有一个如下分配内存的函数，
 
 ```c
 char *foo() {
@@ -636,7 +638,7 @@ To fix the memory leak, use the `%newobject` directive.
 char *foo();
 ```
 
-This will release the result if the appropriate target language support is available. SWIG provides the appropriate "newfree" typemap for `char *` so that the memory is released, however, you may need to provide your own "newfree" typemap for other types. See [Object ownership and %newobject](http://swig.org/Doc3.0/Customization.html#Customization_ownership) for more details.
+This will release the result if the appropriate target language support is available. SWIG provides the appropriate "newfree" typemap for `char *` so that the memory is released, however, you may need to provide your own "newfree" typemap for other types. See [Object ownership and `%newobject`](http://swig.org/Doc3.0/Customization.html#Customization_ownership) for more details.
 
 > 如果目标语言有适当的支持可用，结果将被释放。SWIG 为 `char *` 提供了适当的 `newfree` 类型映射，以便释放内存，但是，你可能需要为其他类型提供自己的 `newfree` 类型映射。有关更多详细信息，请参见[对象所有权和 `%newobject`](http://swig.org/Doc3.0/Customization.html#Customization_ownership)。
 
@@ -644,7 +646,7 @@ This will release the result if the appropriate target language support is avail
 
 The `cstring.i` library file provides a collection of macros for dealing with functions that either mutate string arguments or which try to output string data through their arguments. An example of such a function might be this rather questionable implementation:
 
-> `cstring.i` 库文件提供了一个宏集合，用于处理使字符串参数发生改变或试图通过其参数输出字符串数据的函数。这个函数的一个示例可能是这种相当可疑的实现：
+> `cstring.i` 库文件提供了一组宏，用于处理使字符串参数发生改变或试图通过其参数输出字符串数据的函数。这个函数的一个示例可能是这种相当可疑的实现：
 
 ```c
 void get_path(char *s) {
@@ -665,7 +667,7 @@ void get_path(char *s) {
 
 The macros defined in this module all expand to various combinations of typemaps. Therefore, the same pattern matching rules and ideas apply.
 
-> （不在主题范围内：如果你的程序确实具有这样的功能，建议你使用涉及边界检查的更安全替代方法来替换它们）。
+> （题外话：如果你的程序确实具有这样的函数，建议你使用有边界检查的更安全的替代方法来替换它们）。
 >
 > 此模块中定义的宏全部扩展为类型映射的各种组合。因此，适用相同的模式匹配规则和思想。
 
@@ -693,7 +695,7 @@ In the target language:
 
 Internally, the wrapper function allocates a small buffer (on the stack) of the requested size and passes it as the pointer value. Data stored in the buffer is then returned as a function return value. If the function already returns a value, then the return value and the output string are returned together (multiple return values). **If more than maxsize bytes are written, your program will crash with a buffer overflow!**
 
-> 在内部，包装器函数会分配一个请求大小的小缓冲区（在堆栈上），并将其作为指针值传递。然后将存储在缓冲区中的数据作为函数返回值返回。如果函数已经返回一个值，则将返回值和输出字符串一起返回（多个返回值）。**如果写入的字节数超过最大字节数，则程序将因缓冲区溢出而崩溃！**
+> 在内部，包装器函数会分配一个要求大小的小缓冲区（在堆栈上），并将其作为指针值传递。然后将存储在缓冲区中的数据作为函数返回值返回。如果函数已经返回一个值，则将返回值和输出字符串一起返回（多个返回值）。**如果写入的字节数超过最大字节数，则程序将因缓冲区溢出而崩溃！**
 
 **`%cstring_chunk_output(parm, chunksize)`**
 
@@ -743,9 +745,9 @@ In the target language:
 >>>
 ```
 
-Internally, this macro is almost exactly the same as`%cstring_bounded_output`. The only difference is that the parameter accepts an input value that is used to initialize the internal buffer. It is important to emphasize that this function does not mutate the string value passed---instead it makes a copy of the input value, mutates it, and returns it as a result. **If more than maxsize bytes are written, your program will crash with a buffer overflow!**
+Internally, this macro is almost exactly the same as `%cstring_bounded_output`. The only difference is that the parameter accepts an input value that is used to initialize the internal buffer. It is important to emphasize that this function does not mutate the string value passed---instead it makes a copy of the input value, mutates it, and returns it as a result. **If more than maxsize bytes are written, your program will crash with a buffer overflow!**
 
-> 在内部，此宏与 `%cstring_bounded_output` 几乎完全相同。唯一的区别是该参数接受用于初始化内部缓冲区的输入值。需要强调的是，此函数不会使传递的字符串值发生突变，而是复制输入值，对其进行突变并作为结果返回。**如果写入的字节数超过最大字节数，则程序将因缓冲区溢出而崩溃！**
+> 在内部，此宏与 `%cstring_bounded_output` 几乎完全相同。唯一的区别是参数接受用于初始化内部缓冲区的输入值。需要强调的是，此函数不会使传递来的字符串值发生改变，而是复制输入值，对其进行改变并作为结果返回。**如果写入的字节数超过最大字节数，则程序将因缓冲区溢出而崩溃！**
 
 **`%cstring_mutable(parm [, expansion])`**
 
@@ -775,9 +777,9 @@ In the target language:
 >>>
 ```
 
-This macro differs from `%cstring_bounded_mutable()` in that a buffer is dynamically allocated (on the heap using `malloc/new`). This buffer is always large enough to store a copy of the input value plus any expansion bytes that might have been requested. It is important to emphasize that this function does not directly mutate the string value passed---instead it makes a copy of the input value, mutates it, and returns it as a result. **If the function expands the result by more than expansion extra bytes, then the program will crash with a buffer overflow!**
+This macro differs from `%cstring_bounded_mutable()` in that a buffer is dynamically allocated (on the heap using `malloc` / `new`). This buffer is always large enough to store a copy of the input value plus any expansion bytes that might have been requested. It is important to emphasize that this function does not directly mutate the string value passed---instead it makes a copy of the input value, mutates it, and returns it as a result. **If the function expands the result by more than expansion extra bytes, then the program will crash with a buffer overflow!**
 
-> 这个宏与 `%cstring_bounded_mutable()` 的不同之处在于动态地分配了一个缓冲区（在堆上使用 `malloc`、`new`）。此缓冲区始终足够大，可以存储输入值的副本以及可能已请求的任何扩展字节。需要强调的是，此函数不会直接更改传递的字符串值，而是复制输入值，对其进行更改并返回结果。**如果函数将结果扩展多于扩展多余字节，则程序将因缓冲区溢出而崩溃！**
+> 这个宏与 `%cstring_bounded_mutable()` 的不同之处在于动态地分配了一个缓冲区（在堆上使用 `malloc` 或 `new`）。此缓冲区始终足够大，可以存储输入值的副本以及可能已请求的任何扩展字节。需要强调的是，此函数不会直接更改传递的字符串值，而是复制输入值，对其进行更改并返回结果。**如果函数将结果扩展多于扩展多余字节，则程序将因缓冲区溢出而崩溃！**
 
 **`%cstring_output_maxsize(parm, maxparm)`**
 
@@ -881,7 +883,7 @@ void foo(char **s, int *sz) {
 }
 ```
 
-The returned string may contain binary data. `release`specifies how the allocated memory is to be released (if applicable). Here is an example:
+The returned string may contain binary data. `release` specifies how the allocated memory is to be released (if applicable). Here is an example:
 
 > 返回的字符串可能包含二进制数据。`release` 指定释放分配的内存的方式（如果适用）。这是一个例子：
 
@@ -939,9 +941,9 @@ The library modules in this section provide access to parts of the standard C++ 
 
 The following table shows which C++ classes are supported and the equivalent SWIG interface library file for the C++ library.
 
-> 本节中的库模块提供对标准 C++ 库（包括 STL）的某些部分的访问。SWIG 对 STL 的支持是一项持续的工作。对某些语言模块的支持非常全面，但是一些使用较少的模块没有编写太多的库代码。
+> 本节中的库模块提供对 C++ 标准库（包括 STL）的某些部分的访问。SWIG 对 STL 的支持是一项持续的工作。对某些语言模块的支持非常全面，但是一些使用较少的模块没有编写太多的库代码。
 >
-> 下表显示了支持的 C++ 类以及 C++ 库的等效 SWIG 接口库文件。
+> 下表显示了支持的 C++ 类以及 C++ 库的对等 SWIG 接口库文件。
 
 | **C++ class**     | **C++ Library file** | **SWIG Interface library file** |
 | ----------------- | -------------------- | ------------------------------- |
@@ -958,7 +960,7 @@ The following table shows which C++ classes are supported and the equivalent SWI
 
 The list is by no means complete; some language modules support a subset of the above and some support additional STL classes. Please look for the library files in the appropriate language library directory.
 
-> 清单绝不完整； 一些语言模块支持上述内容的子集，而某些语言模块支持其他 STL 类。请在适当的语言库目录中查找库文件。
+> 清单绝不完整，一些语言模块支持上述内容的子集，而某些语言模块支持其他 STL 类。请在适当的语言库目录中查找库文件。
 
 ### 9.4.1 `std::string`
 
@@ -976,11 +978,11 @@ void        bar(const std::string &x);
 
 In the target language:
 
-> 在脚本语言中：
+> 在目标语言中：
 
 ```python
-x = foo();                # Returns a string object
-bar("Hello World");       # Pass string as std::string
+x = foo()                # Returns a string object
+bar("Hello World")       # Pass string as std::string
 ```
 
 A common problem that people encounter is that of classes/structures containing a `std::string`. This can be overcome by defining a typemap. For example:
@@ -1001,7 +1003,7 @@ struct my_struct
 
 In the target language:
 
-> 在脚本语言中：
+> 在目标语言中：
 
 ```python
 x = my_struct()
@@ -1013,7 +1015,7 @@ This module only supports types `std::string` and `const std::string &`. Pointer
 
 This library file is fully aware of C++ namespaces. If you export `std::string` or rename it with a typedef, make sure you include those declarations in your interface. For example:
 
-> 该模块仅支持类型 `std::string` 和 `const std::string&`。指针和非常引用保持不变，并作为 SWIG 指针返回。
+> 该模块仅支持类型 `std::string` 和 `const std::string &`。指针和非常引用保持不变，并作为 SWIG 指针返回。
 >
 > 该库文件完全了解 C++ 命名空间。如果导出 `std::string` 或使用 `typedef` 重命名，请确保在接口中包含这些声明。例如：
 
@@ -1056,12 +1058,12 @@ To illustrate the use of this library, consider the following functions:
 
 > 当模板 `vector<X>` 被实例化时，会发生很多事情：
 >
-> * 在目标语言中创建暴露 C++ API 的类。它可以用于创建对象，调用方法等。此类当前是真实 STL `vector` 类的子集。
-> * 输入类型映射是为 `vector<X>`、`const vector<X>&` 和 `const vector<X> *` 定义的。对于其中的每一个，都可以传递指针 `vector<X> *` 或目标语言中的原生列表对象。
+> * 在目标语言中创建暴露 C++ API 的类。它可以用于创建对象、调用方法等。此类当前是真实 STL `vector` 类的子集。
+> * 输入类型映射是为 `vector<X>`、`const vector<X>&` 和 `const vector<X> *` 定义的。对于其中的每一个，可以传递指针 `vector<X> *` 或目标语言中的原生列表对象。
 > * 为 `vector<X>` 定义了一个输出类型映射。在这种情况下，向量中的值将扩展为目标语言中的列表对象。
 > * 对于所有其他类型的包装，包装器希望以通常的方式接收一个 `vector<X> *` 对象。
 > * 为 `std::out_of_range` 定义了一个异常处理。
-> * 可选地，可以定义用于索引，项目检索，切片和元素分配的特殊方法。这取决于目标语言。
+> * 额外地，可以定义用于索引、项目检索、切片和元素分配的特殊方法。这取决于目标语言。
 >
 > 为了说明此库的用法，请考虑以下函数：
 
@@ -1092,7 +1094,7 @@ void halve_in_place(std::vector<double>& v) {
 
 To wrap with SWIG, you might write the following:
 
-> 用 SWIG 包装，你可以这样写：
+> 用 SWIG 包装，你可以这样写接口文件：
 
 ```
 %module example
@@ -1171,7 +1173,7 @@ void foo(vector<int> *x, const Vector &x);
 
 **Note:** This module is defined for all SWIG target languages. However argument conversion details and the public API exposed to the interpreter vary.
 
-> **注意**：该模块利用了几种高级 SWIG 功能，包括模板化的类型映射和模板的偏特化。如果你尝试使用模板包装其他 C++ 代码，则可以查看 `std_vector.i` 中包含的代码。或者，如果你想让他们的脑袋爆炸，则可以向他们显示代码。
+> **注意**：该模块利用了几种高级 SWIG 功能，包括模板化的类型映射和模板的偏特化。如果你尝试使用模板包装其他 C++ 代码，则可以查看 `std_vector.i` 中包含的代码。或者，如果你想让他们的脑袋爆炸，则可以向他们展示代码。
 >
 > **注意**：该模块是为所有 SWIG 目标语言定义的。但是，参数转换的详细信息和解释器公开的公共 API 有所不同。
 
@@ -1196,7 +1198,7 @@ When using the STL it is advisable to add in an exception handler to catch all S
 
 > 自定义异常处理程序可能是记录异常，然后将其转换为目标语言的特定错误或异常。
 >
-> 使用 STL 时，建议添加一个异常处理程序以捕获所有 STL 异常。通过将以下代码放在任何其他要包装的方法或库之前，可以使用 `%exception` 伪指令：
+> 使用 STL 时，建议添加一个异常处理程序以捕获所有 STL 异常。通过将以下代码放在任何其他要包装的方法或库之前，可以使用 `%exception` 指令：
 
 ```
 %include "exception.i"
@@ -1222,7 +1224,7 @@ In order to use `std::shared_ptr`, the `std_shared_ptr.i` library file should be
 
 > 一些目标语言支持处理 `shared_ptr` 引用计数智能指针。该智能指针在标准 C++11 库中以 `std::shared_ptr` 的形式提供。在 TR1 中，它在完全标准化之前还以 `std::tr1::shared_ptr` 的形式出现。也支持广泛使用的 `boost::shared_ptr`。
 >
-> 为了使用 `std::shared_ptr`，应该包含 `std_shared_ptr.i` 库文件：
+> 为了使用 `std::shared_ptr`，要包含 `std_shared_ptr.i` 库文件：
 
 ```
 %include <std_shared_ptr.i>
@@ -1230,7 +1232,7 @@ In order to use `std::shared_ptr`, the `std_shared_ptr.i` library file should be
 
 The pre-standard `std::tr1::shared_ptr` can be used by including the following macro before including the `std_shared_ptr.i` library file:
 
-> 通过在包含 `std_shared_ptr.i` 库文件之前包含以下宏，可以使用标准的 `std::tr1::shared_ptr`：
+> 在包含 `std_shared_ptr.i` 库文件之前包含以下宏，可以使用准标准的 `std::tr1::shared_ptr`：
 
 ```
 #define SWIG_SHARED_PTR_SUBNAMESPACE tr1
@@ -1239,13 +1241,13 @@ The pre-standard `std::tr1::shared_ptr` can be used by including the following m
 
 In order to use `boost::shared_ptr`, the `boost_shared_ptr.i` library file should be included:
 
-> 为了使用 `boost::shared_ptr`，应该包含 `boost_shared_ptr.i` 库文件：
+> 为了使用 `boost::shared_ptr`，要包含 `boost_shared_ptr.i` 库文件：
 
 ```
 %include <boost_shared_ptr.i>
 ```
 
-You can only use one of these variants of shared_ptr in your interface file at a time. and all three variants must be used in conjunction with the `%shared_ptr(T)` macro, where `T` is the underlying pointer type equating to usage `shared_ptr<T>`. The type `T` must be non-primitive. A simple example demonstrates usage:
+You can only use one of these variants of `shared_ptr` in your interface file at a time. and all three variants must be used in conjunction with the `%shared_ptr(T)` macro, where `T` is the underlying pointer type equating to usage `shared_ptr<T>`. The type `T` must be non-primitive. A simple example demonstrates usage:
 
 > 你只能在接口文件中使用 `shared_ptr` 的这些变体中的一个。并且所有三个变体都必须与 `%shared_ptr(T)` 宏结合使用，其中 `T` 是基础指针类型，等同于用法 `shared_ptr<T>`。类型 `T` 必须是非原始的。一个简单的示例演示用法：
 
@@ -1283,9 +1285,9 @@ int val2 = example.extractValueSmart(iv);
 System.out.println(val1 + " " + val2);
 ```
 
-This shared_ptr library works quite differently to SWIG's normal, but somewhat limited, [smart pointer handling](http://swig.org/Doc3.0/SWIGPlus.html#SWIGPlus_smart_pointers). The shared_ptr library does not generate extra wrappers, just for smart pointer handling, in addition to the proxy class. The normal proxy class including inheritance relationships is generated as usual. The only real change introduced by the `%shared_ptr` macro is that the proxy class stores a pointer to the shared_ptr instance instead of a raw pointer to the instance. A proxy class derived from a base which is being wrapped with shared_ptr can and **must** be wrapped as a shared_ptr too. In other words all classes in an inheritance hierarchy must all be used with the `%shared_ptr` macro. For example the following code can be used with the base class shown earlier:
+This `shared_ptr` library works quite differently to SWIG's normal, but somewhat limited, [smart pointer handling](http://swig.org/Doc3.0/SWIGPlus.html#SWIGPlus_smart_pointers). The `shared_ptr` library does not generate extra wrappers, just for smart pointer handling, in addition to the proxy class. The normal proxy class including inheritance relationships is generated as usual. The only real change introduced by the `%shared_ptr` macro is that the proxy class stores a pointer to the `shared_ptr` instance instead of a raw pointer to the instance. A proxy class derived from a base which is being wrapped with `shared_ptr` can and **must** be wrapped as a `shared_ptr` too. In other words all classes in an inheritance hierarchy must all be used with the `%shared_ptr` macro. For example the following code can be used with the base class shown earlier:
 
-> 这个 `shared_ptr` 库的工作方式与 SWIG 的正常方法有所不同，但有点局限，[智能指针处理](http://swig.org/Doc3.0/SWIGPlus.html#SWIGPlus_smart_pointers)。除了代理类之外，`shared_ptr` 库不会生成其他包装，仅用于智能指针处理。照常生成包括继承关系在内的普通代理类。`%shared_ptr` 宏引入的唯一真正的变化是代理类存储指向 `shared_ptr` 实例的指针，而不是指向该实例的原始指针。可以（必须）也从必须由 `shared_ptr` 包装的基派生的代理类也包装为 `shared_ptr`。换句话说，继承层次结构中的所有类都必须与 `%shared_ptr` 宏一起使用。例如，以下代码可与前面显示的基类一起使用：
+> 这个 `shared_ptr` 库的工作方式与 SWIG 的正常方法有所不同，但受到限制，[智能指针处理](http://swig.org/Doc3.0/SWIGPlus.html#SWIGPlus_smart_pointers)。除了代理类之外，`shared_ptr` 库不会生成其他包装，仅用于智能指针处理。包括继承关系的普通代理类照常生成。`%shared_ptr` 宏引入的唯一真正的变化是代理类存储指向 `shared_ptr` 实例的指针，而不是指向该实例的原始指针。从基类派生的代理类和 `shared_ptr` 一起被包装，也必须被包装为 `shared_ptr`。换句话说，继承层次结构中的所有类都必须与 `%shared_ptr` 宏一起使用。例如，以下代码可与前面显示的基类一起使用：
 
 ```
 %shared_ptr(DerivedIntValue)
@@ -1309,7 +1311,7 @@ int val4 = example.extractValueSmart(div);
 
 If the `%shared_ptr` macro is omitted for any class in the inheritance hierarchy, SWIG will warn about this and the generated code may or may not result in a C++ compilation error. For example, the following input:
 
-> 如果继承层次结构中的任何类都省略了 `%shared_ptr` 宏，SWIG 将对此发出警告，并且所生成的代码可能会或可能不会导致 C++ 编译错误。例如，以下输入：
+> 如果继承层次结构中的任何类都省略了 `%shared_ptr` 宏，SWIG 将对此发出警告，并且所生成的代码可能会，也可能不会导致 C++ 编译错误。例如，以下输入：
 
 ```
 %include "boost_shared_ptr.i"
@@ -1333,7 +1335,7 @@ If the `%shared_ptr` macro is omitted for any class in the inheritance hierarchy
 
 warns about the missing smart pointer information:
 
-> 警告缺少智能指针的信息：
+> 警告缺少智能指针的消息：
 
 ```
 example.i:12: Warning 520: Base class 'GrandParent' of 'Parent' is not similarly marked as a smart pointer.
@@ -1355,7 +1357,7 @@ Adding the missing `%shared_ptr` macros will fix this:
 
 **Note:** There is somewhat limited support for `%shared_ptr` and the director feature and the degrees of success varies among the different target languages. Please help to improve this support by providing patches with improvements.
 
-> **注意**：对 `%shared_ptr` 和 director 功能的支持有限，成功的程度因不同的目标语言而异。请通过提供具有改进功能的补丁来帮助改善此支持。
+> **注意**：对 `%shared_ptr` 和导向器（director）功能的支持有限，成功的程度因不同的目标语言而异。请通过提供具有改进功能的补丁来帮助改善此支持。
 
 ### 9.4.5 `auto_ptr` 智能指针
 
@@ -1363,7 +1365,7 @@ While `std::auto_ptr` is deprecated in C++11, some existing code may still be us
 
 A typical example of use would be
 
-> 尽管在 C++11中不推荐使用 `std::auto_ptr`，但是某些现有代码可能仍在使用它，因此 SWIG 对此类提供了有限的支持：`std_auto_ptr.i` 定义了适用于返回此类型对象的函数的类型映射。不直接支持对 `std_auto_ptr.i` 的任何其他使用。
+> 尽管在 C++11 中不推荐使用 `std::auto_ptr`，但是某些现有代码可能仍在使用它，因此 SWIG 对此类提供了有限的支持：`std_auto_ptr.i` 定义了适用于返回此类型对象的函数的类型映射。不直接支持对 `std_auto_ptr.i` 的任何其他使用。
 >
 > 使用的典型示例是
 
@@ -1390,7 +1392,7 @@ private:
 
 The returned objects can be used naturally from the target language, e.g. from C#:
 
-> 返回的对象可以自然地从目标语言使用，例如 来自 C#：
+> 返回的对象可以自然地从目标语言使用，例如来自 C#：
 
 ```csharp
 Klass k = Klass.Create(17);
@@ -1403,7 +1405,7 @@ int value = k.getValue();
 
 The `exception.i` library provides a language-independent function for raising a run-time exception in the target language. This library is largely used by the SWIG library writers. If possible, use the error handling scheme available to your target language as there is greater flexibility in what errors/exceptions can be thrown.
 
-> `exception.i` 库提供了一种独立于语言的函数，用于以目标语言引发运行时异常。SWIG 库作者主要使用此库。如果可能，请使用适用于你的目标语言的错误处理方案，因为在引发什么错误或异常方面具有更大的灵活性。
+> `exception.i` 库提供了一种独立于语言的函数，用于在目标语言中引发运行时异常。SWIG 库作者主要使用此库。如果可能，请使用适用于你的目标语言的错误处理方案，因为在引发什么错误或异常方面具有更大的灵活性。
 
 **`SWIG_exception(int code, const char *message)`**
 
