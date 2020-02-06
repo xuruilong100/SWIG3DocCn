@@ -12,3 +12,4 @@
 * [6. SWIG 和 C++](https://www.cnblogs.com/xuruilong100/p/12046048.html)
 * [7. SWIG 和 C++11](https://www.cnblogs.com/xuruilong100/p/12088685.html)
 * [8. 预处理](https://www.cnblogs.com/xuruilong100/p/12111172.html)
+* [9. SWIG 库](https://www.cnblogs.com/xuruilong100/p/12269766.html)
