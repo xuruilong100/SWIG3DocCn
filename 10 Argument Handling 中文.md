@@ -4,7 +4,7 @@
 
 In Chapter 3, SWIG's treatment of basic datatypes and pointers was described. In particular, primitive types such as `int` and `double` are mapped to corresponding types in the target language. For everything else, pointers are used to refer to structures, classes, arrays, and other user-defined datatypes. However, in certain applications it is desirable to change SWIG's handling of a specific datatype. For example, you might want to return multiple values through the arguments of a function. This chapter describes some of the techniques for doing this.
 
-> 在第 3 章中，介绍了 SWIG 对基本数据类型和指针的处理。特别地，诸如 `int` 和 `double` 的原始类型被映射到目标语言中的相应类型。对于其他所有内容，都使用指针来引用结构、类、数组和其他用户定义的数据类型。但是，在某些应用程序中，希望更改 SWIG 对特定数据类型的处理。例如，你可能想通过函数的参数返回多个值。本章介绍了一些执行此操作的技术。
+> 第 3 章介绍了 SWIG 对基本数据类型和指针的处理。特别地，原始类型（诸如 `int` 和 `double`）被映射到目标语言中的相应类型。对于其他所有类型，都使用指针来引用结构体、类、数组和其他用户定义的数据类型。但是，在某些应用程序中，希望更改 SWIG 对特定数据类型的处理。例如，你可能想通过函数的参数返回多个值。本章介绍了一些执行此类操作的技术。
 
 ## 10.1 `typemaps.i` 库
 
@@ -24,11 +24,11 @@ void add(double a, double b, double *result) {
 }
 ```
 
-From reading the source code, it is clear that the function is storing a value in the `double *result`parameter. However, since SWIG does not examine function bodies, it has no way to know that this is the underlying behavior.
+From reading the source code, it is clear that the function is storing a value in the `double *result` parameter. However, since SWIG does not examine function bodies, it has no way to know that this is the underlying behavior.
 
 One way to deal with this is to use the `typemaps.i` library file and write interface code like this:
 
-> 通过阅读源代码，很明显该函数将值存储在 `double *result` 参数中。但是，由于 SWIG 不检查函数主体，因此没有办法知道这是基本行为。
+> 通过阅读源代码，很明显该函数将值存储在 `double *result` 参数中。但是，由于 SWIG 不检查函数主体，因此没有办法知道函数的底层行为。
 >
 > 一种解决方法是使用 `typemaps.i` 库文件，并编写如下接口代码：
 
@@ -43,13 +43,13 @@ extern void add(double a, double b, double *result);
 %}
 ```
 
-The `%apply` directive tells SWIG that you are going to apply a special type handling rule to a type. The `double *OUTPUT` specification is the name of a rule that defines how to return an output value from an argument of type `double *`. This rule gets applied to all of the datatypes listed in curly braces -- in this case `double *result`.
+The `%apply` directive tells SWIG that you are going to apply a special type handling rule to a type. The `double *OUTPUT` specification is the name of a rule that defines how to return an output value from an argument of type `double *`. This rule gets applied to all of the datatypes listed in curly braces--in this case `double *result`.
 
 When the resulting module is created, you can now use the function like this (shown for Python):
 
-> `%apply` 命令告诉 SWIG 你将要对类型应用特殊的类型处理规则。`double *OUTPUT` 规范是一个规则的名称，该规则定义了如何从类型为 `double *` 的参数返回输出值。该规则将应用于大括号中列出的所有数据类型，在这种情况下为 `double *result`。
+> `%apply` 命令告诉 SWIG 你将要对某类型应用特殊的类型处理规则。`double *OUTPUT` 规范是一个规则的名称，该规则定义了如何从类型为 `double *` 的参数返回输出值。该规则将应用于大括号中列出的所有数据类型，在这个例子中为 `double *result`。
 >
-> 结果模块创建后，你现在可以使用以下函数（针对 Python 显示）：
+> 结果模块创建后，你现在可以这样使用以下函数（针对 Python）：
 
 ```python
 >>> a = add(3, 4)
@@ -62,9 +62,9 @@ In this case, you can see how the output value normally returned in the third ar
 
 Once a typemap has been applied to a type, it stays in effect for all future occurrences of the type and name. For example, you could write the following:
 
-> 在这种情况下，你可以看到通常在第三个参数中返回的输出值如何神奇地转换为函数返回值。显然，这使函数更易于使用，因为不再需要制造特殊的 `double *` 对象，并将其以某种方式传递给函数。
+> 在这个例子中，你可以看到通常在第三个参数中返回的输出值如何神奇地转换为函数返回值。显然，这使函数更易于使用，因为不再需要制造特殊的 `double *` 对象，并将其以某种方式传递给函数。
 >
-> 将类型映射应用于类型后，它对于以后所有出现的类型和名称都保持有效。例如，你可以编写以下内容：
+> 一旦将类型映射应用于类型后，它对于以后所有出现的类型和名称都保持有效。例如，你可以编写以下内容：
 
 ```
 %module example
@@ -85,7 +85,7 @@ In this case, the `double *OUTPUT` rule is applied to all of the functions that 
 
 Typemap transformations can even be extended to multiple return values. For example, consider this code:
 
-> 在这种情况下，`double *OUTPUT` 规则将应用于随后的所有函数。
+> 在这个例子中，`double *OUTPUT` 规则将应用于随后的所有函数。
 >
 > 类型映射转换甚至可以扩展为多个返回值。例如，考虑以下代码：
 
@@ -99,7 +99,7 @@ void getwinsize(int winid, int *width, int *height);
 
 In this case, the function returns multiple values, allowing it to be used like this:
 
-> 在这种情况下，该函数返回多个值，从而可以像这样使用它：
+> 在这个例子中，该函数返回多个值，从而可以像这样使用它：
 
 ```python
 >>> w, h = genwinsize(wid)
@@ -112,7 +112,7 @@ In this case, the function returns multiple values, allowing it to be used like 
 
 It should also be noted that although the `%apply` directive is used to associate typemap rules to datatypes, you can also use the rule names directly in arguments. For example, you could write this:
 
-> 还应该注意，尽管使用 `%apply` 命令将类型映射规则与数据类型相关联，但是你也可以直接在参数中使用规则名称。例如，你可以这样编写接口文件：
+> 还应该注意，尽管已经使用 `%apply` 命令将类型映射规则与数据类型相关联，但是你也可以直接在参数中使用规则名称。例如，你可以这样编写接口文件：
 
 ```
 // Simple example using typemaps
@@ -137,7 +137,7 @@ Typemaps stay in effect until they are explicitly deleted or redefined to someth
 
 The following typemaps instruct SWIG that a pointer really only holds a single input value:
 
-> 以下类型映射指示 SWIG 指针实际上仅保存一个输入值：
+> 以下类型映射告诉 SWIG，指针实际上仅保存一个输入值：
 
 ```c++
 int *INPUT
@@ -186,7 +186,7 @@ result = add(3, 4)
 
 The following typemap rules tell SWIG that pointer is the output value of a function. When used, you do not need to supply the argument when calling the function. Instead, one or more output values are returned.
 
-> 以下类型映射规则告诉 SWIG 指针是函数的输出值。使用时，在调用函数时不需要提供参数。而是返回一个或多个输出值。
+> 以下类型映射规则告诉 SWIG，指针是函数的输出值。使用时，在调用函数时不需要提供参数。而是返回一个或多个输出值。
 
 ```c
 int *OUTPUT
@@ -205,7 +205,7 @@ These methods can be used as shown in an earlier example. For example, if you ha
 
 ```c
 void add(double a, double b, double *c) {
-  *c = a+b;
+  *c = a + b;
 }
 ```
 
@@ -226,11 +226,11 @@ In this case, only a single output value is returned, but this is not a restrict
 
 If the function also returns a value, it is returned along with the argument. For example, if you had this:
 
-> 在这种情况下，仅返回单个输出值，但这不是限制。通过将输出规则应用于多个参数（如上所示），可以返回任意数量的输出值。
+> 在这个例子中，仅返回单个输出值，但这不是限制。通过将输出规则应用于多个参数（如上所示），可以返回任意数量的输出值。
 >
 > 如果函数还返回值，则将其与参数一起返回。例如，如果你有：
 
-```
+```c
 extern int foo(double a, double b, double *OUTPUT);
 ```
 
@@ -297,9 +297,9 @@ One subtle point of the `INOUT` rule is that many scripting languages enforce mu
 
 > `INOUT` 规则的一个细微之处是，许多脚本语言对原始对象实施了可变性约束（这意味着简单的对象，如整数和字符串，不应更改）。因此，你不能像在此示例中基础 C 函数那样就地修改对象的值。因此，`INOUT` 规则将修改后的值作为新对象返回，而不是直接覆盖原始输入对象的值。
 >
-> **注意兼容性**：在早期版本的 SWIG 中，`INOUT` 规则以前被称为 `BOTH`。向后兼容性已保留，但已弃用。
+> **注意兼容性**：在早期版本的 SWIG 中，`INOUT` 规则以前被称为 `BOTH`。已保留向后兼容性，但已弃用。
 
-### 10.1.5 使用不同的命名
+### 10.1.5 使用不同的名称
 
 As previously shown, the `%apply` directive can be used to apply the `INPUT`, `OUTPUT`, and `INOUT` typemaps to different argument names. For example:
 
@@ -327,7 +327,7 @@ To clear a rule, the `%clear` directive is used:
 
 Typemap declarations are lexically scoped so a typemap takes effect from the point of definition to the end of the file or a matching `%clear` declaration.
 
-> 类型映射声明在词法上是作用域的，因此类型映射从定义点开始到文件末尾或，匹配的 `%clear` 声明之前均生效。
+> 类型映射声明在词法上是作用域的，因此类型映射从定义点开始到文件末尾，或匹配的 `%clear` 声明之前均生效。
 
 ## 10.2 对输入值施加约束
 
@@ -339,7 +339,7 @@ In addition to changing the handling of various input values, it is also possibl
 
 The constraints library is best illustrated by the following interface file :
 
-> 以下接口文件是 `constraints.i` 库最好的说明：
+> 以下接口文件是对 `constraints.i` 库最好的说明：
 
 ```
 // Interface file with constraints
@@ -355,7 +355,7 @@ void   free(void *NONNULL);          // Non-NULL pointers only
 
 The behavior of this file is exactly as you would expect. If any of the arguments violate the constraint condition, a scripting language exception will be raised. As a result, it is possible to catch bad values, prevent mysterious program crashes and so on.
 
-> 该文件的行为与你期望的完全一样。如果任何参数违反约束条件，将引发脚本语言异常。作为结果，有可能捕获错误的值，防止神秘的程序崩溃，等等。
+> 该文件的行为与你期望的完全一样。如果任何参数违反约束条件，将引发脚本语言异常。最终，可能会捕获错误的值，防止神秘的程序崩溃，等等。
 
 ### 10.2.2 约束方法
 
