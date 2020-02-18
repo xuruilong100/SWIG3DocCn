@@ -47,7 +47,7 @@ The `%apply` directive tells SWIG that you are going to apply a special type han
 
 When the resulting module is created, you can now use the function like this (shown for Python):
 
-> `%apply` 命令告诉 SWIG 你将要对某类型应用特殊的类型处理规则。`double *OUTPUT` 规范是一个规则的名称，该规则定义了如何从类型为 `double *` 的参数返回输出值。该规则将应用于大括号中列出的所有数据类型，在这个例子中为 `double *result`。
+> `%apply` 指令告诉 SWIG 你将要对某类型应用特殊的类型处理规则。`double *OUTPUT` 规范是一个规则的名称，该规则定义了如何从类型为 `double *` 的参数返回输出值。该规则将应用于大括号中列出的所有数据类型，在这个例子中为 `double *result`。
 >
 > 结果模块创建后，你现在可以这样使用以下函数（针对 Python）：
 
@@ -112,7 +112,7 @@ In this case, the function returns multiple values, allowing it to be used like 
 
 It should also be noted that although the `%apply` directive is used to associate typemap rules to datatypes, you can also use the rule names directly in arguments. For example, you could write this:
 
-> 还应该注意，尽管已经使用 `%apply` 命令将类型映射规则与数据类型相关联，但是你也可以直接在参数中使用规则名称。例如，你可以这样编写接口文件：
+> 还应该注意，尽管已经使用 `%apply` 指令将类型映射规则与数据类型相关联，但是你也可以直接在参数中使用规则名称。例如，你可以这样编写接口文件：
 
 ```
 // Simple example using typemaps
@@ -127,7 +127,7 @@ extern void add(double a, double b, double *OUTPUT);
 
 Typemaps stay in effect until they are explicitly deleted or redefined to something else. To clear a typemap, the `%clear` directive should be used. For example:
 
-> 类型映射将一直有效，直到将其明确删除或重新定义为其他类型为止。要清除类型映射，应使用 `%clear` 命令。例如：
+> 类型映射将一直有效，直到将其明确删除或重新定义为其他类型为止。要清除类型映射，应使用 `%clear` 指令。例如：
 
 ```
 %clear double *result;      // Remove all typemaps for double *result
@@ -303,7 +303,7 @@ One subtle point of the `INOUT` rule is that many scripting languages enforce mu
 
 As previously shown, the `%apply` directive can be used to apply the `INPUT`, `OUTPUT`, and `INOUT` typemaps to different argument names. For example:
 
-> 如前所示，`%apply` 命令可用于将 `INPUT`、`OUTPUT` 和 `INOUT` 类型映射应用于不同的参数名称。例如：
+> 如前所示，`%apply` 指令可用于将 `INPUT`、`OUTPUT` 和 `INOUT` 类型映射应用于不同的参数名称。例如：
 
 ```
 // Make double *result an output value
@@ -318,7 +318,7 @@ As previously shown, the `%apply` directive can be used to apply the `INPUT`, `O
 
 To clear a rule, the `%clear` directive is used:
 
-> 为了清理掉规则，要使用 `%clear` 命令：
+> 为了清理掉规则，要使用 `%clear` 指令：
 
 ```
 %clear double *result;
@@ -388,7 +388,7 @@ The constraints library only supports the primitive C datatypes, but it is easy 
 
 The special types of "Number" and "Pointer" can be applied to any numeric and pointer variable type respectively. To later remove a constraint, the `%clear` directive can be used :
 
-> 特殊类型的 `Number` 和 `Pointer` 可以分别应用于任何数字和指针变量类型。为了以后删除约束，可以使用 `%clear` 命令：
+> 特殊类型的 `Number` 和 `Pointer` 可以分别应用于任何数字和指针变量类型。为了以后删除约束，可以使用 `%clear` 指令：
 
 ```
 %clear Real in;
