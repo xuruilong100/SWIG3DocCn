@@ -6,7 +6,7 @@
 
 Chances are, you are reading this chapter for one of two reasons; you either want to customize SWIG's behavior or you overheard someone mumbling some incomprehensible drivel about "typemaps" and you asked yourself "typemaps, what are those?" That said, let's start with a short disclaimer that "typemaps" are an advanced customization feature that provide direct access to SWIG's low-level code generator. Not only that, they are an integral part of the SWIG C++ type system (a non-trivial topic of its own). Typemaps are generally *not* a required part of using SWIG. Therefore, you might want to re-read the earlier chapters if you have found your way to this chapter with only a vague idea of what SWIG already does by default.
 
-> 你正在阅读本章的原因可能有两个：你想自定义 SWIG 的行为，或是无意中听到有人抱怨“typemaps”一词，并问自己“typemaps 是什么？”就是说，让我们从一个简短的免责声明开始，即“typemaps”是一种高级定制功能，可以直接访问 SWIG 的低级代码生成器。不仅如此，它们还是 SWIG C++ 类型系统（其自身的重要内容）的组成部分。通常，*不是*使用 SWIG 的必需部分。因此，如果你对本章的方法一无所知，那么你可能想重新阅读前面的章节，而对于 SWIG 默认情况下已经做的事情却含糊其辞。
+> 你正在阅读本章的原因可能有两个：你想自定义 SWIG 的行为，或是无意中听到有人抱怨“typemaps”一词，并问自己“typemaps 是什么？”。那么，让我们从一个简短的免责声明开始，即“typemaps”是一种高级定制功能，可以直接访问 SWIG 的低级代码生成器。不仅如此，它们还是 SWIG C++ 类型系统（SWIG 自身的重要内容）的组成部分。通常，*不是*使用 SWIG 的必需部分。因此，如果你阅读本章时对 SWIG 默认情况下的行为认识模糊，那么你可能想重新阅读前面的章节。
 
 ### 11.1.1 类型转换
 
@@ -14,7 +14,7 @@ One of the most important problems in wrapper code generation is the conversion 
 
 To illustrate, suppose you had a simple C function like this:
 
-> 包装代码生成中最重要的问题之一是编程语言之间数据类型的转换或编组。具体来说，对于每个 C/C++ 声明，SWIG 必须以某种方式生成包装器代码，该包装器代码允许在语言之间来回传递值。由于每种编程语言表示数据的方式都不相同，因此简单地将代码与 C 链接器链接在一起并不是一件容易的事。相反，SWIG 必须了解有关每种语言如何表示数据以及如何对其进行操纵的知识。
+> 包装器代码生成中最重要的问题之一是编程语言之间数据类型的转换或编组。具体来说，对于每个 C/C++ 声明，SWIG 必须以某种方式生成包装器代码，该包装器代码允许在语言之间来回传递值。由于每种编程语言表示数据的方式都不相同，因此简单地将代码与 C 链接器链接在一起并不是一件容易的事。相反，SWIG 必须了解每种语言如何表示数据，以及如何对其进行操纵的知识。
 >
 > 为了说明这一点，假设你有一个简单的 C 函数，如下所示：
 
@@ -24,7 +24,7 @@ int factorial(int n);
 
 To access this function from Python, a pair of Python API functions are used to convert integer values. For example:
 
-> 要从 Python 访问此函数，一对 Python API 函数用于转换整数值。例如：
+> 要从 Python 访问此函数，要用大一对 Python API 函数转换整数值。例如：
 
 ```c
 long PyInt_AsLong(PyObject *obj);      /* Python --> C */
@@ -35,7 +35,7 @@ The first function is used to convert the input argument from a Python integer o
 
 Inside the wrapper function, you might see these functions used like this:
 
-> 第一个函数用于将输入参数从 Python 整数对象转换为 C 中的 `long`。 第二个函数用于将值从 C 转换回 Python 整数对象。
+> 第一个函数用于将输入参数从 Python 整数对象转换为 C 中的 `long`。第二个函数用于将值从 C 转换回 Python 整数对象。
 >
 > 在包装器函数中，你可能会看到这些函数的用法如下：
 
@@ -56,7 +56,7 @@ PyObject *wrap_factorial(PyObject *self, PyObject *args) {
 
 Every target language supported by SWIG has functions that work in a similar manner. For example, in Perl, the following functions are used:
 
-> SWIG 支持的每种目标语言都具有以类似方式工作的功能。例如，在 Perl 中，使用以下功能：
+> SWIG 支持的每种目标语言都具有以类似方式工作的函数。例如，在 Perl 中，使用以下函数：
 
 ```c
 IV SvIV(SV *sv);                     /* Perl --> C */
@@ -65,6 +65,8 @@ void sv_setiv(SV *sv, IV val);       /* C --> Perl */
 
 In Tcl:
 
+> 在 Tcl 中：
+
 ```c
 int Tcl_GetLongFromObj(Tcl_Interp *interp, Tcl_Obj *obj, long *value);
 Tcl_Obj *Tcl_NewIntObj(long value);
@@ -72,13 +74,13 @@ Tcl_Obj *Tcl_NewIntObj(long value);
 
 The precise details are not so important. What is important is that all of the underlying type conversion is handled by collections of utility functions and short bits of C code like this--you simply have to read the extension documentation for your favorite language to know how it works (an exercise left to the reader).
 
-> 确切的细节不是那么重要。重要的是，所有底层类型转换都由实用程序函数和类似这样的 C 代码的短代码集合处理——你只需阅读自己喜欢的语言的扩展文档以了解其工作原理（留给读者的练习）。
+> 确切的细节不是那么重要。重要的是，所有底层类型转换都由实用程序函数和类似这样的 C 代码的短代码集合处理——你只需阅读自己喜欢的语言的扩展文档以了解其工作原理（一个留给读者的练习）。
 
 ### 11.1.2 类型映射
 
 Since type handling is so central to wrapper code generation, SWIG allows it to be completely defined (or redefined) by the user. To do this, a special `%typemap` directive is used. For example:
 
-> 由于类型处理对于包装代码生成非常重要，因此 SWIG 允许用户完全定义（或重新定义）它。为此，使用特殊的 `%typemap` 指令。例如：
+> 由于类型处理对于包装器代码生成非常重要，因此 SWIG 允许用户完全自定义（或重新定义）它。为此，使用特殊的 `%typemap` 指令。例如：
 
 ```
 /* Convert from Python --> C */
@@ -140,7 +142,7 @@ PyObject *wrap_gcd(PyObject *self, PyObject *args) {
 }
 ```
 
-In this code, you can see how the typemap code has been inserted into the function. You can also see how the special $ variables have been expanded to match certain variable names inside the wrapper function. This is really the whole idea behind typemaps--they simply let you insert arbitrary code into different parts of the generated wrapper functions. Because arbitrary code can be inserted, it possible to completely change the way in which values are converted.
+In this code, you can see how the typemap code has been inserted into the function. You can also see how the special `$` variables have been expanded to match certain variable names inside the wrapper function. This is really the whole idea behind typemaps--they simply let you insert arbitrary code into different parts of the generated wrapper functions. Because arbitrary code can be inserted, it possible to completely change the way in which values are converted.
 
 > 在此代码中，你可以看到如何将类型映射代码插入到函数中。你还可以看到特殊的 `$` 变量是如何扩展的，以匹配包装器函数中的某些变量名称。这实际上就是类型映射背后的全部思想，它们只是让你将任意代码插入生成的包装器函数的不同部分。由于可以插入任意代码，因此可以完全改变值转换的方式。
 
@@ -275,7 +277,7 @@ then SWIG already knows that the `int` typemaps apply. You don't have to do anyt
 
 The primary use of typemaps is for defining wrapper generation behavior at the level of individual C/C++ datatypes. There are currently six general categories of problems that typemaps address:
 
-> 类型映射的主要用途是在单个 C/C++ 数据类型级别上定义包装器生成行为。当前，类型映射解决了六大类问题：
+> 类型映射的主要用途是在单一 C/C++ 数据类型级别上定义包装器生成行为。当前，类型映射解决了六大类问题：
 
 **Argument handling**
 
@@ -296,9 +298,9 @@ int foo(int x, double y, char *s);
 > * 输入参数转换（`in` 类型映射）。
 > * 重载方法中的输入参数类型检查（`typecheck` 类型映射）。
 > * 输出参数处理（`argout` 类型映射）。
-> * 输入参数值检查（`检查` 类型映射）。
+> * 输入参数值检查（`check` 类型映射）。
 > * 输入参数初始化（`arginit` 类型映射）。
-> * 默认参数（`默认` 类型映射）。
+> * 默认参数（`default` 类型映射）。
 > * 输入参数资源管理（`freearg` 类型映射）。
 
 **Return value handling**
@@ -373,7 +375,7 @@ Details of each of these typemaps will be covered shortly. Also, certain languag
 
 > * 创建常数值。（`consttab` 或 `constcode` 类型映射）。
 >
-> 每个类型映射的详细内容很快会提到。同样，某些语言模块可能会定义其他类型映射以扩展此列表上。例如，Java 模块定义了各种类型映射来控制 Java 绑定的其他方面。请查阅特定于语言的文档以获取更多详细信息。
+> 每个类型映射的详细内容很快会提到。同样，某些语言模块可能会定义其他类型映射以扩展此列表。例如，Java 模块定义了各种类型映射来控制 Java 绑定的其他方面。请查阅特定于语言的文档以获取更多详细信息。
 
 ### 11.1.6 类型映射不能干什么？
 
@@ -399,7 +401,7 @@ void foo(int, char *);
 
 you can't use typemaps to interchange the arguments, allowing you to call the function like this:
 
-> 你不能使用类型映射来交换参数，允许你能这样调用函数：
+> 你不能使用类型映射来交换参数，进而允许你能这样调用函数：
 
 ```python
 foo("hello", 3)          # Reversed arguments
@@ -431,7 +433,7 @@ SWIG can also be viewed as has having a second set of aspects based around [`%fe
 
 > SWIG 与[面向切面的软件开发（AOP）](http://en.wikipedia.org/wiki/Aspect-oriented_programming)相似。与 SWIG 类型映射有关的 [AOP 术语](http://en.wikipedia.org/wiki/Aspect-oriented_programming#Terminology)如下：
 >
-> * **横切关注点**：横切关注点是类型映射实现的功能的模块化，主要是将目标语言和 C/C++ 之间的类型进行编组。
+> * **横切关注点**：横切关注点是类型映射所实现功能的模块化，主要是将目标语言和 C/C++ 之间的类型进行编组。
 > * **通知**：类型映射主体包含在需要编组时执行的代码。
 > * **切入点**：切入点是包装器代码中生成类型映射代码的位置。
 > * **切面**：切面是切入点和通知的组合，因此每个类型映射都是一个切面。
@@ -458,7 +460,7 @@ This section describes the behavior of the `%typemap` directive itself.
 
 New typemaps are defined using the `%typemap` declaration. The general form of this declaration is as follows (parts enclosed in `[...]` are optional):
 
-新的类型映射使用 `%typemap` 声明定义。该声明的一般形式如下（`[...]` 中的部分是可选的）：
+> 新的类型映射使用 `%typemap` 声明定义。该声明的一般形式如下（`[...]` 中的部分是可选的）：
 
 ```
 %typemap(method [, modifiers]) typelist code ;
@@ -470,11 +472,11 @@ New typemaps are defined using the `%typemap` declaration. The general form of t
 
 *typelist* is a list of the C++ type patterns that the typemap will match. The general form of this list is as follows:
 
-> *method* 是一个简单的名称，用于指定要定义的类型映射。通常，它的名称类似于 `in`、`out` 或 `argout`。这些方法的目的将在后面说明。
+> `method` 是一个简单的名称，用于指定要定义的类型映射。通常，它的名称类似于 `in`、`out` 或 `argout`。这些方法的目的将在后面说明。
 >
-> *modifiers* 是一个可选的逗号分隔列表，其中包含 `name="value"` 值。这些有时会在类型映射上附加额外的信息，并且通常取决于目标语言。它们也称为类型映射属性。
+> `modifiers` 是一个可选的逗号分隔列表，其中包含 `name="value"` 值。这些有时会在类型映射上附加额外的信息，并且通常取决于目标语言。它们也称为类型映射属性。
 >
-> *typelist* 是类型映射将匹配的 C++ 类型模式的列表。此列表的一般形式如下：
+> `typelist` 是类型映射将匹配的 C++ 类型模式的列表。此列表的一般形式如下：
 
 ```
 typelist    :  typepattern [, typepattern, typepattern, ... ] ;
@@ -488,9 +490,9 @@ Each type pattern is either a simple type, a simple type and argument name, or a
 
 *code* specifies the code used in the typemap. Usually this is C/C++ code, but in the statically typed target languages, such as Java and C#, this can contain target language code for certain typemaps. It can take any one of the following forms:
 
-> 每个类型模式可以是简单类型，简单类型和参数名称，或者在多参数类型映射的情况下是类型列表。此外，可以使用一系列临时变量（参数）对每个类型模式进行参数化。这些变量的目的将在稍后说明。
+> 每个类型模式可以是简单类型、简单类型和参数名称，或者在多参数类型映射下的类型列表。此外，可以使用一系列临时变量（参数）对每个类型模式进行参数化。这些变量的目的将在稍后说明。
 >
-> *code* 指定类型映射中使用的代码。通常这是 C/C++ 代码，但是在静态类型的目标语言（例如 Java 和 C#）中，它可以包含某些类型映射的目标语言代码。可以采用以下任何一种形式：
+> `code` 指定类型映射中使用的代码。通常这是 C/C++ 代码，但是在静态类型的目标语言（例如 Java 和 C#）中，它可以包含某些类型映射的目标语言代码。可以采用以下任何一种形式：
 
 ```
 code       : { ... }
@@ -500,7 +502,7 @@ code       : { ... }
 
 Note that the preprocessor will expand code within the `{}` delimiters, but not in the last two styles of delimiters, see [Preprocessor and Typemaps](http://swig.org/Doc3.0/Preprocessor.html#Preprocessor_delimiters). Here are some examples of valid typemap specifications:
 
-> 请注意，预处理器将在 `{}` 分隔符内扩展代码，但不会在最后两种分隔符样式中扩展代码，请参阅[《预处理器与类型映射》](http://swig.org/Doc3.0/Preprocessor.html#Preprocessor_delimiters)。以下是有效的类型映射规范的一些示例：
+> 请注意，预处理器将在 `{}` 分隔符内扩展代码，但不会在最后两种分隔符样式中扩展代码，请参阅[《预处理器与类型映射》](http://swig.org/Doc3.0/Preprocessor.html#Preprocessor_delimiters)章节。以下是有效类型映射规范的一些示例：
 
 ```
 /* Simple typemap declarations */
@@ -549,7 +551,7 @@ Admittedly, it's not the most readable syntax at first glance. However, the purp
 
 Once defined, a typemap remains in effect for all of the declarations that follow. A typemap may be redefined for different sections of an input file. For example:
 
-> 定义后，类型映射对于随后的所有声明都有效。可以为输入文件的不同部分重新定义类型映射。例如：
+> 定义后，类型映射对于随后出现的所有声明都有效。可以为输入文件的不同部分重新定义类型映射。例如：
 
 ```
 // typemap1
@@ -599,7 +601,7 @@ A typemap is copied by using assignment. For example:
 
 or this:
 
-> 或者
+> 或者这样：
 
 ```
 %typemap(in) Integer, Number, int32_t = int;
@@ -663,7 +665,7 @@ The `%clear` directive clears all typemaps for a given type. For example:
 
 Typemap declarations can be declared in the global scope, within a C++ namespace, and within a C++ class. For example:
 
-> 可以在全局范围、C++ 命名空间和 C++ 类中声明类型映射声明。例如：
+> 可以在全局范围、C++ 命名空间和 C++ 类中声明类型映射。例如：
 
 ```
 %typemap(in) int {
@@ -688,7 +690,7 @@ public:
 
 When a typemap appears inside a namespace or class, it stays in effect until the end of the SWIG input (just like before). However, the typemap takes the local scope into account. Therefore, this code
 
-> 当类型映射出现在命名空间或类中时，它一直有效直到 SWIG 输入文件的结束（就像之前一样）。但是，类型映射将局部范围考虑在内。因此，此代码
+> 当类型映射出现在命名空间或类中时，它直到 SWIG 输入文件的结束（就像之前一样）一直有效。但是，类型映射将局部范围考虑在内。因此，此代码
 
 ```
 namespace std {
@@ -751,7 +753,7 @@ If `TYPE` is an array. The following transformation is made:
 
 To illustrate, suppose that you had a function like this:
 
-> 使用类型和名称（通常是参数名称）来匹配类型映射。对于给定的 `TYPE NAME` 配对，将应用以下规则来查找匹配项。使用找到的第一个类型映射。
+> 使用类型和名称（通常是参数名称）来匹配类型映射。对于给定的 `TYPE NAME` 配对，将应用以下规则来查找匹配项。第一个找到的类型映射将被使用。
 >
 > * 与 `TYPE` 和 `NAME` 完全匹配的类型映射。
 > * 仅与 `TYPE` 完全匹配的类型映射。
@@ -763,7 +765,7 @@ To illustrate, suppose that you had a function like this:
 >
 > 如果 `TYPE` 是一个数组。进行以下转换：
 >
-> * 将所有尺寸替换为 `[ANY]`，并查找通用数组类型映射
+> * 将所有维度替换为 `[ANY]`，并查找通用数组类型映射
 >
 > 为了说明这一点，假设你具有如下函数：
 
@@ -887,7 +889,7 @@ void foo(Row4 rows[10]);
 
 To find a match for the `Row4 rows[10]` argument, SWIG would check the following patterns, stopping only when it found a match:
 
-> 为了找到 `Row4 rows [10]` 参数的匹配项，SWIG 将检查以下模式，仅在找到匹配项时停止：
+> 为了找到 `Row4 rows[10]` 参数的匹配项，SWIG 将检查以下模式，仅在找到匹配项时停止：
 
 ```
 Row4 rows[10]
@@ -945,7 +947,7 @@ As a point of clarification, it is worth emphasizing that typedef matching is a 
 
 > 还原类型映射始终应用于出现在最左侧的类型。仅当无法对最左边的类型进行还原时，才对类型的其他部分进行还原。这种行为意味着你可以为 `foo<int, Integer>` 定义一个类型映射，但是 `foo<Integer, int>` 的类型映射不会被匹配。诚然，这是相当不常见的——几乎没有实际的理由来编写类似的类型映射。当然，你可以用它使你的同事更加困惑。
 >
-> 需要澄清的一点是，值得强调的是 `typedef` 匹配仅是 `typedef` 的“还原”过程，也就是说，SWIG 不会搜索每个可能的 `typedef`。给定声明中的类型，它只会还原类型，而不会在寻找 `typedef` 时建立它。例如，给定类型为 `Struct`，由于 `Struct` 已被完全还原，因此以下类型映射将不会用于 `aStruct` 参数：
+> 需要澄清一点，值得强调的是 `typedef` 匹配仅是 `typedef` 的“还原”过程，也就是说，SWIG 不会搜索每个可能的 `typedef`。给定声明中的类型，它只会还原类型，而不会在寻找 `typedef` 时建立它。例如，给定类型为 `Struct`，由于 `Struct` 已被完全还原，因此以下类型映射将不会用于 `aStruct` 参数：
 
 ```
 struct Struct {...};
@@ -1002,7 +1004,7 @@ Below is a list of the typical default types supplied by language modules, showi
 
 If you wanted to change SWIG's default handling for simple pointers, you would simply redefine the rule for `SWIGTYPE *`. Note, the simple default typemap rule is used to match against simple types that don't match any other rules:
 
-> 如果你想更改 SWIG 对简单指针的默认处理，只需简单地为 `SWIGTYPE *` 重新定义规则。请注意，简单的默认类型映射规则用于与不匹配任何其他规则的简单类型进行匹配：
+> 如果你想更改 SWIG 对简单指针的默认处理，很简单，只需为 `SWIGTYPE *` 重新定义规则。请注意，简单的默认类型映射规则用于与不匹配任何其他规则的简单类型进行匹配：
 
 ```
 %typemap(in) SWIGTYPE              { ... simple default handling ...                          }
@@ -1047,7 +1049,7 @@ The best way to explore the default typemaps is to look at the ones already defi
 
 > 将选择列表顶部的类型映射，不仅是因为首先定义了它，而且是因为它与被包装的类型最匹配。如果上面列表中的任何类型映射未定义，则列表中的下一个优先。
 >
-> 探索默认类型映射的最佳方法是查看已为特定语言模块定义的映射。类型映射定义通常可以在 SWIG 库的 java.swg、csharp.swg 等文件中找到。但是，对于许多目标语言而言，类型映射都隐藏在复杂的宏后面，因此，查看默认类型映射或任何与此相关的类型映射的最佳方法是在任何接口文件上运行 `swig -E` 来查看预处理后的输出。最后，查看正在使用的类型映射匹配规则的最佳方法是通过稍后介绍的[调试类型映射匹配模式](http://swig.org/Doc3.0/Typemaps.html#Typemaps_debugging_search) 选项。
+> 探索默认类型映射的最佳方法是查看已为特定语言模块定义的映射。类型映射定义通常可以在 SWIG 库的 `java.swg`、`csharp.swg` 等文件中找到。但是，对于许多目标语言而言，类型映射都隐藏在复杂的宏后面，因此，查看默认类型映射或任何与此相关的类型映射的最佳方法是在任何接口文件上运行 `swig -E` 来查看预处理后的输出。最后，查看正在使用的类型映射匹配规则的最佳方法是通过稍后介绍的[调试类型映射匹配模式](http://swig.org/Doc3.0/Typemaps.html#Typemaps_debugging_search)选项。
 >
 > **注意兼容性**：默认的类型映射匹配规则是在 SWIG-2.0.0 中从稍微简单的方案中修改的，以匹配当前的 C++ 类模板偏特化匹配规则。
 
@@ -1140,7 +1142,7 @@ For non-default typemaps, one might expect SWIG to follow the fully specialized 
 
 > 请注意，模板和类型映射匹配规则对于所有默认类型映射都不相同，例如，对于数组。
 >
-> 对于非默认类型映射，可能希望 SWIG 遵循完全特化的模板规则。这几乎是事实，但事实并非如此。考虑一个与早期的偏特化模板非常相似的示例，但是这次有一个完全专用的模板：
+> 对于非默认类型映射，可能希望 SWIG 遵循完全特化的模板规则。这几乎是事实，但事实并非如此。考虑一个与早期的偏特化模板非常相似的示例，但是这次有一个完全特化的模板：
 
 ```c++
 template <typename T> struct Y       { void a(); };
@@ -1149,7 +1151,7 @@ template <> struct Y< int const & >  { void b(); };
 
 Only the one type matches the specialized template exactly:
 
-> 只有一种类型与专用模板完全匹配：
+> 只有一种类型与特化模板完全匹配：
 
 ```c++
 Y< int & >             y1;  y1.a();
@@ -1158,7 +1160,7 @@ Y< int const *const& > y3;  y3.a();
 Y< int const& >        y4;  y4.b(); // fully specialized match
 ```
 
-Given typemaps with the same types used for the template declared above, where T is again analogous to SWIGTYPE:
+Given typemaps with the same types used for the template declared above, where `T` is again analogous to SWIGTYPE:
 
 > 给定具有与上面声明的模板相同类型的类型映射，其中 `T` 再次类似于 `SWIGTYPE`：
 
@@ -1200,7 +1202,7 @@ int const&        // matches non-default typemap int &
 
 There are other subtle differences such as typedef handling, but at least it should be clear that the typemap matching rules are similar to those for specialized template handling.
 
-> 还有其他一些细微的差异，例如 `typedef` 处理，但至少应该清楚的是，类型映射匹配规则类似于专门模板处理的规则。
+> 还有其他一些细微的差异，例如 `typedef` 处理，但至少应该清楚的是，类型映射匹配规则类似于特化模板处理的规则。
 
 ### 11.3.6 调试类型映射模式匹配
 
@@ -1212,7 +1214,7 @@ For example, consider some of the code used in the [Typedef reductions](http://s
 
 > 有两个有用的调试命令行选项可用于调试类型映射：`-debug-tmsearch` 和 `-debug-tmused`。
 >
-> `-debug-tmsearch` 选项是用于调试类型映射搜索的详细选项。这对于观察实际的模式匹配过程以及调试使用哪种类型映射非常有用。该选项显示在成功进行模式匹配之前要查找的所有类型映射和类型。由于显示内容包括对包装所需的每种类型的搜索，因此显示的信息量可能很大。通常，你将在显示的信息中手动搜索感兴趣的特定类型。
+> `-debug-tmsearch` 选项是用于调试类型映射搜索的详细选项。这对于观察实际的模式匹配过程，以及调试使用哪种类型映射非常有用。该选项显示在成功进行模式匹配之前要查找的所有类型映射和类型。由于显示内容包括对包装所需的每种类型的搜索，因此显示的信息量可能很大。通常，你将在显示的信息中手动搜索感兴趣的特定类型。
 >
 > 例如，考虑已经讨论过的[还原 `typedef`](http://swig.org/Doc3.0/Typemaps.html#Typemaps_typedef_reductions)章节中使用的一些代码：
 
@@ -1264,12 +1266,12 @@ showing that the best default match supplied by SWIG is the `SWIGTYPE []` typema
 
 This information might meet your debugging needs, however, you might want to analyze further. If you next invoke SWIG with the `-E` option to display the preprocessed output, and search for the particular typemap used, you'll find the full typemap contents (example shown below for Python):
 
-> 表明 SWIG 提供的最佳默认匹配项是 `SWIGTYPE []` 类型映射。如示例所示，成功匹配以下列简化格式之一显示使用的类型映射，包括类型映射方法，类型和可选名称：
+> 表明 SWIG 提供的最佳默认匹配项是 `SWIGTYPE []` 类型映射。如示例所示，成功匹配以下列简化格式之一显示使用的类型映射，包括类型映射方法、类型和可选名称：
 >
 > * `Using: %typemap(method) type name`
 > * `Using: %typemap(method) type name = type2 name2`
 > * `Using: %apply type2 name2 { type name }`
-
+>
 > 此信息可能满足你的调试需求，但是，你可能需要进一步分析。如果接下来使用 `-E` 选项调用 SWIG 以显示预处理后的输出，并搜索所使用的特定类型映射，则将找到完整的类型映射内容（以下示例显示在 Python 中）：
 
 ```
@@ -1381,7 +1383,7 @@ The following observations about what is displayed can be noted (the same applie
 >
 > * 显示了相关的类型映射，但是对于复制类型映射，将显示适当的 `%typemap` 或 `%apply`，例如，`check` 和 `in` 类型映射。
 > * 类型映射修饰符未显示，例如，`arginit` 类型映射中的 `noblock = 1` 修饰符。
-> * 确切的 `%apply` 语句可能看起来与实际代码不同。例如，未显示 `const char * another_value`，因为此处不相关。同样，类型的显示可能略有不同——`char const *` 而不是 `const char *`。
+> * 确切的 `%apply` 语句可能看起来与实际代码不同。例如，未显示 `const char* another_value`，因为此处不相关。同样，类型的显示可能略有不同——`char const*` 而不是 `const char*`。
 
 ## 11.4 代码生成规则
 
@@ -1434,7 +1436,7 @@ Of course, any variables that you declare inside a typemap are destroyed as soon
 
 Occasionally, typemap code will be specified using a few alternative forms. For example:
 
-> 当然，你在类型映射中声明的任何变量都将在该类型映射代码执行后立即销毁（它们对于包装器函数的其他部分或其他可能使用相同变量名的类型映射不可见）。
+> 当然，你在类型映射中声明的任何变量都将在该类型映射代码执行后立即销毁（它们对于包装器函数的其他部分，或其他可能使用相同变量名的类型映射不可见）。
 >
 > 有时，会使用一些其他形式来指定类型映射代码。例如：
 
@@ -1456,7 +1458,7 @@ These three forms are mainly used for cosmetics--the specified code is not enclo
 
 Sometimes it is useful to declare a new local variable that exists within the scope of the entire wrapper function. A good example of this might be an application in which you wanted to marshal strings. Suppose you had a C++ function like this
 
-> 有时，声明存在于整个包装器函数范围内的新局部变量很有用。一个很好的例子就是你想在其中封送字符串的应用程序。假设你有一个这样的 C++ 函数
+> 有时，声明存在于整个包装器函数范围内的新局部变量很有用。一个很好的例子就是你想在其中传递字符串的应用程序。假设你有一个这样的 C++ 函数
 
 ```c++
 int foo(std::string *s);
@@ -1464,7 +1466,7 @@ int foo(std::string *s);
 
 and you wanted to pass a native string in the target language as an argument. For instance, in Perl, you wanted the function to work like this:
 
-> 并且你想传递目标语言中的本地字符串作为参数。例如，在 Perl 中，你希望函数像这样工作：
+> 并且你想传递目标语言中的原生字符串作为参数。例如，在 Perl 中，你希望函数像这样工作：
 
 ```perl
 $x = foo("Hello World");
@@ -1555,7 +1557,7 @@ wrap_foo() {
 
 There is an exception: if the variable name starts with the `_global_` prefix, the argument number is not appended. Such variables can be used throughout the generated wrapper function. For example, the above typemap could be rewritten to use `_global_temp` instead of `temp` and the generated code would then contain a single `_global_temp` variable instead of `temp1`, `temp2` and `temp3`:
 
-> 有一个例外：如果变量名以 `_global_` 前缀开头，则不附加参数编号。此类变量可在整个生成的包装器函数中使用。例如，上面的类型映射可以重写为使用 `_global_temp` 而不是 `temp`，然后生成的代码将包含单个 `_global_temp` 变量而不是 `temp1`，`temp2` 和 `temp3`：
+> 有一个例外：如果变量名以 `_global_` 前缀开头，则不附加参数编号。此类变量可在整个生成的包装器函数中使用。例如，上面的类型映射可以重写为使用 `_global_temp` 而不是 `temp`，然后生成的代码将包含单个 `_global_temp` 变量而不是 `temp1`、`temp2` 和 `temp3`：
 
 ```
 %typemap(in) std::string * (std::string _global_temp) {
@@ -1594,21 +1596,21 @@ Within all typemaps, the following special variables are expanded. This is by no
 | Variable         | Meaning                                                                                                                                                        |
 | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `$n`             | A C local variable corresponding to type *n* in the typemap pattern.                                                                                           |
-| `$argnum`          | Argument number. Only available in typemaps related to argument conversion                                                                                     |
+| `$argnum`        | Argument number. Only available in typemaps related to argument conversion                                                                                     |
 | `$n_name`        | Argument name                                                                                                                                                  |
-| $*n*_type        | Real C datatype of type *n*.                                                                                                                                   |
-| $*n*_ltype       | ltype of type *n*                                                                                                                                              |
-| $*n*_mangle      | Mangled form of type *n*. For example `_p_Foo`                                                                                                                 |
-| $*n*_descriptor  | Type descriptor structure for type *n*. For example`SWIGTYPE_p_Foo`. This is primarily used when interacting with the run-time type checker (described later). |
-| $**n*_type       | Real C datatype of type *n* with one pointer removed.                                                                                                          |
-| $**n*_ltype      | ltype of type *n* with one pointer removed.                                                                                                                    |
-| $**n*_mangle     | Mangled form of type *n* with one pointer removed.                                                                                                             |
-| $**n*_descriptor | Type descriptor structure for type *n* with one pointer removed.                                                                                               |
-| $&*n*_type       | Real C datatype of type *n* with one pointer added.                                                                                                            |
-| $&*n*_ltype      | ltype of type *n* with one pointer added.                                                                                                                      |
-| $&*n*_mangle     | Mangled form of type *n* with one pointer added.                                                                                                               |
-| $&*n*_descriptor | Type descriptor structure for type *n* with one pointer added.                                                                                                 |
-| $*n*_basetype    | Base typename with all pointers and qualifiers stripped.                                                                                                       |
+| `$n_type`        | Real C datatype of type *n*.                                                                                                                                   |
+| `$n_ltype`       | ltype of type *n*                                                                                                                                              |
+| `$n_mangle`      | Mangled form of type *n*. For example `_p_Foo`                                                                                                                 |
+| `$n_descriptor`  | Type descriptor structure for type *n*. For example`SWIGTYPE_p_Foo`. This is primarily used when interacting with the run-time type checker (described later). |
+| `$*n_type`       | Real C datatype of type *n* with one pointer removed.                                                                                                          |
+| `$*n_ltype`      | ltype of type *n* with one pointer removed.                                                                                                                    |
+| `$*n_mangle`     | Mangled form of type *n* with one pointer removed.                                                                                                             |
+| `$*n_descriptor` | Type descriptor structure for type *n* with one pointer removed.                                                                                               |
+| `$&n_type`       | Real C datatype of type *n* with one pointer added.                                                                                                            |
+| `$&n_ltype`      | ltype of type *n* with one pointer added.                                                                                                                      |
+| `$&n_mangle`     | Mangled form of type *n* with one pointer added.                                                                                                               |
+| `$&n_descriptor` | Type descriptor structure for type *n* with one pointer added.                                                                                                 |
+| `$n_basetype`    | Base typename with all pointers and qualifiers stripped.                                                                                                       |
 
 Within the table, `$n` refers to a specific type within the typemap specification. For example, if you write this
 
@@ -1636,7 +1638,7 @@ Substitutions related to types and names always fill in values from the actual c
 
 > 那么 `$1` 指向 `int argc`，`$2` 指向 `char *argv[]`。
 >
-> 与类型和名称相关的替换总是填充匹配的实际代码中的值。当一个类型映射可能匹配多个 C 数据类型时，这很有用。例如：
+> 与类型和名称相关的替换总是填充匹配的实际代码中的值。当一个类型映射可能匹配多个 C 数据类型时很有用。例如：
 
 ```
 %typemap(in)  int, short, long {
@@ -1672,7 +1674,7 @@ If necessary, type related substitutions can also be used when declaring locals.
 >
 > 诸如 `$&1_type` 和 `$*1_type` 之类的变量用于通过删除或添加指针来安全地修改类型。尽管在大多数类型映射中不需要，但是有时有时需要这些替换才能正确处理在指针和值之间转换值的类型映射。
 >
-> 如有必要，在声明本地变量时也可以使用类型相关的替换。例如：
+> 如有必要，在声明局部变量时也可以使用类型相关的替换。例如：
 
 ```
 %typemap(in) int * ($*1_type temp) {
@@ -1701,7 +1703,7 @@ int (*)[20] temp;
 
 This is illegal C syntax and won't compile. There is currently no straightforward way to work around this problem in SWIG due to the way that typemap code is expanded and processed. However, one possible workaround is to simply pick an alternative type such as `void *` and use casts to get the correct type when needed. For example:
 
-> 这是非法的 C 语法，不会编译。由于类型映射代码的扩展和处理方式，当前在 SWIG 中没有解决此问题的简单方法。然而，一种可能的解决方法是简单地选择一种替代类型，例如 `void *`，并在需要时使用强制类型转换来获取正确的类型。例如：
+> 这是非法的 C 语法，不会被编译。由于类型映射代码的扩展和处理方式，当前在 SWIG 中没有解决此问题的简单方法。然而，一种可能的解决方法是简单地选择一种替代类型，例如 `void *`，并在需要时使用强制类型转换来获取正确的类型。例如：
 
 ```
 %typemap(in) int [10][20] {
@@ -1729,13 +1731,13 @@ Another approach, which only works for arrays is to use the `$1_basetype` substi
 
 Special variable macros are like macro functions in that they take one or more input arguments which are used for the macro expansion. They look like macro/function calls but use the special variable `$` prefix to the macro name. Note that unlike normal macros, the expansion is not done by the preprocessor, it is done during the SWIG parsing/compilation stages. The following special variable macros are available across all language modules.
 
-> 特殊变量宏就像宏函数一样，它们采用一个或多个用于宏扩展的输入参数。它们看起来像是宏/函数调用，但是在宏名称中使用特殊变量 `$` 前缀。请注意，与普通宏不同，扩展不是由预处理器完成的，而是在 SWIG 解析/编译阶段完成的。以下特殊变量宏可在所有语言模块中使用。
+> 特殊变量宏就像宏函数一样，它们接受一个或多个用于宏扩展的输入参数。它们看起来像是宏或函数调用，但是在宏名称中使用特殊变量 `$` 前缀。请注意，与普通宏不同，扩展不是由预处理器完成的，而是在 SWIG 解析或编译阶段完成的。以下特殊变量宏可在所有语言模块中使用。
 
 #### 11.4.4.1 `$descriptor(type)`
 
 This macro expands into the type descriptor structure for any C/C++ type specified in `type`. It behaves like the `$1_descriptor` special variable described above except that the type to expand is taken from the macro argument rather than inferred from the typemap type. For example, `$descriptor(std::vector<int> *)` will expand into `SWIGTYPE_p_std__vectorT_int_t`. This macro is mostly used in the scripting target languages and is demonstrated later in the [Run-time type checker usage](http://swig.org/Doc3.0/Typemaps.html#Typemaps_runtime_type_checker_usage) section.
 
-> 这个宏扩展为 `type` 中指定的任何 C/C++ 类型的类型描述符结构。它的行为类似于上述的 `$1_descriptor` 特殊变量，不同之处在于要扩展的类型是从宏参数中获取的，而不是从类型映射类型中推断出来的。例如，`$descriptor(std::vector<int> *)` 将扩展为 `SWIGTYPE_p_std__vectorT_int_t`。该宏主要用于脚本目标语言，稍后在[运行时类型检查器用法](http://swig.org/Doc3.0/Typemaps.html#Typemaps_runtime_type_checker_usage)章节中进行演示。
+> 这个宏扩展为 `type` 中指定的任何 C/C++ 类型的类型描述符结构。它的行为类似于上述的 `$1_descriptor` 特殊变量，不同之处在于要扩展的类型是从宏参数中获取的，而不是从类型映射类型中推断出来的。例如，`$descriptor(std::vector<int> *)` 将扩展为 `SWIGTYPE_p_std__vectorT_int_t`。该宏主要用于脚本化目标语言，稍后在[运行时类型检查器用法](http://swig.org/Doc3.0/Typemaps.html#Typemaps_runtime_type_checker_usage)章节中进行演示。
 
 #### 11.4.4.2 `$typemap(method, typepattern)`
 
@@ -1884,7 +1886,7 @@ At this time, only zero or one arguments may be converted. When `numinputs` is s
 
 **Compatibility note:** Specifying `numinputs=0` is the same as the old "ignore" typemap.
 
-> 此时，只能转换零个或一个参数。当 `numinputs` 设置为 0 时，该参数将被有效忽略，并且无法从目标语言中提供。进行 C/C++ 调用时，仍然需要该参数，并且上面的类型映射显示所使用的值是从本地声明的名为 `temp` 的变量中获取的。通常不指定 `numinputs`，因此默认值为 1，即从目标语言到 C/C++ 调用使用时，参数数量是一对一的映射。[多参数类型映射](http://swig.org/Doc3.0/Typemaps.html#Typemaps_multi_argument_typemaps)提供了类似的概念，其中可以为多个相邻的 C更改从目标语言映射到 C/C++ 的参数数量 / C++ 参数。
+> 此时，只能转换零个或一个参数。当 `numinputs` 设置为 0 时，该参数将被有效忽略，并且无法从目标语言中提供。进行 C/C++ 调用时，仍然需要该参数，并且上面的类型映射显示所使用的值是从局部声明的名为 `temp` 的变量中获取的。通常不指定 `numinputs`，因此默认值为 `1`，即从目标语言到 C/C++ 调用使用时，参数数量是一对一的映射。[多参数类型映射](http://swig.org/Doc3.0/Typemaps.html#Typemaps_multi_argument_typemaps)提供了类似的概念，其中可以为多个相邻的 C更改从目标语言映射到 C/C++ 的参数数量 / C++ 参数。
 >
 > **注意兼容性**：指定 `numinputs = 0` 与旧的 `ignore` 类型映射相同。
 
@@ -1902,17 +1904,17 @@ The "typecheck" typemap is used to support overloaded functions and methods. It 
 
 For typechecking, the `$1` variable is always a simple integer that is set to 1 or 0 depending on whether or not the input argument is the correct type. Set to 1 if the input argument is the correct type otherwise set to 0.
 
-If you define new "in" typemaps *and* your program uses overloaded methods, you should also define a collection of "typecheck" typemaps. More details about this follow in the [Typemaps and overloading](http://swig.org/Doc3.0/Typemaps.html#Typemaps_overloading)section.
+If you define new "in" typemaps *and* your program uses overloaded methods, you should also define a collection of "typecheck" typemaps. More details about this follow in the [Typemaps and overloading](http://swig.org/Doc3.0/Typemaps.html#Typemaps_overloading) section.
 
-> 对于类型检查，`$1` 变量始终是一个简单整数，根据输入参数是否为正确的类型将其设置为 1 或 0。如果输入参数是正确的类型，则设置为 1，否则设置为 0。
+> 对于类型检查，`$1` 变量始终是一个简单整数，根据输入参数是否为正确的类型将其设置为 `1` 或 `0`。如果输入参数是正确的类型，则设置为 `1`，否则设置为 `0`。
 >
-> 如果你定义新的 `in` 类型映射*，并且你的程序使用重载方法，则还应该定义 `typecheck` 类型映射的集合。有关此问题的更多详细信息，请参见[类型映射与重载](http://swig.org/Doc3.0/Typemaps.html#Typemaps_overloading)章节。
+> 如果你定义新的 `in` 类型映射，并且你的程序使用重载方法，则还应该定义 `typecheck` 类型映射的集合。有关此问题的更多详细信息，请参见[类型映射与重载](http://swig.org/Doc3.0/Typemaps.html#Typemaps_overloading)章节。
 
 ### 11.5.3 `out` 类型映射
 
 The "out" typemap is used to convert function/method return values from C into the target language. For example:
 
-> `out` 类型映射用于将函数/方法的返回值从 C 转换为目标语言。例如：
+> `out` 类型映射用于将函数或方法的返回值从 C 转换为目标语言。例如：
 
 ```
 %typemap(out) int {
@@ -1931,7 +1933,7 @@ $symname          - Name of function/method being wrapped
 
 The "out" typemap supports an optional attribute flag called "optimal". This is for code optimisation and is detailed in the [Optimal code generation when returning by value](http://swig.org/Doc3.0/Typemaps.html#Typemaps_optimal) section.
 
-> `out` 类型映射支持名为 `optimal` 的可选属性标志。这是用于代码优化的，在[按值返回时的最佳代码生成](http://swig.org/Doc3.0/Typemaps.html#Typemaps_optimal)部分中进行了详细说明。
+> `out` 类型映射支持名为 `optimal` 的可选属性标志。这是用于代码优化的，在[按值返回时的最佳代码生成](http://swig.org/Doc3.0/Typemaps.html#Typemaps_optimal)章节中进行了详细说明。
 
 ### 11.5.4 `arginit` 类型映射
 
@@ -1966,7 +1968,7 @@ Once a default typemap has been applied to an argument, all arguments that follo
 
 > 此类型映射的主要用途是更改默认参数的包装，或为不支持默认参数的语言（例如 C）指定默认参数。不支持可选参数的目标语言（例如 Java 和 C#）实际上会忽略此类型映射所指定的值，因为必须提供所有参数。
 >
-> 将默认类型映射应用于参数后，后面的所有参数都必须具有默认值。有关默认参数包装的更多信息，请参见[默认/可选参数](http://swig.org/Doc3.0/SWIG.html#SWIG_default_args)部分。
+> 将默认类型映射应用于参数后，后面的所有参数都必须具有默认值。有关默认参数包装的更多信息，请参见[默认与可选参数](http://swig.org/Doc3.0/SWIG.html#SWIG_default_args)章节。
 
 ### 11.5.6 `check` 类型映射
 
@@ -1982,7 +1984,7 @@ The "check" typemap is used to supply value checking code during argument conver
 }
 ```
 
-### 11.5.7 `"argout"` 类型映射
+### 11.5.7 `argout` 类型映射
 
 The "argout" typemap is used to return values from arguments. This is most commonly used to write wrappers for C/C++ functions that need to return multiple values. The "argout" typemap is almost always combined with an "in" typemap---possibly to ignore the input value. For example:
 
@@ -2002,7 +2004,7 @@ The "argout" typemap is used to return values from arguments. This is most commo
 
 The following special variables are available.
 
-> 可以使用下列特殊变量
+> 可以使用下列特殊变量。
 
 ```
 $result           - Result object returned to target language.
@@ -2018,11 +2020,11 @@ See the `typemaps.i` library file for examples.
 >
 > 有关示例，请参见 `typemaps.i` 库文件。
 
-### 11.5.8 `"freearg"` 类型映射
+### 11.5.8 `freearg` 类型映射
 
 The "freearg" typemap is used to cleanup argument data. It is only used when an argument might have allocated resources that need to be cleaned up when the wrapper function exits. The "freearg" typemap usually cleans up argument resources allocated by the "in" typemap. For example:
 
-> `freearg` 类型映射用于清除参数数据。仅当参数可能分配了包装器函数退出时需要清除的资源时，才使用它。通常，`freearg` 类型映射会清除 `in` 类型映射分配的参数资源。例如：
+> `freearg` 类型映射用于清除参数数据。仅当参数可能分配了包装器函数退出时需要清除的资源时才使用它。通常，`freearg` 类型映射会清除 `in` 类型映射分配的参数资源。例如：
 
 ```
 // Get a list of integers
@@ -2060,7 +2062,7 @@ The "newfree" typemap is used in conjunction with the `%newobject` directive and
 string *foo();
 ```
 
-See [Object ownership and %newobject](http://swig.org/Doc3.0/Customization.html#Customization_ownership) for further details.
+See [Object ownership and `%newobject`](http://swig.org/Doc3.0/Customization.html#Customization_ownership) for further details.
 
 > 更多细节请查看[对象所有权和 `%newobject`](http://swig.org/Doc3.0/Customization.html#Customization_ownership)章节。
 
@@ -2094,7 +2096,7 @@ This approach is an alternative to using the "newfree" typemap and `%newobject` 
 
 The "memberin" typemap is used to copy data from *an already converted input value* into a structure member. It is typically used to handle array members and other special cases. For example:
 
-> `memberin` 类型映射用于将数据从*已经转换的输入值*复制到结构成员中。它通常用于处理数组成员和其他特殊情况。例如：
+> `memberin` 类型映射用于将数据从*已经转换的输入值*复制到结构体成员中。它通常用于处理数组成员和其他特殊情况。例如：
 
 ```
 %typemap(memberin) int [4] {
@@ -2122,7 +2124,7 @@ The "varout" typemap is used to convert a C/C++ object to an object in the targe
 
 The "throws" typemap is only used when SWIG parses a C++ method with an exception specification or has the `%catches` feature attached to the method. It provides a default mechanism for handling C++ methods that have declared the exceptions they will throw. The purpose of this typemap is to convert a C++ exception into an error or exception in the target language. It is slightly different to the other typemaps as it is based around the exception type rather than the type of a parameter or variable. For example:
 
-> 仅当 SWIG 解析具有异常规范的 C++ 方法或将 `%catches` 功能附加到该方法时，才使用 `throw` 类型映射。它提供了一种默认机制来处理声明了将要抛出的异常的 C++ 方法。此类型映射的目的是将 C++ 异常转换为目标语言中的错误或异常。它与其他类型映射略有不同，因为它基于异常类型而不是参数或变量的类型。例如：
+> 仅当 SWIG 解析具有异常规范的 C++ 方法，或将 `%catches` 功能附加到该方法时才使用 `throw` 类型映射。它提供了一种默认机制来处理声明了将要抛出的异常的 C++ 方法。此类型映射的目的是将 C++ 异常转换为目标语言中的错误或异常。它与其他类型映射略有不同，因为它基于异常类型而不是参数或变量的类型。例如：
 
 ```
 %typemap(throws) const char * %{
@@ -2150,7 +2152,7 @@ catch(char const *_e) {
 
 Note that if your methods do not have an exception specification yet they do throw exceptions, SWIG cannot know how to deal with them. For a neat way to handle these, see the [Exception handling with %exception](http://swig.org/Doc3.0/Customization.html#Customization_exception) section.
 
-> 请注意，如果你的方法没有异常规范，但它们确实会引发异常，则 SWIG 无法知道如何处理它们。有关处理这些错误的巧妙方法，请参阅[使用 `%exception` 处理异常](http://swig.org/Doc3.0/Customization.html#Customization_exception)部分。
+> 请注意，如果你的方法没有异常规范，但它们确实会引发异常，则 SWIG 无法知道如何处理它们。有关处理这些错误的巧妙方法，请参阅[使用 `%exception` 处理异常](http://swig.org/Doc3.0/Customization.html#Customization_exception)章节。
 
 ## 11.6 一些类型映射示例
 
@@ -2288,7 +2290,7 @@ Another common use of array typemaps is to provide support for array structure m
 
 > 在这种情况下，使用 `malloc` 分配数组。然后，在调用函数后，使用 `freearg` 类型映射释放参数。
 >
-> 数组类型映射的另一个常见用途是为数组结构成员提供支持。由于 C 语言中的指针和数组之间存在细微的差异，因此你不能只是“分配”给数组结构成员。相反，你必须将元素显式复制到数组中。例如，假设你具有这样的结构体：
+> 数组类型映射的另一个常见用途是为数组结构体成员提供支持。由于 C 语言中的指针和数组之间存在细微的差异，因此你不能只是“分配”给数组结构体成员。相反，你必须将元素显式复制到数组中。例如，假设你具有这样的结构体：
 
 ```c
 struct SomeObject {
@@ -2327,7 +2329,7 @@ The memberin typemap is used to set a structure member from data that has alread
 
 When combined with the earlier typemaps for arrays, the combination of the "in" and "memberin" typemap allows the following usage:
 
-> `memberin` 类型映射用于从已经从目标语言转换为 C 的数据中设置结构成员。在这种情况下，`$input` 是局部变量，用于存储转换后的输入数据。然后，此类型映射将此数据复制到结构体中。
+> `memberin` 类型映射用于从已经从目标语言转换为 C 的数据中设置结构体成员。在这种情况下，`$input` 是局部变量，用于存储转换后的输入数据。然后，此类型映射将此数据复制到结构体中。
 >
 > 当与早期的数组类型映射结合使用时，`in` 和 `memberin` 类型映射的组合允许以下用法：
 
@@ -2338,7 +2340,7 @@ When combined with the earlier typemaps for arrays, the combination of the "in" 
 
 Related to structure member input, it may be desirable to return structure members as a new kind of object. For example, in this example, you will get very odd program behavior where the structure member can be set nicely, but reading the member simply returns a pointer:
 
-> 与结构体成员输入有关，可能希望将结构成员作为一种新的对象返回。例如，在此示例中，你将获得非常奇怪的程序行为，可以很好地设置结构成员，但是读取成员仅返回一个指针：
+> 与结构体成员输入有关，可能希望将结构体成员作为一种新的对象返回。例如，在此示例中，你将获得非常奇怪的程序行为，可以很好地设置结构体成员，但是读取成员仅返回一个指针：
 
 ```python
 >>> s = SomeObject()
@@ -2367,7 +2369,7 @@ Now, you will find that member access is quite nice:
 
 > 现在，你可以发现成员访问变的相当正常：
 
-```
+```python
 >>> s = SomeObject()
 >>> s.x = [1, 2.5, 5, 10]
 >>> print s.x
@@ -2376,7 +2378,7 @@ Now, you will find that member access is quite nice:
 
 **Compatibility Note:** SWIG1.1 used to provide a special "memberout" typemap. However, it was mostly useless and has since been eliminated. To return structure members, simply use the "out" typemap.
 
-> **注意兼容性**：SWIG1.1 过去提供特殊的 `memberout` 类型映射。但是，它几乎没有用，因此已被淘汰。要返回结构成员，只需使用 `out` 类型映射。
+> **注意兼容性**：SWIG1.1 过去提供特殊的 `memberout` 类型映射。但是，它几乎没有用，因此已被淘汰。要返回结构体成员，只需使用 `out` 类型映射。
 
 ### 11.6.2 用类型映射的实现限制
 
@@ -2490,7 +2492,7 @@ XX(const XX &)
 
 Note that three objects are being created as well as an assignment. Wouldn't it be great if the `XX::create()` method was the only time a constructor was called? As the method returns by value, this is asking a lot and the code that SWIG generates by default makes it impossible for the compiler to use *return value optimisation (RVO)*. However, this is where the "optimal" attribute in the "out" typemap can help out. If the typemap code is kept the same and just the "optimal" attribute specified like this:
 
-> 请注意，正在创建三个对象以及一个分配。如果唯一调用构造函数的方法是 `XX::create()` 方法，那不是很好吗？由于该方法按值返回，因此要求很多，而 SWIG 默认生成的代码使编译器无法使用*返回值优化（RVO）*。但是，这是 `out` 类型映射中的 `optimal` 属性可以提供帮助的地方。如果类型映射代码保持相同，并且仅指定 `optimal` 属性，如下所示：
+> 请注意，正在创建三个对象以及一个分配。如果唯一调用构造函数的方法是 `XX::create()` 方法，那不是很好吗？由于该方法按值返回，因此要求很多，而 SWIG 默认生成的代码使编译器无法使用*返回值优化*（RVO）。但是，这是 `out` 类型映射中的 `optimal` 属性可以提供帮助的地方。如果类型映射代码保持相同，并且仅指定 `optimal` 属性，如下所示：
 
 ```
 %typemap(out, optimal="1") SWIGTYPE %{
@@ -2652,7 +2654,7 @@ Within the typemap code, the variables `$1`, `$2`, and so forth refer to each ty
 
 Multi-argument typemaps always have precedence over simple typemaps and SWIG always performs longest-match searching. Therefore, you will get the following behavior:
 
-> 在类型映射代码中，变量 `$1`、`$2` 等引用映射中的每种类型。所有通常的替换都适用——只需在变量名称上使用适当的 `$1` 或 `$2` 前缀即可（例如 `$2_type`，`$1_ltype` 等）
+> 在类型映射代码中，变量 `$1`、`$2` 等引用映射中的每种类型。所有通常的替换都适用——只需在变量名称上使用适当的 `$1` 或 `$2` 前缀即可（例如 `$2_type`、`$1_ltype` 等）
 >
 > 多参数类型映射始终优先于简单类型映射，而 SWIG 始终执行最长匹配搜索。因此，你将得到以下行为：
 
@@ -2697,7 +2699,7 @@ Although multi-argument typemaps may seem like an exotic, little used feature, t
 
 > 不要忘记提供合适的[重载函数的类型映射](http://swig.org/Doc3.0/Typemaps.html#Typemaps_overloading)，例如上面为 `foo` 显示的 `%typecheck`。仅当函数在 C++ 中重载时才需要。
 >
-> 尽管多参数类型映射可能看起来像是一种奇特的，很少使用的功能，但在某些情况下它们是有意义的。首先，假设你想包装类似于低级 `read()` 和 `write()` 系统调用的函数。例如：
+> 尽管多参数类型映射可能看起来像是一种奇特的、很少使用的功能，但在某些情况下它们是有意义的。首先，假设你想包装类似于低级 `read()` 和 `write()` 系统调用的函数。例如：
 
 ```c++
 typedef unsigned int size_t;
@@ -2776,7 +2778,7 @@ Now, in a script, you can write code that simply passes buffers as strings like 
 
 A number of multi-argument typemap problems also arise in libraries that perform matrix-calculations--especially if they are mapped onto low-level Fortran or C code. For example, you might have a function like this:
 
-> 在执行矩阵计算的库中，还会出现许多多参数类型映射问题，尤其是如果将它们映射到低级 Fortran 或 C 代码上。例如，你可能具有以下功能：
+> 在执行矩阵计算的库中，还会出现许多多参数类型映射问题，尤其是如果将它们映射到低级 Fortran 或 C 代码上。例如，你可能具有以下函数：
 
 ```c
 int is_symmetric(double *mat, int rows, int columns);
@@ -2800,7 +2802,7 @@ In this case, you might want to pass some kind of higher-level object as an matr
 
 This kind of technique can be used to hook into scripting-language matrix packages such as Numeric Python. However, it should also be stressed that some care is in order. For example, when crossing languages you may need to worry about issues such as row-major vs. column-major ordering (and perform conversions if needed). Note that multi-argument typemaps cannot deal with non-consecutive C/C++ arguments; a workaround such as a helper function re-ordering the arguments to make them consecutive will need to be written.
 
-> 这种技术可用于连接脚本语言矩阵包，例如 Numeric Python。但是，还应该强调，一定要谨慎。例如，在使用多种语言时，你可能需要担心行优先与列优先的排序（并在需要时执行转换）。注意，多参数类型映射不能处理非连续的 C/C++ 参数。需要编写一种变通方法，例如帮助函数，将参数重新排序以使其连续。
+> 这种技术可用于连接脚本语言矩阵包，例如 Numeric Python。但是，还应该强调，一定要谨慎。例如，在使用多种语言时，你可能需要担心行优先与列优先的排序（并在需要时执行转换）。注意，多参数类型映射不能处理非连续的 C/C++ 参数。需要编写一种变通方法，例如辅助函数，将参数重新排序以使其连续。
 
 ## 11.10 类型映射警告
 
@@ -2814,7 +2816,7 @@ The primary purpose of fragments is to reduce code bloat that repeated use of ty
 
 For example, if you have a very long typemap
 
-> 片段的主要目的是减少重复使用类型映射代码可能导致的代码膨胀。片段是代码片段，可以将其视为类型映射的代码依赖项。如果一个片段被多个类型映射使用，则该片段内的代码片段仅生成一次。通常可以通过将类型映射代码移入支持功能，然后将支持功能放入片段中来减少代码膨胀。
+> 片段的主要目的是减少重复使用类型映射代码可能导致的代码膨胀。片段是代码片段，可以将其视为类型映射的代码依赖项。如果一个片段被多个类型映射使用，则该片段内的代码片段仅生成一次。通常可以通过将类型映射代码移入支持函数，然后将支持函数放入片段中来减少代码膨胀。
 >
 > 例如，如果你的类型映射很长
 
@@ -2852,11 +2854,11 @@ the same marshalling code is often repeated in several typemaps, such as "in", "
 }
 ```
 
-When the "in" or "varin" typemaps for MyClass are required, the contents of the fragment called "AsMyClass" is added to the "header" section within the generated code, and then the typemap code is emitted. Hence, the method `AsMyClass` will be generated into the wrapper code before any typemap code that calls it.
+When the "in" or "varin" typemaps for `MyClass` are required, the contents of the fragment called "AsMyClass" is added to the "header" section within the generated code, and then the typemap code is emitted. Hence, the method `AsMyClass` will be generated into the wrapper code before any typemap code that calls it.
 
 To define a fragment you need a fragment name, a section name for generating the fragment code into, and the code itself. See [Code insertion blocks](http://swig.org/Doc3.0/SWIG.html#SWIG_nn42) for a full list of section names. Usually the section name used is "header". Different delimiters can be used:
 
-> 当需要 MyClass 的 `in` 或 `varin` 类型映射时，将名为 `AsMyClass` 的片段的内容添加到生成的代码中的 `header` 部分，然后发出该类型映射代码。因此，方法 `AsMyClass` 将在调用它的任何类型映射代码之前生成到包装器代码中。
+> 当需要 `MyClass` 的 `in` 或 `varin` 类型映射时，将名为 `AsMyClass` 的片段的内容添加到生成的代码中的 `header` 部分，然后发出该类型映射代码。因此，方法 `AsMyClass` 将在调用它的任何类型映射代码之前生成到包装器代码中。
 >
 > 要定义一个片段，你需要一个片段名称，用于将片段代码生成到其中的段名称以及代码本身。有关部分名称的完整列表，请参见[代码插入块](http://swig.org/Doc3.0/SWIG.html#SWIG_nn42)。通常，使用的节名称是 `header`。可以使用不同的定界符：
 
@@ -2879,6 +2881,8 @@ void foo(MyClass *a, MyClass *b);
 ```
 
 the generated code will look something like:
+
+> 将会产生类似下面的代码：
 
 ```c++
 MyClass *AsMyClass(PyObject *obj) {
@@ -2914,7 +2918,7 @@ only the first definition is used. In this way you can override the default frag
 
 4. A fragment can use one or more additional fragments, for example:
 
-> 仅使用第一个定义。这样，你可以通过在 `%include` 库之前定义片段来覆盖 SWIG 库中的默认片段。请注意，此行为与类型映射相反，后者以最后定义/应用的类型映射为准。片段遵循先进先出的约定，因为它们是全局的，而类型映射则是本地的。
+> 仅使用第一个定义。这样，你可以通过在 `%include` 库之前定义片段来覆盖 SWIG 库中的默认片段。请注意，此行为与类型映射相反，后者以最后定义或应用的类型映射为准。片段遵循先进先出的约定，因为它们是全局的，而类型映射则是局部的。
 >
 > 3. 片段名称不能包含逗号。
 > 4. 一个片段可以使用一个或多个其他片段，例如：
@@ -2998,7 +3002,7 @@ Most readers will probably want to skip the next two sub-sections on advanced fr
 
 Fragments can be *type specialized*. The syntax is as follows:
 
-> 片段可以*类型特化*。语法如下：
+> 片段可以是*类型特化*。语法如下：
 
 ```
 %fragment("name", "header") { ...a type independent fragment... }
@@ -3074,7 +3078,7 @@ Requirements for the type system:
 * Custom, language specific information can be attached to types.
 * Modules can be unloaded from the type system.
 
-> 大多数脚本语言在运行时都需要类型信息。此类型信息可以包括如何构造类型，如何垃圾回收类型以及类型之间的继承关系。如果语言接口不提供自己的类型信息存储，则生成的 SWIG 代码需要提供它。
+> 大多数脚本语言在运行时都需要类型信息。此类型信息可以包括如何构造类型，如何垃圾回收类型，以及类型之间的继承关系。如果语言接口不提供自己的类型信息存储，则生成的 SWIG 代码需要提供它。
 >
 > 类型系统要求：
 >
@@ -3092,7 +3096,7 @@ The run-time type checker is used by many, but not all, of SWIG's supported targ
 
 When pointers, arrays, and objects are wrapped by SWIG, they are normally converted into typed pointer objects. For example, an instance of `Foo *` might be a string encoded like this:
 
-> SWIG 支持的许多（但不是全部）目标语言都使用运行时类型检查器。运行时类型检查器功能不是必需的，因此不用于 Java 和 C# 之类的静态类型语言。基于脚本和方案的语言都依赖它，并且它构成了 SWIG 对这些语言的操作的关键部分。
+> SWIG 支持的许多（但不是全部）目标语言都使用运行时类型检查器。运行时类型检查器功能不是必需的，因此不用于 Java 和 C# 之类的静态类型语言。基于脚本和框架的语言都依赖它，并且它构成了 SWIG 对这些语言的操作的关键部分。
 >
 > 当指针，数组和对象由 SWIG 包装时，它们通常会转换为类型化的指针对象。例如，`Foo *` 的实例可能是这样编码的字符串：
 
@@ -3127,12 +3131,12 @@ When the class `FooBar` is organized in memory, it contains the contents of the 
 
 ```
 FooBar --> | -----------|  <-- Foo
-           |   int x    |
-           |------------|  <-- Bar
-           |   int y    |
-           |------------|
-           |   int z    |
-           |------------|
+           | int x |
+           | ----- |<-- Bar
+           | int y        |
+           | ------------ |
+           | int z        |
+           | ------------ |
 ```
 
 Because of the way that base class data is stacked together, the casting of a `Foobar *` to either of the base classes may change the actual value of the pointer. This means that it is generally not safe to represent pointers using a simple integer or a bare `void *`---type tags are needed to implement correct handling of pointer values (and to make adjustments when needed).
@@ -3153,9 +3157,9 @@ In this code, `SWIGTYPE_p_Foo` is the type descriptor that describes `Foo *`. Th
 
 The actual type code is in swigrun.swg, and gets inserted near the top of the generated swig wrapper file. The phrase "a type X that can cast into a type Y" means that given a type X, it can be converted into a type Y. In other words, X is a derived class of Y or X is a typedef of Y. The structure to store type information looks like this:
 
-> 在这段代码中，`SWIGTYPE_p_Foo` 是描述 `Foo *` 的类型描述符。类型描述符实际上是指向结构的指针，该结构包含有关要在目标语言中使用的类型名称的信息，等效类型名称的列表（通过 `typedef` 或继承）以及指针值处理信息（如果适用）。`SWIG_ConvertPtr()` 函数只是一个实用函数，它接受目标语言中的指针对象和类型描述符对象，并使用此信息生成 C++ 指针。`SWIG_IsOK` 宏检查错误的返回值，并且可以调用 `SWIG_exception_fail` 引发目标语言中的异常。但是，转换函数的确切名称和调用约定取决于目标语言（有关详细信息，请参见特定于语言的章节）。
+> 在这段代码中，`SWIGTYPE_p_Foo` 是描述 `Foo *` 的类型描述符。类型描述符实际上是指向结构体的指针，该结构体包含有关要在目标语言中使用的类型名称的信息，等效类型名称的列表（通过 `typedef` 或继承）以及指针值处理信息（如果适用）。`SWIG_ConvertPtr()` 函数只是一个实用函数，它接受目标语言中的指针对象和类型描述符对象，并使用此信息生成 C++ 指针。`SWIG_IsOK` 宏检查错误的返回值，并且可以调用 `SWIG_exception_fail` 引发目标语言中的异常。但是，转换函数的确切名称和调用约定取决于目标语言（有关详细信息，请参见特定于语言的章节）。
 >
-> 实际的类型代码在 `swigrun.swg` 中，并插入到生成的 swig 包装文件顶部附近。短语“可以转换为 `Y` 类型的 `X` 类型”表示给定 `X` 类型，可以将其转换为 `Y` 类型。换句话说，`X` 是 `Y` 的派生类，或者 `X` 是 `Y` 的 `typedef`。存储类型信息的结构如下所示：
+> 实际的类型代码在 `swigrun.swg` 中，并插入到生成的 swig 包装文件顶部附近。短语“可以转换为 `Y` 类型的 `X` 类型”表示给定 `X` 类型，可以将其转换为 `Y` 类型。换句话说，`X` 是 `Y` 的派生类，或者 `X` 是 `Y` 的 `typedef`。存储类型信息的结构体如下所示：
 
 ```c++
 /* Structure to store information on one type */
@@ -3184,13 +3188,13 @@ Another issue needing to be addressed is sharing type information between multip
 
 Each module has one swig_module_info structure which looks like this:
 
-> 每个 `swig_type_info` 都存储一个等效的类型的链表。这个双向链接列表中的每个条目都存储着一个指向另一个 `swig_type_info` 结构的指针，以及一个指向转换函数的指针。此转换函数用于解决 `FooBar` 类的上述问题，正确返回指向所需类型的指针。
+> 每个 `swig_type_info` 都存储一个等效的类型的链表。这个双向链接列表中的每个条目都存储着一个指向另一个 `swig_type_info` 结构体的指针，以及一个指向转换函数的指针。此转换函数用于解决 `FooBar` 类的上述问题，正确返回指向所需类型的指针。
 >
-> 我们需要解决的基本问题是验证和构建传递给函数的参数。因此，从上面回到 `SWIG_ConvertPtr()` 函数示例，我们期望的是 `Foo *`，并且需要检查 `obj0` 实际上是否为 `Foo *`。从前，`SWIGTYPE_p_Foo` 只是指向描述 `Foo *` 的 `swig_type_info` 结构的指针。因此，我们遍历附加到 `SWIGTYPE_p_Foo` 的 `swig_cast_info` 结构的链接列表。如果我们看到 `obj0` 的类型在链表中，则将对象传递给关联的转换函数，然后返回一个正数。如果我们到达链表的末尾但没有匹配项，则无法将 `obj0` 转换为 `Foo *` 并生成错误。
+> 我们需要解决的基本问题是验证和构建传递给函数的参数。因此，从上面回到 `SWIG_ConvertPtr()` 函数示例，我们期望的是 `Foo *`，并且需要检查 `obj0` 实际上是否为 `Foo *`。从前，`SWIGTYPE_p_Foo` 只是指向描述 `Foo *` 的 `swig_type_info` 结构体的指针。因此，我们遍历附加到 `SWIGTYPE_p_Foo` 的 `swig_cast_info` 结构体的链接列表。如果我们看到 `obj0` 的类型在链表中，则将对象传递给关联的转换函数，然后返回一个正数。如果我们到达链表的末尾但没有匹配项，则无法将 `obj0` 转换为 `Foo *` 并生成错误。
 >
-> 需要解决的另一个问题是在多个模块之间共享类型信息。更明确地说，我们需要为每种类型使用一个 `swig_type_info`。如果两个模块都使用该类型，则加载的第二个模块必须从已加载的模块中查找并使用 `swig_type_info` 结构。因为没有使用动态内存，而且转换信息的循环依赖关系，所以加载类型信息有些棘手，这里不再赘述。完整的描述在 `Lib/swiginit.swg` 文件中（并且在任何生成的文件的顶部附近）。
+> 需要解决的另一个问题是在多个模块之间共享类型信息。更明确地说，我们需要为每种类型使用一个 `swig_type_info`。如果两个模块都使用该类型，则加载的第二个模块必须从已加载的模块中查找并使用 `swig_type_info` 结构体。因为没有使用动态内存，而且转换信息的循环依赖关系，所以加载类型信息有些棘手，这里不再赘述。完整的描述在 `Lib/swiginit.swg` 文件中（并且在任何生成的文件的顶部附近）。
 >
-> 每个模块都有一个 `swig_module_info` 结构，如下所示：
+> 每个模块都有一个 `swig_module_info` 结构体，如下所示：
 
 ```c++
 /* Structure used to store module information
@@ -3208,7 +3212,7 @@ typedef struct swig_module_info {
 
 Each module stores an array of pointers to `swig_type_info` structures and the number of types in this module. So when a second module is loaded, it finds the `swig_module_info` structure for the first module and searches the array of types. If any of its own types are in the first module and have already been loaded, it uses those `swig_type_info` structures rather than creating new ones. These `swig_module_info` structures are chained together in a circularly linked list.
 
-> 每个模块存储一个指向 `swig_type_info` 结构体的指针数组以及该模块中类型的数量。因此，在加载第二个模块时，它将为第一个模块找到 `swig_module_info` 结构，并搜索类型数组。如果在第一个模块中有任何自己的类型并且已经被加载，则它使用那些 `swig_type_info` 结构体而不是创建新的结构。这些 `swig_module_info` 结构以循环链接列表的形式链接在一起。
+> 每个模块存储一个指向 `swig_type_info` 结构体的指针数组以及该模块中类型的数量。因此，在加载第二个模块时，它将为第一个模块找到 `swig_module_info` 结构体，并搜索类型数组。如果在第一个模块中有任何自己的类型并且已经被加载，则它使用那些 `swig_type_info` 结构体而不是创建新的结构体。这些 `swig_module_info` 结构体以循环链接列表的形式链接在一起。
 
 ### 11.12.2 使用
 
@@ -3258,7 +3262,7 @@ In certain cases, SWIG may not generate type-descriptors like you expect. For ex
 
 > `$descriptor(type)` 的主要用途是为容器对象和其他复杂数据结构编写类型映射时。参数有一些限制——即它必须是完全定义的 C 数据类型。它不能是任何特殊的类型映射变量。
 >
-> 在某些情况下，SWIG 可能不会生成你期望的类型描述符。例如，如果你以某种非标准的方式转换指针或使用接口文件和模块的异常组合，则可能会发现SWIG忽略了特定类型描述符的信息。为了解决这个问题，你可能需要使用 `%types` 指令。例如：
+> 在某些情况下，SWIG 可能不会生成你期望的类型描述符。例如，如果你以某种非标准的方式转换指针或使用接口文件和模块的异常组合，则可能会发现 SWIG 忽略了特定类型描述符的信息。为了解决这个问题，你可能需要使用 `%types` 指令。例如：
 
 ```
 %types(int *, short *, long *, float *, double *);
@@ -3367,7 +3371,7 @@ To support dynamic dispatch, SWIG first defines a general purpose type hierarchy
 
 > 动态调度函数的目的是根据参数类型选择适当的 C++ 函数，这是大多数 SWIG 目标语言都必须在运行时执行的任务。
 >
-> 动态调度函数的生成是一个比较棘手的事情。不仅必须考虑输入类型映射（这些类型映射可以从根本上改变接受的参数的类型），而且还必须以非常特定的顺序对重载方法进行排序和检查，以解决潜在的歧义。[SWIG 和 C++ ](http://swig.org/Doc3.0/SWIGPlus.html#SWIGPlus)一章中提供了有关此排名过程的高级概述。在这一章中没有提到的是实现它的机制——作为类型映射的集合。
+> 动态调度函数的生成是一个比较棘手的事情。不仅必须考虑输入类型映射（这些类型映射可以从根本上改变接受的参数的类型），而且还必须以非常特定的顺序对重载方法进行排序和检查，以解决潜在的歧义。[《SWIG 和 C++》](http://swig.org/Doc3.0/SWIGPlus.html#SWIGPlus)一章中提供了有关此排名过程的高级概述。在这一章中没有提到的是实现它的机制——作为类型映射的集合。
 >
 > 为了支持动态调度，SWIG 首先定义通用类型层次结构，如下所示：
 
@@ -3479,8 +3483,8 @@ If you haven't written any typemaps of your own, it is unnecessary to worry abou
 >
 > * 重载的方法首先按所需参数的数量排序。
 > * 然后，将具有相同数量参数的方法按参数类型的优先级值排序。
-> * 然后发出Typecheck类型映射，以产生一个调度函数，该函数以正确的顺序检查参数。
-
+> * 然后发出 `typecheck` 类型映射，以产生一个调度函数，该函数以正确的顺序检查参数。
+>
 > 如果你尚未编写任何类型映射，则不必担心类型检查规则。但是，如果你编写了新的输入类型映射，则可能还必须提供类型检查规则。一种简单的方法是简单地复制现有的类型检查规则之一。这是一个例子
 
 ```
@@ -3527,10 +3531,10 @@ example.i:18: Warning 467: Overloaded method foo(int) not supported (incomplete 
 
 > **注意：**
 >
-> * Typecheck类型映射不适用于非重载方法。因此，仍然始终需要检查任何 `in` 类型映射中的类型。
-* 动态调度过程仅是一种启发式方法。在许多特殊情况下，SWIG 不能完全消除类型与 C++ 相同的歧义。解决此歧义的唯一方法是使用 `%rename` 指令重命名其中一种重载方法（有效消除重载）。
-* 类型检查可能是部分的。例如，如果使用数组，则类型检查代码可以简单地检查第一个数组元素的类型，然后使用它来分派给正确的函数。随后的 `in` 类型映射将执行更广泛的类型检查。
-* 确保你已阅读 [SWIG 和 C++](http://swig.org/Doc3.0/SWIGPlus.html#SWIGPlus) 一章中有关重载的部分。
+> * `typecheck` 类型映射不适用于非重载方法。因此，仍然始终需要检查任何 `in` 类型映射中的类型。
+> * 动态调度过程仅是一种启发式方法。在许多特殊情况下，SWIG 不能完全消除类型与 C++ 相同的歧义。解决此歧义的唯一方法是使用 `%rename` 指令重命名其中一种重载方法（有效消除重载）。
+> * 类型检查可能是部分的。例如，如果使用数组，则类型检查代码可以简单地检查第一个数组元素的类型，然后使用它来分派给正确的函数。随后的 `in` 类型映射将执行更广泛的类型检查。
+> * 确保你已阅读[《SWIG 和 C++》](http://swig.org/Doc3.0/SWIGPlus.html#SWIGPlus)一章中有关重载的部分。
 
 ## 11.14 `%apply` 和 `%clear` 详情
 
@@ -3568,7 +3572,7 @@ For example:
 >
 > 但是，`%apply` 有一个细微的方面需要更多描述。就是说，如果此行为使你可以做两件事：
 >
-> * 你可以通过首先定义一些类型映射，然后使用 `%apply` 来合并其余部分来专门化复杂类型映射规则的各个部分。
+> * 你可以通过首先定义一些类型映射，然后使用 `%apply` 来合并其余部分来特化复杂类型映射规则的各个部分。
 > * 可以使用重复的 `%apply` 指令将不同类型映射的集合应用于相同的数据类型。
 >
 > 例如：
@@ -3603,7 +3607,7 @@ Since `%apply` does not overwrite or replace any existing rules, the only way to
 
 It is also important to note that the primary use of local variables is to create stack-allocated objects for temporary use inside a wrapper function (this is faster and less-prone to error than allocating data on the heap). In general, the variables are not intended to pass information between different types of typemaps. However, this can be done if you realize that local names have the argument number appended to them. For example, you could do this:
 
-> 同样重要的是要注意，局部变量的主要用途是创建包装分配的对象，以便在包装器函数内部临时使用（与在堆上分配数据相比，此方法更快且更不容易出错）。通常，这些变量无意在不同类型的类型映射之间传递信息。但是，如果你意识到本地名称后面附加了参数编号，则可以这样做。例如，你可以这样做：
+> 同样重要的是要注意，局部变量的主要用途是创建包装分配的对象，以便在包装器函数内部临时使用（与在堆上分配数据相比，此方法更快且更不容易出错）。通常，这些变量无意在不同类型的类型映射之间传递信息。但是，如果你意识到局部名称后面附加了参数编号，则可以这样做。例如，你可以这样做：
 
 ```
 %typemap(in) int *(int temp) {
@@ -3619,7 +3623,7 @@ It is also important to note that the primary use of local variables is to creat
 
 In this case, the `$argnum` variable is expanded into the argument number. Therefore, the code will reference the appropriate local such as `temp1` and `temp2`. It should be noted that there are plenty of opportunities to break the universe here and that accessing locals in this manner should probably be avoided. At the very least, you should make sure that the typemaps sharing information have exactly the same types and names.
 
-> 在这种情况下，`$argnum` 变量将扩展为参数编号。因此，代码将引用适当的本地变量，例如 `temp1` 和 `temp2`。应当指出，这里有很多打破宇宙的机会，应该避免以这种方式访问本地人。至少，你应该确保共享信息的类型映射具有完全相同的类型和名称。
+> 在这种情况下，`$argnum` 变量将扩展为参数编号。因此，代码将引用适当的局部变量，例如 `temp1` 和 `temp2`。应当指出，这里有很多打破宇宙的机会，应该避免以这种方式访问局部变量。至少，你应该确保共享信息的类型映射具有完全相同的类型和名称。
 
 ## 11.16 C++ `this` 指针
 
@@ -3666,4 +3670,4 @@ Note that if you have a parameter named `self` then it will also match the typem
 
 The best place to find out more information about writing typemaps is to look in the SWIG library. Most language modules define all of their default behavior using typemaps. These are found in files such as`python.swg`, `perl5.swg`, `tcl8.swg` and so forth. The `typemaps.i` file in the library also contains numerous examples. You should look at these files to get a feel for how to define typemaps of your own. Some of the language modules support additional typemaps and further information is available in the individual chapters for each target language. There you may also find more hands-on practical examples.
 
-> 要找到有关编写类型映射的更多信息的最佳位置是在 SWIG 库中查找。大多数语言模块都使用类型映射定义所有默认行为。这些可以在诸如 `python.swg`、`perl5.swg`、`tcl8.swg` 等文件中找到。库中的 `typemaps.i` 文件也包含许多示例。你应该查看这些文件，以了解如何定义自己的类型映射。一些语言模块支持其他类型映射，并且在每种章节的每种目标语言中都提供了更多信息。在这里你还可以找到更多动手的实际示例。
+> 要寻找有关编写类型映射的更多信息，最佳的地点是在 SWIG 库中。大多数语言模块都使用类型映射定义所有默认行为。这些可以在诸如 `python.swg`、`perl5.swg`、`tcl8.swg` 等文件中找到。库中的 `typemaps.i` 文件也包含许多示例。你应该查看这些文件，以了解如何定义自己的类型映射。一些语言模块支持其他类型映射，并且在每种章节的每种目标语言中都提供了更多信息。在这里你还可以找到更多动手的实际示例。
