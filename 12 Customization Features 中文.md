@@ -1,6 +1,6 @@
-# 12 自定义功能
-
 [TOC]
+
+# 12 自定义功能
 
 In many cases, it is desirable to change the default wrapping of particular declarations in an interface. For example, you might want to provide hooks for catching C++ exceptions, add assertions, or provide hints to the underlying code generator. This chapter describes some of these customization techniques. First, a discussion of exception handling is presented. Then, a more general-purpose customization mechanism known as "features" is described.
 

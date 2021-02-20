@@ -6,7 +6,7 @@
 
 Chances are, you are reading this chapter for one of two reasons; you either want to customize SWIG's behavior or you overheard someone mumbling some incomprehensible drivel about "typemaps" and you asked yourself "typemaps, what are those?" That said, let's start with a short disclaimer that "typemaps" are an advanced customization feature that provide direct access to SWIG's low-level code generator. Not only that, they are an integral part of the SWIG C++ type system (a non-trivial topic of its own). Typemaps are generally *not* a required part of using SWIG. Therefore, you might want to re-read the earlier chapters if you have found your way to this chapter with only a vague idea of what SWIG already does by default.
 
-> 你正在阅读本章的原因可能有两个：你想自定义 SWIG 的行为，或是无意中听到有人抱怨“typemaps”一词，并问自己“typemaps 是什么？”。那么，让我们从一个简短的免责声明开始，即“typemaps”是一种高级定制功能，可以直接访问 SWIG 的低级代码生成器。不仅如此，它们还是 SWIG C++ 类型系统（SWIG 自身的重要内容）的组成部分。通常，*不是*使用 SWIG 的必需部分。因此，如果你阅读本章时对 SWIG 默认情况下的行为认识模糊，那么你可能想重新阅读前面的章节。
+> 你正在阅读本章的原因可能有两个：你想自定义 SWIG 的行为，或是无意中听到有人抱怨“typemaps”一词，并问自己“typemaps 是什么？”。那么，让我们从一个简短的免责声明开始，即“typemaps”是一种高级定制功能，可以直接访问 SWIG 的低级代码生成器。不仅如此，它们还是 SWIG C++ 类型系统（SWIG 自身的重要内容）的组成部分。类型映射对使用 SWIG 来说通常*不是*必需的。因此，如果你阅读本章时对 SWIG 默认情况下的行为认识模糊，那么你可能想重新阅读前面的章节。
 
 ### 11.1.1 类型转换
 
